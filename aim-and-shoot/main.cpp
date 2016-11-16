@@ -30,6 +30,10 @@ bool tex=true;
 
 GLuint texEarthID;
 
+//trials
+
+int rotAngle = 0;
+
 //end of
 
 //void drawWall(double w) {
@@ -82,6 +86,40 @@ void createBullet (){
     
     glPopMatrix();
     
+}
+
+
+void createGrenade (){
+    // I swear these numbers are puuure luck, I don't understand anything in this course.
+    //Oh and p.s: the learning objective of this is probably how to waste time mowahahaha
+    glPushMatrix();
+    glRotated(rotAngle, 1, 0, 0);
+    GLUquadricObj * qobj;
+    qobj = gluNewQuadric();
+
+    glPushMatrix();
+    glColor3f(1,0,0);
+    glTranslated(0, 0, -12);
+    gluDisk(qobj, 0.001, 3, 32, 32);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(1, 1, 0);
+    glTranslated(0, 0, -12);
+    gluCylinder(qobj, 3, 3, 3, 100,100);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(1,1,0);
+    glutSolidTorus(1, 10, 32, 100);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(1,0,1);
+    glutSolidSphere(10, 100, 100);
+    glPopMatrix();
+    
+    glPopMatrix();
 }
 
 void setupLights() {
@@ -142,8 +180,9 @@ void Display() {
     
     glPushMatrix();
     setupCamera();
-//    setupLights();
-    createBullet();
+    setupLights();
+//    createBullet();
+    createGrenade();
     
     glPopMatrix();
     
@@ -162,6 +201,12 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
     if(k==27){
         glutReshapeWindow(1080,720);
     }
+    if(k=='w'){
+        rotAngle+=3;
+    }
+    if(k=='s'){
+        rotAngle-=3;
+    }
     glutPostRedisplay();//redisplay to update the screen with the changed
 }
 
@@ -172,7 +217,7 @@ int main(int argc, char** argv)
     glutDisplayFunc(Display);
     glutIdleFunc(anim);
     glutKeyboardUpFunc(keyUp);		//call the keyboard up function
-    glutFullScreen();
+//    glutFullScreen();
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     
