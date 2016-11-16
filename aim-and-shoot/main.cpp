@@ -135,10 +135,6 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
-    
-    glutInitWindowSize(640, 480);
-    glutInitWindowPosition(50, 50);
-    
     glutCreateWindow("Aim and Shoot");
     glutDisplayFunc(Display);
     glutIdleFunc(anim);
