@@ -203,8 +203,21 @@ void createShuriken(){
     glRotated(rotAngle, 1, 0, 0);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
-    
+
+    glPushMatrix();
     createShurikenPart();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glRotated(240, 0, 0, 1);
+    createShurikenPart();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glRotated(120, 0, 0, 1);
+    createShurikenPart();
+    glPopMatrix();
+    
     
     glPushMatrix();
     glColor3f(0.4,0.4,0.4);
