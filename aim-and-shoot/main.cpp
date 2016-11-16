@@ -40,6 +40,17 @@ GLuint texEarthID;
 //	glPopMatrix();
 //}
 
+void createBullet (){
+    glPushMatrix();
+//    glTranslated(0, 0 ,1.0); // cylinder at (0,0,1)
+    GLUquadricObj * qobj;
+    qobj = gluNewQuadric();
+    gluQuadricDrawStyle(qobj,GLU_LINE);  //GLU_FILL, GLU_SILHOUETTE ,GLU_POINT
+    gluCylinder(qobj, 2, 2, 4, 100,100);
+    glPopMatrix();
+    
+}
+
 void setupLights() {
     
     
@@ -97,10 +108,12 @@ void Display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glPushMatrix();
-    setupLights();
+    setupCamera();
+//    setupLights();
+    createBullet();
+    
     glPopMatrix();
     
-    setupCamera();
     
     
     glFlush();
@@ -111,9 +124,12 @@ void anim()
     glutPostRedisplay();
 }
 
-void key(unsigned char k,int x,int y)
+void keyUp(unsigned char k, int x,int y)//keyboard up function is called whenever the keyboard key is released
 {
-    
+    if(k==27){
+        glutReshapeWindow(1080,720);
+    }
+    glutPostRedisplay();//redisplay to update the screen with the changed
 }
 
 int main(int argc, char** argv)
@@ -126,8 +142,8 @@ int main(int argc, char** argv)
     glutCreateWindow("Aim and Shoot");
     glutDisplayFunc(Display);
     glutIdleFunc(anim);
-    glutKeyboardFunc(key);
-    
+    glutKeyboardUpFunc(keyUp);		//call the keyboard up function
+    glutFullScreen();
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     
