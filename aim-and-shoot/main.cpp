@@ -4,9 +4,36 @@
 #include <OpenGl/gl.h>
 #include <OpenGl/glu.h>
 #include <GLUT/glut.h>
+#include <math.h>
 using namespace std; //for using std::out and similar features
 
 //global structs
+typedef struct vector {
+    float x;
+    float y;
+    float z;
+    vector(float x, float y, float z){
+        this->x = x;
+        this->y = y;
+        this->z =z;
+    }
+    vector(){
+        this->x = 0;
+        this->y = 0;
+        this->z =0;
+    }
+    std::string toString(){
+        return "["+ std::to_string(x) + ", "+ std::to_string(y) + ", "+std::to_string(z)+"]" ;
+    }
+    vector unitVector(){
+        float magnitude = sqrtf(pow(x,2)+pow(y,2)+pow(z,2));
+        vector unitVector(x/magnitude,y/magnitude,z/magnitude);
+        return unitVector;
+    }
+    float magnitude(){
+        return sqrtf(pow(x,2)+pow(y,2)+pow(z,2));
+    }
+}vector;
 
 //function signatures
 void Display();
@@ -16,6 +43,8 @@ void setupCamera();
 //global variables
 //double r=1;
 //int rd=1;
+
+vector targetTranslation(0,0,1);
 
 //double rw=1;
 //double rl=1;
@@ -369,7 +398,7 @@ void Display() {
     createRoom();
     
     glPushMatrix();
-    glTranslated(0, 0, 1);
+    glTranslated(targetTranslation.x, targetTranslation.y, targetTranslation.z);
     createTarget();
     glPopMatrix();
 
@@ -396,10 +425,16 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
         glutReshapeWindow(1080,720);
     }
     if(k=='w'){
-        rotAngle+=3;
+        targetTranslation.z++;
     }
     if(k=='s'){
-        rotAngle-=3;
+        targetTranslation.z--;
+    }
+    if(k=='a'){
+        targetTranslation.x--;
+    }
+    if(k=='d'){
+        targetTranslation.x++;
     }
     glutPostRedisplay();//redisplay to update the screen with the changed
 }
