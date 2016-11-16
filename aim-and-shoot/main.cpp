@@ -234,6 +234,57 @@ void createShuriken(){
     glPopMatrix();
 }
 
+void createWall (){
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glVertex3f(-70, -70, 0);
+    glVertex3f(70, -70, 0.0f);
+    glVertex3f(70,70, 0);
+    glVertex3f(-70,70, 0);
+    glEnd();
+    glPopMatrix();
+}
+
+void createRoom (){
+    //face
+    glPushMatrix();
+    glColor3f(1, 1, 0);
+    createWall();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(1, 0, 1);
+    glTranslated(35, 0, 0);
+    glRotated(90, 0, 1, 0);
+    createWall();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(0, 1, 1);
+    glTranslated(-35, 0, 0);
+    glRotated(90, 0, 1, 0);
+    createWall();
+    glPopMatrix();
+    
+    //ceiling
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslated(0, 35, 0);
+    glRotated(90, 1, 0, 0);
+    createWall();
+    glPopMatrix();
+    
+    //floor
+    glPushMatrix();
+    glColor3f(0.5, 0.5, 0);
+    glTranslated(0, -35, 0);
+    glRotated(90, 1, 0, 0);
+    createWall();
+    glPopMatrix();
+    
+}
+
+
 void setupLights() {
     
     
@@ -284,7 +335,7 @@ void setupCamera() {
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0, 90, 40, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(0, 0, 100, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
 void Display() {
@@ -295,7 +346,9 @@ void Display() {
     setupLights();
 //    createBullet();
 //    createGrenade();
-    createShuriken();
+//    createShuriken();
+//    glRotated(90, 1, 0, 0);
+    createRoom ();
     
     glPopMatrix();
     
