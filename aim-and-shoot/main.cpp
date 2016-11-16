@@ -42,11 +42,44 @@ GLuint texEarthID;
 
 void createBullet (){
     glPushMatrix();
-//    glTranslated(0, 0 ,1.0); // cylinder at (0,0,1)
+    
+
+    glPushMatrix();
+    glColor3f(1, 0, 1);
+    GLUquadricObj * qobj4;
+    qobj4 = gluNewQuadric();
+    gluCylinder(qobj4, 0.2, 2, 4, 100,100);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(1, 0, 0);
+    glTranslated(0, 0, 4);
+    GLUquadricObj * qobj3;
+    qobj3 = gluNewQuadric();
+    gluCylinder(qobj3, 2, 2, 8, 100,100);
+    glPopMatrix();
+    
+    
+    glPushMatrix();
+    glColor3f(1, 1, 0);
+    glTranslated(0, 0, 8+4);
+    GLUquadricObj * qobj2;
+    qobj2 = gluNewQuadric();
+    gluCylinder(qobj2, 2, 3, 5, 100,100);
+    glPopMatrix();
+    
+    
+    
+    glPushMatrix();
+    glColor3f(0.5, 0.5, 0.5);
+    glTranslated(0, 0, 5+8+4);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
-    gluQuadricDrawStyle(qobj,GLU_LINE);  //GLU_FILL, GLU_SILHOUETTE ,GLU_POINT
-    gluCylinder(qobj, 2, 2, 4, 100,100);
+    gluCylinder(qobj, 3, 3, 12, 100,100);
+    glPopMatrix();
+    
+    
+    
     glPopMatrix();
     
 }
@@ -101,7 +134,7 @@ void setupCamera() {
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(10, 10, 10, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(0, 90, 40, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
 void Display() {
@@ -144,12 +177,12 @@ int main(int argc, char** argv)
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
-    glEnable(GL_LIGHT2);
+//    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHT0);
+//    glEnable(GL_LIGHT1);
+//    glEnable(GL_LIGHT2);
     glEnable(GL_NORMALIZE);
-    glEnable(GL_COLOR_MATERIAL);
+//    glEnable(GL_COLOR_MATERIAL);
     
     glShadeModel(GL_SMOOTH);
     //	glEnable(GL_TEXTURE_2D);
