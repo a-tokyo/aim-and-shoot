@@ -285,6 +285,28 @@ void createRoom (){
 }
 
 
+void createTarget (){
+    GLUquadricObj * qobj;
+    qobj = gluNewQuadric();
+    glPushMatrix();
+
+    glPushMatrix();
+    glColor3f(1, 0, 1);
+    gluDisk(qobj, 0.001, 3, 32, 32);
+    glPopMatrix();
+    glPushMatrix();
+    glColor3f(1, 1, 0);
+    gluDisk(qobj, 3, 8, 32, 32);
+    glPopMatrix();
+    glPushMatrix();
+    glColor3f(0, 1, 1);
+    gluDisk(qobj, 8, 15, 32, 32);
+    glPopMatrix();
+    glPopMatrix();
+
+}
+
+
 void setupLights() {
     
     
@@ -344,11 +366,17 @@ void Display() {
     glPushMatrix();
     setupCamera();
     setupLights();
+    createRoom();
+    
+    glPushMatrix();
+    glTranslated(0, 0, 1);
+    createTarget();
+    glPopMatrix();
+
+
 //    createBullet();
 //    createGrenade();
 //    createShuriken();
-//    glRotated(90, 1, 0, 0);
-    createRoom ();
     
     glPopMatrix();
     
@@ -383,7 +411,7 @@ int main(int argc, char** argv)
     glutDisplayFunc(Display);
     glutIdleFunc(anim);
     glutKeyboardUpFunc(keyUp);		//call the keyboard up function
-//    glutFullScreen();
+    glutFullScreen();
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     
