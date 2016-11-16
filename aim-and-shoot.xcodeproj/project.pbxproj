@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		16889CD81DDCC70F003F6BF5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16889CD71DDCC70F003F6BF5 /* main.cpp */; };
+		16889CE01DDCC743003F6BF5 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16889CDF1DDCC743003F6BF5 /* GLUT.framework */; };
+		16889CE21DDCC749003F6BF5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16889CE11DDCC749003F6BF5 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,8 @@
 /* Begin PBXFileReference section */
 		16889CD41DDCC70F003F6BF5 /* aim-and-shoot */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "aim-and-shoot"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16889CD71DDCC70F003F6BF5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		16889CDF1DDCC743003F6BF5 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		16889CE11DDCC749003F6BF5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +36,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16889CE21DDCC749003F6BF5 /* OpenGL.framework in Frameworks */,
+				16889CE01DDCC743003F6BF5 /* GLUT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +49,7 @@
 			children = (
 				16889CD61DDCC70F003F6BF5 /* aim-and-shoot */,
 				16889CD51DDCC70F003F6BF5 /* Products */,
+				16889CDE1DDCC743003F6BF5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +67,15 @@
 				16889CD71DDCC70F003F6BF5 /* main.cpp */,
 			);
 			path = "aim-and-shoot";
+			sourceTree = "<group>";
+		};
+		16889CDE1DDCC743003F6BF5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				16889CE11DDCC749003F6BF5 /* OpenGL.framework */,
+				16889CDF1DDCC743003F6BF5 /* GLUT.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +234,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 35828L95Q5;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -226,6 +243,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 35828L95Q5;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
