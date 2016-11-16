@@ -46,6 +46,7 @@ int rotAngle = 0;
 
 void createBullet (){
     glPushMatrix();
+    glRotated(rotAngle, 1, 0, 0);
     
 
     glPushMatrix();
@@ -122,6 +123,28 @@ void createGrenade (){
     glPopMatrix();
 }
 
+void createShuriken(){
+    glPushMatrix();
+    glRotated(rotAngle, 1, 0, 0);
+    GLUquadricObj * qobj;
+    qobj = gluNewQuadric();
+    
+    
+    glPushMatrix();
+    glColor3f(0.4,0.4,0.4);
+    glutSolidTorus(2, 5, 32, 100);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(1,0,0);
+    glRotated(60, 1, 1, 0);
+    glutSolidCube(5);
+    glPopMatrix();
+    
+    
+    glPopMatrix();
+}
+
 void setupLights() {
     
     
@@ -168,7 +191,7 @@ void setupCamera() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //glOrtho(-0.5, 0.5, -0.5, 0.5, -1, 1);
-    gluPerspective(80, 640 / 480, 0.001, 100);
+    gluPerspective(80, 640 / 480, 0.001, 1000);
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -182,7 +205,8 @@ void Display() {
     setupCamera();
     setupLights();
 //    createBullet();
-    createGrenade();
+//    createGrenade();
+    createShuriken();
     
     glPopMatrix();
     
