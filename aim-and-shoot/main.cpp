@@ -136,14 +136,14 @@ void createShurikenPart (){
     glColor3f(1, 0, 1);
     glVertex3f(5, 10, 0);
     glVertex3f(20, 20, 0.0f);
-    glVertex3f(10,10, 0.0f);
+    glVertex3f(10,10, 3);
     glEnd();
     glPopMatrix();
     
     glPushMatrix();
     glBegin(GL_POLYGON);
     glColor3f(1, 1, 0);
-    glVertex3f(10,10, 0.0f);
+    glVertex3f(10,10, 3);
     glVertex3f(20, 20, 0);
     glVertex3f(10, 5, 0.0f);
     
@@ -155,7 +155,40 @@ void createShurikenPart (){
     glColor3f(0.6, 1, 0.3);
     glVertex3f(5, 5, 0);
     glVertex3f(10, 5, 0.0f);
-    glVertex3f(10,10, 0.0f);
+    glVertex3f(10,10, 3);
+    glVertex3f(5,10,0);
+    glEnd();
+    glPopMatrix();
+    
+    
+    
+    
+    
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glColor3f(1, 0, 1);
+    glVertex3f(5, 10, 0);
+    glVertex3f(20, 20, 0.0f);
+    glVertex3f(10,10, -3);
+    glEnd();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glColor3f(1, 1, 0);
+    glVertex3f(10,10, -3);
+    glVertex3f(20, 20, 0);
+    glVertex3f(10, 5, 0.0f);
+    
+    glEnd();
+    glPopMatrix();
+    
+    glPushMatrix();// square shape matrix
+    glBegin(GL_POLYGON);
+    glColor3f(0.6, 1, 0.3);
+    glVertex3f(5, 5, 0);
+    glVertex3f(10, 5, 0.0f);
+    glVertex3f(10,10, -3);
     glVertex3f(5,10,0);
     glEnd();
     glPopMatrix();
