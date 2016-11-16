@@ -46,9 +46,8 @@ int rotAngle = 0;
 
 void createBullet (){
     glPushMatrix();
-    glRotated(rotAngle, 1, 0, 0);
+    glRotated(rotAngle, 1, 0,0);
     
-
     glPushMatrix();
     glColor3f(1, 0, 1);
     GLUquadricObj * qobj4;
@@ -83,6 +82,12 @@ void createBullet (){
     gluCylinder(qobj, 3, 3, 12, 100,100);
     glPopMatrix();
     
+    
+    glPushMatrix();
+    glColor3f(1,0.5,1);
+    glTranslated(0, 0, 12+5+8+4);
+    gluDisk(qobj, 0.001, 3, 32, 32);
+    glPopMatrix();
     
     
     glPopMatrix();
@@ -204,9 +209,9 @@ void Display() {
     glPushMatrix();
     setupCamera();
     setupLights();
-//    createBullet();
+    createBullet();
 //    createGrenade();
-    createShuriken();
+//    createShuriken();
     
     glPopMatrix();
     
