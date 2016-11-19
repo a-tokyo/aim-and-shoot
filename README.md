@@ -1,6 +1,7 @@
 # Aim and Shoot
 
 ## Description
+This is a simple 3D game implemented in C++ using openGL.
 As a player, you are in a shooting training room, with some targets, and some trajectories. You are practicing on types of trajectories, which are:
 - Bullet.
 - Grenade.
