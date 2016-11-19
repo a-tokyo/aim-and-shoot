@@ -374,19 +374,20 @@ void createRoom (){
     //face
     glPushMatrix();
     glColor3f(0,0.6,1);
+    glTranslated(0, 0, -70);
     createWall();
     glPopMatrix();
     
     glPushMatrix();
     glColor3f(0.8,0.4,0.4);
-    glTranslated(35, 0, 0);
+    glTranslated(70, 0, 0);
     glRotated(90, 0, 1, 0);
     createWall();
     glPopMatrix();
     
     glPushMatrix();
     glColor3f(0.8,0.4,0.4);
-    glTranslated(-35, 0, 0);
+    glTranslated(-70, 0, 0);
     glRotated(90, 0, 1, 0);
     createWall();
     glPopMatrix();
@@ -394,7 +395,7 @@ void createRoom (){
     //ceiling
     glPushMatrix();
     glColor3f(0.9,0.5,0.3);
-    glTranslated(0, 35, 0);
+    glTranslated(0, 70, 0);
     glRotated(90, 1, 0, 0);
     createWall();
     glPopMatrix();
@@ -402,7 +403,7 @@ void createRoom (){
     //floor
     glPushMatrix();
     glColor3f(0.9,0.5,0.3);
-    glTranslated(0, -35, 0);
+    glTranslated(0, -70, 0);
     glRotated(90, 1, 0, 0);
     createWall();
     glPopMatrix();
@@ -550,12 +551,12 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             }
             break;
         case 'a':
-            if(targetTranslation.x!=(-12)){
+            if(targetTranslation.x!=(-29)){
                 targetTranslation.x--;
             }
             break;
         case 'd':
-            if(targetTranslation.x!=(12)){
+            if(targetTranslation.x!=(29)){
                 targetTranslation.x++;
             }
             break;
