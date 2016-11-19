@@ -7,6 +7,25 @@
 #include <math.h>
 using namespace std; //for using std::out and similar features
 
+//function signatures
+void Display();
+void Anim();
+void setupCamera();
+void createBullet();
+void createGrenade();
+void createShurikenPart();
+void createShuriken();
+void createWall();
+void createRoom();
+void createTarget();
+void initGame();
+void drawCharacters();
+void endGame();
+void setUpLights();
+void setUpCamera();
+void passM(int x,int y);
+void keyUp(unsigned char k, int x,int y);
+
 //global structs
 typedef struct vector {
     float x;
@@ -70,27 +89,43 @@ typedef struct rgbColor {
         this->b =1;
     }
 }rgbColor;
+typedef struct character {
+    vector *translation;
+    quadraple *rotation;
+    character(vector *translation, quadraple *rotation){
+        this->translation = translation;
+        this->rotation = rotation;
+    }
+    void setTranslation(vector toTranslate){
+        translation->x = toTranslate.x;
+        translation->y = toTranslate.y;
+        translation->z = toTranslate.z;
+    }
+}character;
 
-//function signatures
-void Display();
-void Anim();
-void setupCamera();
-void createBullet();
-void createGrenade();
-void createShurikenPart();
-void createShuriken();
-void createWall();
-void createRoom();
-void createTarget();
-void endGame();
-void setUpLights();
-void setUpCamera();
-void passM(int x,int y);
-void keyUp(unsigned char k, int x,int y);
+typedef struct mainCamera {
+
+}mainCamera;
+
 
 //global variables
 //double r=1;
 //int rd=1;
+
+// mian characters
+vector grenadeTranslation(0,3,0);
+quadraple grenadeRotation(0,0,0,0);
+character grenade(&grenadeTranslation, &grenadeRotation);
+
+vector bulletTranslation(0,3,0);
+quadraple bulletRotation(0,0,0,0);
+character bullet(&bulletTranslation, &bulletRotation);
+
+
+vector shurikenTranslation(0,3,0);
+quadraple shurikenRotation(0,0,0,0);
+character shuriken(&shurikenTranslation, &shurikenRotation);
+
 
 vector targetTranslation(0,0,1);
 
@@ -108,30 +143,16 @@ bool tex=true;
 GLuint texEarthID;
 
 //trials
-
 int rotAngle = 0;
 
-typedef struct character {
-    vector *translation;
-    quadraple *rotation;
-    character(vector *translation, quadraple *rotation){
-        this->translation = translation;
-        this->rotation = rotation;
-    }
-    void setTranslation(vector toTranslate){
-        translation->x = toTranslate.x;
-        translation->y = toTranslate.y;
-        translation->z = toTranslate.z;
-    }
-}character;
 
 //end of initializations
 
-void createBullet (){
+void createBullet (character* thisCharacter){
     glPushMatrix();
-    glRotated(rotAngle, 1, 0,0);
-    glTranslated(0, 3, 0);
-    
+    glRotated(rotAngle, 1, 0,0); //REMOVE
+    glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
+    glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
     GLUquadricObj * qobj4;
@@ -179,12 +200,13 @@ void createBullet (){
 }
 
 
-void createGrenade (){
+void createGrenade (character* thisCharacter){
     // I swear these numbers are puuure luck, I don't understand anything in this course.
     //Oh and p.s: the learning objective of this is probably how to waste time mowahahaha
     glPushMatrix();
-    glRotated(rotAngle, 1, 0, 0);
-    glTranslated(0, 3, 0);
+    glRotated(rotAngle, 1, 0, 0); //REMOVE
+    glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
+    glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
 
@@ -283,9 +305,11 @@ void createShurikenPart (){
 
 }
 
-void createShuriken(){
+void createShuriken(character* thisCharacter){
     glPushMatrix();
     glRotated(rotAngle, 1, 0, 0);
+    glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
+    glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
 
@@ -370,11 +394,12 @@ void createRoom (){
 }
 
 
-void createTarget (){
+void createTarget (vector* translation){
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
     glPushMatrix();
-
+    glTranslated(translation->x, translation->y, translation->z);
+    
     glPushMatrix();
     glColor3f(1, 0, 1);
     gluDisk(qobj, 0.001, 3, 32, 32);
@@ -387,8 +412,20 @@ void createTarget (){
     glColor3f(0, 1, 1);
     gluDisk(qobj, 8, 15, 32, 32);
     glPopMatrix();
+    
     glPopMatrix();
 
+}
+
+void drawCharacters(){
+    createRoom();
+    createTarget(&targetTranslation);
+    //    createBullet(&bullet);
+    //    createGrenade(&grenade);
+    //    createShuriken(&shuriken);
+}
+
+void initGame(){
 }
 
 void endGame(){
@@ -450,26 +487,14 @@ void setupCamera() {
 
 void Display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
     glPushMatrix();
+    
     setupCamera();
     setupLights();
-    createRoom();
     
-    glPushMatrix();
-    glTranslated(targetTranslation.x, targetTranslation.y, targetTranslation.z);
-    createTarget();
-    glPopMatrix();
-
-
-//    createBullet();
-    createGrenade();
-//    createShuriken();
+    drawCharacters();
     
     glPopMatrix();
-    
-    
-    
     glFlush();
 }
 
@@ -514,12 +539,13 @@ int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutCreateWindow("Aim and Shoot");
+    glutFullScreen();
     glutDisplayFunc(Display);
     glutIdleFunc(anim);
     glutPassiveMotionFunc(passM); // call passive motion function for mouse movements
     glutKeyboardUpFunc(keyUp);		//call the keyboard up function
-    glutFullScreen();
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+    
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     
     glEnable(GL_DEPTH_TEST);
@@ -534,7 +560,7 @@ int main(int argc, char** argv)
     //	glEnable(GL_TEXTURE_2D);
     //	loadBMP(&texEarthID, "textures/earth.bmp", false);
     
-    
+    initGame();
     
     glutMainLoop();
     return 0;
