@@ -116,7 +116,36 @@ typedef struct gameStatus {
         this->gameOver = false;
     }
 }gameStatus;
-
+typedef struct gameCamera {
+    double eyeX;
+    double eyeY;
+    double eyeZ;
+    double centerX;
+    double centerY;
+    double centerZ;
+    double upX;
+    double upY;
+    double upZ;
+    gameCamera(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ, double upX, double upY, double upZ){
+        this->eyeX = eyeX;
+        this->eyeY = eyeY;
+        this->eyeZ = eyeZ;
+        this->centerX = centerX;
+        this->centerY = centerY;
+        this->centerZ = centerZ;
+        this->upX = upX;
+        this->upY = upY;
+        this->upZ = upZ;
+    }
+    void incrementEye(double eyeX, double eyeY, double eyeZ){
+        this->eyeX += eyeX;
+        this->eyeY += eyeY;
+        this->eyeZ += eyeZ;
+    }
+    std::string eyeToString(){
+        return "[" + std::to_string(eyeX) + ", " + std::to_string(eyeY) + ", " + std::to_string(eyeZ) + "]" ;
+    }
+}gameCamera;
 
 //global variables
 //double r=1;
