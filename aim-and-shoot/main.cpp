@@ -7,10 +7,8 @@
 #include <math.h>
 using namespace std; //for using std::out and similar features
 
-//function signatures
-void Display();
-void Anim();
-void setupCamera();
+// Function signatures
+// Modeling
 void createBullet();
 void createGrenade();
 void createShurikenPart();
@@ -18,14 +16,19 @@ void createShuriken();
 void createWall();
 void createRoom();
 void createTarget();
-void initGame();
+// GamePlay
 void drawCharacters();
+void initGame();
 void endGame();
+// environment configurations
 void setUpLights();
 void setUpCamera();
+// I/O
 void passM(int x,int y);
 void keyUp(unsigned char k, int x,int y);
-
+// basic openGL
+void Display();
+void Anim();
 //global structs
 typedef struct vector {
     float x;
