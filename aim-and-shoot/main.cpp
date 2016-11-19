@@ -224,7 +224,7 @@ void createGrenade (character* thisCharacter){
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
-
+    
     glPushMatrix();
     glColor3f(0,0.5,0.3);
     glTranslated(0, 0, -12);
@@ -236,7 +236,7 @@ void createGrenade (character* thisCharacter){
     glTranslated(0, 0, -12);
     gluCylinder(qobj, 3, 3, 3, 100,100);
     glPopMatrix();
-
+    
     glPushMatrix();
     glColor3f(0,0.4,0.2);
     glutSolidTorus(1, 10, 32, 100);
@@ -314,10 +314,10 @@ void createShurikenPart (){
     glVertex3f(5,10,0);
     glEnd();
     glPopMatrix();
-
+    
     
     glPopMatrix();
-
+    
 }
 
 void createShuriken(character* thisCharacter){
@@ -327,7 +327,7 @@ void createShuriken(character* thisCharacter){
     glPushMatrix();
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
-
+    
     glPushMatrix();
     createShurikenPart();
     glPopMatrix();
@@ -429,7 +429,7 @@ void createTarget (vector* translation){
     glPopMatrix();
     
     glPopMatrix();
-
+    
 }
 
 void drawCharacters(){
@@ -438,13 +438,13 @@ void drawCharacters(){
     switch(gameStat.currCharacter) {
         case 1:
             createBullet(&bullet);
-        break;
+            break;
         case 2:
             createGrenade(&grenade);
-        break;
+            break;
         case 3:
             createShuriken(&shuriken);
-        break;
+            break;
     }
 }
 
@@ -530,7 +530,7 @@ void anim()
 }
 
 void passM(int x,int y){
-
+    
 }
 
 
@@ -539,13 +539,13 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
     switch (k) {
         case 27:
             endGame();
-        break;
+            break;
         case 'w':
             targetTranslation.z++;
             break;
         case 's':
             if(targetTranslation.z!=1){
-             targetTranslation.z--;
+                targetTranslation.z--;
             }
             break;
         case 'a':
@@ -585,12 +585,12 @@ int main(int argc, char** argv)
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     
     glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_LIGHTING);
-//    glEnable(GL_LIGHT0);
-//    glEnable(GL_LIGHT1);
-//    glEnable(GL_LIGHT2);
+    //    glEnable(GL_LIGHTING);
+    //    glEnable(GL_LIGHT0);
+    //    glEnable(GL_LIGHT1);
+    //    glEnable(GL_LIGHT2);
     glEnable(GL_NORMALIZE);
-//    glEnable(GL_COLOR_MATERIAL);
+    //    glEnable(GL_COLOR_MATERIAL);
     
     glShadeModel(GL_SMOOTH);
     //	glEnable(GL_TEXTURE_2D);
