@@ -312,9 +312,10 @@ void createShurikenPart (){
 
 void createShuriken(character* thisCharacter){
     glPushMatrix();
-    glRotated(rotAngle, 1, 0, 0);
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
+    glPushMatrix();
+    glRotated(90, 1, 0, 0);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
 
@@ -344,7 +345,7 @@ void createShuriken(character* thisCharacter){
     glutSolidCube(5);
     glPopMatrix();
     
-    
+    glPopMatrix();
     glPopMatrix();
 }
 
@@ -425,9 +426,9 @@ void createTarget (vector* translation){
 void drawCharacters(){
     createRoom();
     createTarget(&targetTranslation);
-        createBullet(&bullet);
+//        createBullet(&bullet);
     //    createGrenade(&grenade);
-    //    createShuriken(&shuriken);
+        createShuriken(&shuriken);
 }
 
 void initGame(){
