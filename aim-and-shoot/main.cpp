@@ -126,16 +126,16 @@ gameStatus gameStat("basic", 3);
 
 
 // mian characters
-vector grenadeTranslation(0,0,40);
+vector grenadeTranslation(0,0,60);
 quadraple grenadeRotation(0,0,0,0);
 character grenade(&grenadeTranslation, &grenadeRotation);
 
-vector bulletTranslation(0,0,40);
+vector bulletTranslation(0,0,60);
 quadraple bulletRotation(0,0,0,0);
 character bullet(&bulletTranslation, &bulletRotation);
 
 
-vector shurikenTranslation(0,0,40);
+vector shurikenTranslation(0,0,60);
 quadraple shurikenRotation(0,0,0,0);
 character shuriken(&shurikenTranslation, &shurikenRotation);
 
@@ -416,18 +416,21 @@ void createTarget (vector* translation){
     qobj = gluNewQuadric();
     glPushMatrix();
     glTranslated(translation->x, translation->y, translation->z);
-    
+    glPushMatrix();
+    glTranslated(0, 0, -34);
+
     glPushMatrix();
     glColor3f(1, 0, 1);
-    gluDisk(qobj, 0.001, 6, 32, 32);
+    gluDisk(qobj, 0.001, 8, 32, 32);
     glPopMatrix();
     glPushMatrix();
     glColor3f(1, 1, 0);
-    gluDisk(qobj, 6, 14, 32, 32);
+    gluDisk(qobj, 8, 20, 32, 32);
     glPopMatrix();
     glPushMatrix();
     glColor3f(0, 1, 1);
-    gluDisk(qobj, 14, 23, 32, 32);
+    gluDisk(qobj, 20, 35, 32, 32);
+    glPopMatrix();
     glPopMatrix();
     
     glPopMatrix();
