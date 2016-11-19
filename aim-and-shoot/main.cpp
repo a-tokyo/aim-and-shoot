@@ -122,20 +122,20 @@ typedef struct gameStatus {
 //double r=1;
 //int rd=1;
 
-gameStatus gameStat("basic", 1);
+gameStatus gameStat("basic", 3);
 
 
 // mian characters
-vector grenadeTranslation(0,3,0);
+vector grenadeTranslation(0,0,40);
 quadraple grenadeRotation(0,0,0,0);
 character grenade(&grenadeTranslation, &grenadeRotation);
 
-vector bulletTranslation(0,3,0);
+vector bulletTranslation(0,0,40);
 quadraple bulletRotation(0,0,0,0);
 character bullet(&bulletTranslation, &bulletRotation);
 
 
-vector shurikenTranslation(0,3,0);
+vector shurikenTranslation(0,0,40);
 quadraple shurikenRotation(0,0,0,0);
 character shuriken(&shurikenTranslation, &shurikenRotation);
 
@@ -322,6 +322,7 @@ void createShurikenPart (){
 
 void createShuriken(character* thisCharacter){
     glPushMatrix();
+    glRotated(rotAngle, 0, 0, 1); //REMOVE
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     glPushMatrix();
@@ -417,15 +418,15 @@ void createTarget (vector* translation){
     
     glPushMatrix();
     glColor3f(1, 0, 1);
-    gluDisk(qobj, 0.001, 3, 32, 32);
+    gluDisk(qobj, 0.001, 6, 32, 32);
     glPopMatrix();
     glPushMatrix();
     glColor3f(1, 1, 0);
-    gluDisk(qobj, 3, 8, 32, 32);
+    gluDisk(qobj, 6, 14, 32, 32);
     glPopMatrix();
     glPushMatrix();
     glColor3f(0, 1, 1);
-    gluDisk(qobj, 8, 15, 32, 32);
+    gluDisk(qobj, 14, 23, 32, 32);
     glPopMatrix();
     
     glPopMatrix();
@@ -549,12 +550,12 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             }
             break;
         case 'a':
-            if(targetTranslation.x!=(-20)){
+            if(targetTranslation.x!=(-12)){
                 targetTranslation.x--;
             }
             break;
         case 'd':
-            if(targetTranslation.x!=(20)){
+            if(targetTranslation.x!=(12)){
                 targetTranslation.x++;
             }
             break;
