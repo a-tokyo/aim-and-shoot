@@ -1,9 +1,9 @@
-//#include "TextureBuilder.h"
-#include <iostream>
-#include <stdio.h>
 #include <OpenGl/gl.h>
 #include <OpenGl/glu.h>
 #include <GLUT/glut.h>
+//#include "TextureBuilder.h"
+#include <iostream>
+#include <stdio.h>
 #include <math.h>
 using namespace std; //for using std::out and similar features
 
@@ -435,7 +435,7 @@ void initGame(){
 
 void endGame(){
     glutReshapeWindow(1080,720);
-    gameOver = true;
+//    gameOver = true; //TODO uncomment
 }
 
 void setupLights() {
