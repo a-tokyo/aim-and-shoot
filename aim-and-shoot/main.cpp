@@ -522,15 +522,39 @@ void drawCharacters(){
 //Aiming
 
 void changeCharacterTrajectoryAimLogic(int direction){
-    if(direction==0){
-        if(gameStat.currCharacter==1){
-            bullet.setRotation(bullet.rotation->a-2, 0,1,0);
-        }
-    }else{
-        if(gameStat.currCharacter==1){
-            bullet.setRotation(bullet.rotation->a+2, 0,1,0);
-        }
+    switch (gameStat.currCharacter) {
+        case 1: // Bullet
+            switch (direction) {
+                case 0:
+                    bullet.setRotation(bullet.rotation->a-2, 0,1,0);
+                    break;
+                case 1:
+                    bullet.setRotation(bullet.rotation->a+2, 0,1,0);
+                    break;
+            }
+            break;
+        case 2: // Grenade
+            switch (direction) {
+                case 0:
+                    
+                    break;
+                case 1:
+                    
+                    break;
+            }
+            break;
+        case 3: // Shuriken
+            switch (direction) {
+                case 0:
+                    
+                    break;
+                case 1:
+                    
+                    break;
+            }
+            break;
     }
+    
 }
 
 
