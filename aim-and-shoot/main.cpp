@@ -85,6 +85,7 @@ void createTarget();
 void endGame();
 void setUpLights();
 void setUpCamera();
+void passM(int x,int y);
 void keyUp(unsigned char k, int x,int y);
 
 //global variables
@@ -110,16 +111,6 @@ GLuint texEarthID;
 
 int rotAngle = 0;
 
-//end of
-
-//void drawWall(double w) {
-//	glPushMatrix();
-//	glScaled(w, w, 0.2);
-//	glTranslated(0.5, 0.5, 0.5);
-//	glutSolidCube(1);
-//	glPopMatrix();
-//}
-
 typedef struct character {
     vector *translation;
     quadraple *rotation;
@@ -134,19 +125,22 @@ typedef struct character {
     }
 }character;
 
+//end of initializations
+
 void createBullet (){
     glPushMatrix();
     glRotated(rotAngle, 1, 0,0);
+    glTranslated(0, 3, 0);
     
     glPushMatrix();
-    glColor3f(1, 0, 1);
+    glColor3f(0.5, 0.5, 0.5);
     GLUquadricObj * qobj4;
     qobj4 = gluNewQuadric();
     gluCylinder(qobj4, 0.2, 2, 4, 100,100);
     glPopMatrix();
     
     glPushMatrix();
-    glColor3f(1, 0, 0);
+    glColor3f(0.5, 0.5, 0.5);
     glTranslated(0, 0, 4);
     GLUquadricObj * qobj3;
     qobj3 = gluNewQuadric();
@@ -155,7 +149,7 @@ void createBullet (){
     
     
     glPushMatrix();
-    glColor3f(1, 1, 0);
+    glColor3f(0.5, 0.5, 0.5);
     glTranslated(0, 0, 8+4);
     GLUquadricObj * qobj2;
     qobj2 = gluNewQuadric();
@@ -174,7 +168,7 @@ void createBullet (){
     
     
     glPushMatrix();
-    glColor3f(1,0.5,1);
+    glColor3f(0.5, 0.5, 0.5);
     glTranslated(0, 0, 12+5+8+4);
     gluDisk(qobj, 0.001, 3, 32, 32);
     glPopMatrix();
@@ -190,28 +184,29 @@ void createGrenade (){
     //Oh and p.s: the learning objective of this is probably how to waste time mowahahaha
     glPushMatrix();
     glRotated(rotAngle, 1, 0, 0);
+    glTranslated(0, 3, 0);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
 
     glPushMatrix();
-    glColor3f(1,0,0);
+    glColor3f(0,0.5,0.3);
     glTranslated(0, 0, -12);
     gluDisk(qobj, 0.001, 3, 32, 32);
     glPopMatrix();
     
     glPushMatrix();
-    glColor3f(1, 1, 0);
+    glColor3f(0,0.4,0.2);
     glTranslated(0, 0, -12);
     gluCylinder(qobj, 3, 3, 3, 100,100);
     glPopMatrix();
 
     glPushMatrix();
-    glColor3f(1,1,0);
+    glColor3f(0,0.4,0.2);
     glutSolidTorus(1, 10, 32, 100);
     glPopMatrix();
     
     glPushMatrix();
-    glColor3f(1,0,1);
+    glColor3f(0,0.8,0.3);
     glutSolidSphere(10, 100, 100);
     glPopMatrix();
     
@@ -468,7 +463,7 @@ void Display() {
 
 
 //    createBullet();
-//    createGrenade();
+    createGrenade();
 //    createShuriken();
     
     glPopMatrix();
@@ -481,6 +476,10 @@ void Display() {
 void anim()
 {
     glutPostRedisplay();
+}
+
+void passM(int x,int y){
+
 }
 
 
@@ -502,6 +501,12 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
     if(k=='d'){
         targetTranslation.x++;
     }
+    if(k=='o'){
+        rotAngle-=3;
+    }
+    if(k=='p'){
+        rotAngle+=3;
+    }
     glutPostRedisplay();//redisplay to update the screen with the changed
 }
 
@@ -511,6 +516,7 @@ int main(int argc, char** argv)
     glutCreateWindow("Aim and Shoot");
     glutDisplayFunc(Display);
     glutIdleFunc(anim);
+    glutPassiveMotionFunc(passM); // call passive motion function for mouse movements
     glutKeyboardUpFunc(keyUp);		//call the keyboard up function
     glutFullScreen();
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
