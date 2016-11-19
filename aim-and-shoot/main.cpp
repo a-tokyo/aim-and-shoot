@@ -529,10 +529,13 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             targetTranslation.z--;
     }
     if(k=='a'){
-        targetTranslation.x--;
-    }
+        if(targetTranslation.x!=(-20)){
+            targetTranslation.x--;
+        }    }
     if(k=='d'){
-        targetTranslation.x++;
+        if(targetTranslation.x!=(20)){
+           targetTranslation.x++;
+        }
     }
     if(k=='o'){
         rotAngle-=3;
