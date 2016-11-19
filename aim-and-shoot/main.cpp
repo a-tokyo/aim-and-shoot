@@ -428,7 +428,8 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
         targetTranslation.z++;
     }
     if(k=='s'){
-        targetTranslation.z--;
+        if(targetTranslation.z!=1)
+            targetTranslation.z--;
     }
     if(k=='a'){
         targetTranslation.x--;
