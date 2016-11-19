@@ -129,6 +129,8 @@ character shuriken(&shurikenTranslation, &shurikenRotation);
 
 vector targetTranslation(0,0,1);
 
+bool gameOver = false;
+
 //double rw=1;
 //double rl=1;
 
@@ -430,6 +432,7 @@ void initGame(){
 
 void endGame(){
     glutReshapeWindow(1080,720);
+    gameOver = true;
 }
 
 void setupLights() {
@@ -489,10 +492,12 @@ void Display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
     
-    setupCamera();
-    setupLights();
+    if(!gameOver){
+        setupCamera();
+        setupLights();
     
-    drawCharacters();
+        drawCharacters();
+    }
     
     glPopMatrix();
     glFlush();
