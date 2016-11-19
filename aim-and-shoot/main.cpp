@@ -122,20 +122,20 @@ typedef struct gameStatus {
 //double r=1;
 //int rd=1;
 
-gameStatus gameStat("basic", 3);
+gameStatus gameStat("basic", 1);
 
 
 // mian characters
-vector grenadeTranslation(0,0,60);
+vector grenadeTranslation(0,0,68);
 quadraple grenadeRotation(0,0,0,0);
 character grenade(&grenadeTranslation, &grenadeRotation);
 
-vector bulletTranslation(0,0,60);
+vector bulletTranslation(0,0,68);
 quadraple bulletRotation(0,0,0,0);
 character bullet(&bulletTranslation, &bulletRotation);
 
 
-vector shurikenTranslation(0,0,60);
+vector shurikenTranslation(0,0,68);
 quadraple shurikenRotation(0,0,0,0);
 character shuriken(&shurikenTranslation, &shurikenRotation);
 
@@ -224,6 +224,8 @@ void createGrenade (character* thisCharacter){
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
+    glPushMatrix();
+    glRotated(90, 1, 0, 0); //REMOVE
     
     glPushMatrix();
     glColor3f(0,0.5,0.3);
@@ -234,17 +236,17 @@ void createGrenade (character* thisCharacter){
     glPushMatrix();
     glColor3f(0,0.4,0.2);
     glTranslated(0, 0, -12);
-    gluCylinder(qobj, 3, 3, 3, 100,100);
+    gluCylinder(qobj, 3, 3, 3, 32,32);
     glPopMatrix();
     
     glPushMatrix();
     glColor3f(0,0.4,0.2);
-    glutSolidTorus(1, 10, 32, 100);
+    glutSolidTorus(1, 10, 32, 32);
     glPopMatrix();
     
     glPushMatrix();
     glColor3f(0,0.8,0.3);
-    glutSolidSphere(10, 100, 100);
+    glutSolidSphere(10, 32, 32);
     glPopMatrix();
     
     glPopMatrix();
@@ -315,7 +317,8 @@ void createShurikenPart (){
     glEnd();
     glPopMatrix();
     
-    
+    glPopMatrix();
+
     glPopMatrix();
     
 }
@@ -417,7 +420,7 @@ void createTarget (vector* translation){
     glPushMatrix();
     glTranslated(translation->x, translation->y, translation->z);
     glPushMatrix();
-    glTranslated(0, 0, -34);
+    glTranslated(0, 0, 0);
 
     glPushMatrix();
     glColor3f(1, 0, 1);
