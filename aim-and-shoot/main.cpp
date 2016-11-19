@@ -556,16 +556,26 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 targetTranslation.z--;
             }
             break;
-        case 'a':
-            if(targetTranslation.x!=(-29)){
-                targetTranslation.x--;
-            }
-            break;
         case 'd':
             if(targetTranslation.x!=(29)){
                 targetTranslation.x++;
             }
             break;
+        case 'a':
+            if(targetTranslation.x!=(-29)){
+                targetTranslation.x--;
+            }
+            break;
+//        case 'q':
+//            if(targetTranslation.y!=(29)){
+//                targetTranslation.y++;
+//            }
+//            break;
+//        case 'z':
+//            if(targetTranslation.y!=(-29)){
+//                targetTranslation.y--;
+//            }
+//            break;
             
         case 'o':
             rotAngle-=3;
