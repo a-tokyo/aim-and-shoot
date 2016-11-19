@@ -7,28 +7,6 @@
 #include <math.h>
 using namespace std; //for using std::out and similar features
 
-// Function signatures
-// Modeling
-void createBullet();
-void createGrenade();
-void createShurikenPart();
-void createShuriken();
-void createWall();
-void createRoom();
-void createTarget();
-// Gameplay
-void drawCharacters();
-void initGame();
-void endGame();
-// environment configurations
-void setUpLights();
-void setUpCamera();
-// I/O
-void passM(int x,int y);
-void keyUp(unsigned char k, int x,int y);
-// basic openGL
-void Display();
-void Anim();
 //global structs
 typedef struct vector {
     float x;
@@ -95,9 +73,11 @@ typedef struct rgbColor {
 typedef struct character {
     vector *translation;
     quadraple *rotation;
+    bool firing;
     character(vector *translation, quadraple *rotation){
         this->translation = translation;
         this->rotation = rotation;
+        this->firing = false;
     }
     void setTranslation(vector toTranslate){
         translation->x = toTranslate.x;
@@ -105,6 +85,15 @@ typedef struct character {
         translation->z = toTranslate.z;
     }
 }character;
+
+typedef struct scoreBoardTarget {
+    vector *translation;
+    double radius;
+    scoreBoardTarget(vector *translation, double radius){
+        this->translation = translation;
+        this->radius = radius;
+    }
+}scoreBoardTarget;
 
 typedef struct gameStatus {
     std::string gameMode;
@@ -148,6 +137,32 @@ typedef struct gameCamera {
 }gameCamera;
 
 
+// Function signatures
+// Modeling
+void createBullet();
+void createGrenade();
+void createShurikenPart();
+void createShuriken();
+void createWall();
+void createRoom();
+void createTarget();
+// Gameplay
+void drawCharacters();
+void initGame();
+void endGame();
+// Motion
+void fireBullet(character* bulletCharacter);
+// environment configurations
+void setUpLights();
+void setUpCamera();
+// I/O
+void passM(int x,int y);
+void keyUp(unsigned char k, int x,int y);
+// basic openGL
+void Display();
+void Anim();
+// END Function signatures
+
 //global variables
 //double r=1;
 //int rd=1;
@@ -169,8 +184,8 @@ vector shurikenTranslation(0,0,68);
 quadraple shurikenRotation(0,0,0,0);
 character shuriken(&shurikenTranslation, &shurikenRotation);
 
-
 vector targetTranslation(0,0,1);
+scoreBoardTarget target(&targetTranslation, 17.5);
 
 int windowHeight = 720;
 int windowWidth = 1080;
@@ -447,11 +462,11 @@ void createRoom (){
 }
 
 
-void createTarget (vector* translation){
+void createTarget (scoreBoardTarget* target){
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
     glPushMatrix();
-    glTranslated(translation->x, translation->y, translation->z);
+    glTranslated(target->translation->x, target->translation->y, target->translation->z);
     glPushMatrix();
     glTranslated(0, 0, 0);
     
@@ -475,7 +490,7 @@ void createTarget (vector* translation){
 
 void drawCharacters(){
     createRoom();
-    createTarget(&targetTranslation);
+    createTarget(&target);
     switch(gameStat.currCharacter) {
         case 1:
             createBullet(&bullet);
@@ -486,6 +501,19 @@ void drawCharacters(){
         case 3:
             createShuriken(&shuriken);
             break;
+    }
+}
+//Motion and firing
+
+void fireBullet(character* bulletCharacter){
+    bulletCharacter->firing = true;
+    bulletCharacter->translation->z -= 1*0.5;
+    if (bulletCharacter->translation->z == targetTranslation.z) {
+        cout << "on same z level as target";
+        if(bulletCharacter->translation->x){
+            
+        }
+        bulletCharacter->firing = false;
     }
 }
 
@@ -567,6 +595,9 @@ void Display() {
 
 void anim()
 {
+    if(bullet.firing){
+        fireBullet(&bullet);
+    }
     glutPostRedisplay();
 }
 
@@ -611,7 +642,9 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             //                targetTranslation.y--;
             //            }
             //            break;
-            
+        case 'f':
+            fireBullet(&bullet);
+            break;
         case 'o':
             rotAngle-=3;
             break;
@@ -621,10 +654,6 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             break;
     }
     glutPostRedisplay();//redisplay to update the screen with the changed
-}
-
-void fireBullet(character* bulletCharacter){
-    
 }
 
 int main(int argc, char** argv)
