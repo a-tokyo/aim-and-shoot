@@ -147,13 +147,13 @@ typedef struct gameCamera {
     }
 }gameCamera;
 
+
 //global variables
 //double r=1;
 //int rd=1;
 
 gameStatus gameStat("basic", 1);
 gameCamera gameCam(0, 0, 100, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-
 
 // mian characters
 vector grenadeTranslation(0,0,68);
@@ -171,6 +171,9 @@ character shuriken(&shurikenTranslation, &shurikenRotation);
 
 
 vector targetTranslation(0,0,1);
+
+int windowHeight = 720;
+int windowWidth = 1080;
 
 //bool gameOver = false;
 
@@ -348,7 +351,7 @@ void createShurikenPart (){
     glPopMatrix();
     
     glPopMatrix();
-
+    
     glPopMatrix();
     
 }
@@ -451,7 +454,7 @@ void createTarget (vector* translation){
     glTranslated(translation->x, translation->y, translation->z);
     glPushMatrix();
     glTranslated(0, 0, 0);
-
+    
     glPushMatrix();
     glColor3f(1, 0, 1);
     gluDisk(qobj, 0.001, 8, 32, 32);
@@ -490,7 +493,7 @@ void initGame(){
 }
 
 void endGame(){
-    glutReshapeWindow(1000, 600);
+    glutReshapeWindow(1080, 720);
     gameStat.gameOver = true;
 }
 
@@ -568,7 +571,9 @@ void anim()
 }
 
 void passM(int x,int y){
-    
+    float mappedX = (x - (windowWidth/2));
+    if(mappedX>-320 && mappedX < 320)
+        gameCam.eyeX = mappedX*0.2;
 }
 
 
@@ -596,16 +601,16 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 targetTranslation.x--;
             }
             break;
-//        case 'q':
-//            if(targetTranslation.y!=(29)){
-//                targetTranslation.y++;
-//            }
-//            break;
-//        case 'z':
-//            if(targetTranslation.y!=(-29)){
-//                targetTranslation.y--;
-//            }
-//            break;
+            //        case 'q':
+            //            if(targetTranslation.y!=(29)){
+            //                targetTranslation.y++;
+            //            }
+            //            break;
+            //        case 'z':
+            //            if(targetTranslation.y!=(-29)){
+            //                targetTranslation.y--;
+            //            }
+            //            break;
             
         case 'o':
             rotAngle-=3;
@@ -622,7 +627,7 @@ int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutCreateWindow("Aim and Shoot");
-    glutInitWindowSize(1000, 600);
+    glutInitWindowSize(1080, 720);
     glutFullScreen();
     glutDisplayFunc(Display);
     glutIdleFunc(anim);
@@ -639,6 +644,7 @@ int main(int argc, char** argv)
     //    glEnable(GL_LIGHT2);
     glEnable(GL_NORMALIZE);
     //    glEnable(GL_COLOR_MATERIAL);
+    
     
     glShadeModel(GL_SMOOTH);
     //	glEnable(GL_TEXTURE_2D);
