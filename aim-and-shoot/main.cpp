@@ -536,30 +536,36 @@ void passM(int x,int y){
 
 void keyUp(unsigned char k, int x,int y)//keyboard up function is called whenever the keyboard key is released
 {
-    if(k==27){
-        endGame();
-    }
-    if(k=='w'){
-        targetTranslation.z++;
-    }
-    if(k=='s'){
-        if(targetTranslation.z!=1)
-            targetTranslation.z--;
-    }
-    if(k=='a'){
-        if(targetTranslation.x!=(-20)){
-            targetTranslation.x--;
-        }    }
-    if(k=='d'){
-        if(targetTranslation.x!=(20)){
-           targetTranslation.x++;
-        }
-    }
-    if(k=='o'){
-        rotAngle-=3;
-    }
-    if(k=='p'){
-        rotAngle+=3;
+    switch (k) {
+        case 27:
+            endGame();
+        break;
+        case 'w':
+            targetTranslation.z++;
+            break;
+        case 's':
+            if(targetTranslation.z!=1){
+             targetTranslation.z--;
+            }
+            break;
+        case 'a':
+            if(targetTranslation.x!=(-20)){
+                targetTranslation.x--;
+            }
+            break;
+        case 'd':
+            if(targetTranslation.x!=(20)){
+                targetTranslation.x++;
+            }
+            break;
+            
+        case 'o':
+            rotAngle-=3;
+            break;
+            
+        case 'p':
+            rotAngle+=3;
+            break;
     }
     glutPostRedisplay();//redisplay to update the screen with the changed
 }
