@@ -29,3 +29,11 @@ There is only one target in the middle of the room. The player can move this tar
 The player also can change the trajectory with the number keys. After firing, the trajectory travels the room till it stops hitting something (the target, or a wall), 
 then the replay mode starts showing where did the shot land. This practice mode is repeated as many times as the player wants.
 
+## Controls
+- Use the mouse to move the camera
+- a: move the target to the left
+- s: move the target away from you
+- d: move the target to the right
+- w: move the target closer to you
+- f: fire weapon
+- ESC: exit game
