@@ -623,6 +623,10 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
     glutPostRedisplay();//redisplay to update the screen with the changed
 }
 
+void fireBullet(character* bulletCharacter){
+    
+}
+
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
