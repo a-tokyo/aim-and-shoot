@@ -163,6 +163,7 @@ void drawCharacters();
 void initGame();
 void endGame();
 // Motion
+void changeCharacterTrajectoryAimLogic(int direction);
 void fireBullet(character* bulletCharacter);
 // environment configurations
 void setUpLights();
@@ -514,7 +515,26 @@ void drawCharacters(){
             break;
     }
 }
-//Motion and firing
+
+//Motion Logic
+
+
+//Aiming
+
+void changeCharacterTrajectoryAimLogic(int direction){
+    if(direction==0){
+        if(gameStat.currCharacter==1){
+            bullet.setRotation(bullet.rotation->a-2, 0,1,0);
+        }
+    }else{
+        if(gameStat.currCharacter==1){
+            bullet.setRotation(bullet.rotation->a+2, 0,1,0);
+        }
+    }
+}
+
+
+// Firing
 
 void fireBullet(character* bulletCharacter){
     bulletCharacter->firing = true;
@@ -657,14 +677,10 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             fireBullet(&bullet);
             break;
         case 49:
-            if(gameStat.currCharacter==1){
-                bullet.setRotation(bullet.rotation->a-2, 0,1,0);
-            }
+            changeCharacterTrajectoryAimLogic(0);
             break;
         case 50:
-            if(gameStat.currCharacter==1){
-                bullet.setRotation(bullet.rotation->a+2, 0,1,0);
-            }
+            changeCharacterTrajectoryAimLogic(1);
             break;
         case 'o':
             rotAngle-=3;
