@@ -152,6 +152,7 @@ typedef struct gameCamera {
 //int rd=1;
 
 gameStatus gameStat("basic", 1);
+gameCamera gameCam(0, 0, 100, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 
 // mian characters
@@ -543,7 +544,7 @@ void setupCamera() {
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0, 0, 100, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(gameCam.eyeX, gameCam.eyeY, gameCam.eyeZ, gameCam.centerX, gameCam.centerY, gameCam.centerZ, gameCam.upX, gameCam.upY, gameCam.upZ);
 }
 
 void Display() {
