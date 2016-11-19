@@ -16,7 +16,7 @@ void createShuriken();
 void createWall();
 void createRoom();
 void createTarget();
-// GamePlay
+// Gameplay
 void drawCharacters();
 void initGame();
 void endGame();
@@ -162,40 +162,40 @@ void createBullet (character* thisCharacter){
     glColor3f(0.5, 0.5, 0.5);
     GLUquadricObj * qobj4;
     qobj4 = gluNewQuadric();
-    gluCylinder(qobj4, 0.2, 2, 4, 100,100);
+    gluCylinder(qobj4, 0.2, 2, 3, 100,100);
     glPopMatrix();
     
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
-    glTranslated(0, 0, 4);
+    glTranslated(0, 0, 3);
     GLUquadricObj * qobj3;
     qobj3 = gluNewQuadric();
-    gluCylinder(qobj3, 2, 2, 8, 100,100);
+    gluCylinder(qobj3, 2, 2, 5, 100,100);
     glPopMatrix();
     
     
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
-    glTranslated(0, 0, 8+4);
+    glTranslated(0, 0, 5+3);
     GLUquadricObj * qobj2;
     qobj2 = gluNewQuadric();
-    gluCylinder(qobj2, 2, 3, 5, 100,100);
+    gluCylinder(qobj2, 2, 3, 4, 100,100);
     glPopMatrix();
     
     
     
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
-    glTranslated(0, 0, 5+8+4);
+    glTranslated(0, 0, 5+4+3);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
-    gluCylinder(qobj, 3, 3, 12, 100,100);
+    gluCylinder(qobj, 3, 3, 7, 100,100);
     glPopMatrix();
     
     
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
-    glTranslated(0, 0, 12+5+8+4);
+    glTranslated(0, 0, 7+5+4+3);
     gluDisk(qobj, 0.001, 3, 32, 32);
     glPopMatrix();
     
@@ -425,7 +425,7 @@ void createTarget (vector* translation){
 void drawCharacters(){
     createRoom();
     createTarget(&targetTranslation);
-    //    createBullet(&bullet);
+        createBullet(&bullet);
     //    createGrenade(&grenade);
     //    createShuriken(&shuriken);
 }
