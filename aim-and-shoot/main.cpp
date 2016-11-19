@@ -84,6 +84,18 @@ typedef struct character {
         translation->y = toTranslate.y;
         translation->z = toTranslate.z;
     }
+    void setRotation(quadraple toRotate){
+        rotation->a = toRotate.a;
+        rotation->x = toRotate.x;
+        rotation->y = toRotate.y;
+        rotation->z = toRotate.z;
+    }
+    void setRotation(float a, float x, float y, float z){
+        rotation->a = a;
+        rotation->x = x;
+        rotation->y = y;
+        rotation->z = z;
+    }
 }character;
 
 typedef struct scoreBoardTarget {
@@ -213,7 +225,6 @@ int rotAngle = 0;
 
 void createBullet (character* thisCharacter){
     glPushMatrix();
-    glRotated(rotAngle, 1, 0,0); //REMOVE
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     glPushMatrix();
@@ -644,6 +655,16 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             //            break;
         case 'f':
             fireBullet(&bullet);
+            break;
+        case 49:
+            if(gameStat.currCharacter==1){
+                bullet.setRotation(bullet.rotation->a-2, 0,1,0);
+            }
+            break;
+        case 50:
+            if(gameStat.currCharacter==1){
+                bullet.setRotation(bullet.rotation->a+2, 0,1,0);
+            }
             break;
         case 'o':
             rotAngle-=3;
