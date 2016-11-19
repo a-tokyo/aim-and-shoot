@@ -562,14 +562,24 @@ void changeCharacterTrajectoryAimLogic(int direction){
 
 void fireBullet(character* bulletCharacter){
     bulletCharacter->firing = true;
-    bulletCharacter->translation->z -= 1*0.5;
-    if (bulletCharacter->translation->z == target.translation->z) {
-        cout << "on same z level as target";
-        if(bulletCharacter->translation->x){
-            
+    
+    if (bullet.rotation->a == 0) {
+        bulletCharacter->translation->z -= 1*0.5;
+        if (bulletCharacter->translation->z == target.translation->z) {
+            cout << "on same z level as target \n";
+            if(bulletCharacter->translation->x < target.translation->x + target.radius){
+                cout << "hit\n";
+            }
         }
-        bulletCharacter->firing = false;
     }
+    else{
+        
+    }
+    bulletCharacter->firing = false;
+}
+
+void fireBulletHit(){
+    
 }
 
 void initGame(){
