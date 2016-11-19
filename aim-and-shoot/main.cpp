@@ -34,11 +34,58 @@ typedef struct vector {
         return sqrtf(pow(x,2)+pow(y,2)+pow(z,2));
     }
 }vector;
+typedef struct quadraple {
+    float a;
+    float x;
+    float y;
+    float z;
+    quadraple(float a, float x, float y, float z){
+        this-> a = a;
+        this->x = x;
+        this->y = y;
+        this->z =z;
+    }
+    quadraple(){
+        this-> a = 0;
+        this->x = 0;
+        this->y = 0;
+        this->z =0;
+    }
+    std::string toString(){
+        return "["+ std::to_string(a) + ", "+ std::to_string(x) + ", "+ std::to_string(y) + std::to_string(z)+"]" ;
+    }
+}quadraple;
+typedef struct rgbColor {
+    float r;
+    float g;
+    float b;
+    rgbColor(float r, float g, float b){
+        this->r = r;
+        this->g = g;
+        this->b =b;
+    }
+    rgbColor(){
+        this->r = 1;
+        this->g = 1;
+        this->b =1;
+    }
+}rgbColor;
 
 //function signatures
 void Display();
 void Anim();
 void setupCamera();
+void createBullet();
+void createGrenade();
+void createShurikenPart();
+void createShuriken();
+void createWall();
+void createRoom();
+void createTarget();
+void endGame();
+void setUpLights();
+void setUpCamera();
+void keyUp(unsigned char k, int x,int y);
 
 //global variables
 //double r=1;
@@ -72,6 +119,20 @@ int rotAngle = 0;
 //	glutSolidCube(1);
 //	glPopMatrix();
 //}
+
+typedef struct character {
+    vector *translation;
+    quadraple *rotation;
+    character(vector *translation, quadraple *rotation){
+        this->translation = translation;
+        this->rotation = rotation;
+    }
+    void setTranslation(vector toTranslate){
+        translation->x = toTranslate.x;
+        translation->y = toTranslate.y;
+        translation->z = toTranslate.z;
+    }
+}character;
 
 void createBullet (){
     glPushMatrix();
@@ -277,19 +338,19 @@ void createWall (){
 void createRoom (){
     //face
     glPushMatrix();
-    glColor3f(1, 1, 0);
+    glColor3f(0,0.6,1);
     createWall();
     glPopMatrix();
     
     glPushMatrix();
-    glColor3f(1, 0, 1);
+    glColor3f(0.8,0.4,0.4);
     glTranslated(35, 0, 0);
     glRotated(90, 0, 1, 0);
     createWall();
     glPopMatrix();
     
     glPushMatrix();
-    glColor3f(0, 1, 1);
+    glColor3f(0.8,0.4,0.4);
     glTranslated(-35, 0, 0);
     glRotated(90, 0, 1, 0);
     createWall();
@@ -297,7 +358,7 @@ void createRoom (){
     
     //ceiling
     glPushMatrix();
-    glColor3f(0, 1, 0);
+    glColor3f(0.9,0.5,0.3);
     glTranslated(0, 35, 0);
     glRotated(90, 1, 0, 0);
     createWall();
@@ -305,7 +366,7 @@ void createRoom (){
     
     //floor
     glPushMatrix();
-    glColor3f(0.5, 0.5, 0);
+    glColor3f(0.9,0.5,0.3);
     glTranslated(0, -35, 0);
     glRotated(90, 1, 0, 0);
     createWall();
@@ -335,6 +396,9 @@ void createTarget (){
 
 }
 
+void endGame(){
+    glutReshapeWindow(1080,720);
+}
 
 void setupLights() {
     
@@ -419,10 +483,11 @@ void anim()
     glutPostRedisplay();
 }
 
+
 void keyUp(unsigned char k, int x,int y)//keyboard up function is called whenever the keyboard key is released
 {
     if(k==27){
-        glutReshapeWindow(1080,720);
+        endGame();
     }
     if(k=='w'){
         targetTranslation.z++;
