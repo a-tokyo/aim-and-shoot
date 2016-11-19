@@ -508,7 +508,7 @@ void drawCharacters(){
 void fireBullet(character* bulletCharacter){
     bulletCharacter->firing = true;
     bulletCharacter->translation->z -= 1*0.5;
-    if (bulletCharacter->translation->z == targetTranslation.z) {
+    if (bulletCharacter->translation->z == target.translation->z) {
         cout << "on same z level as target";
         if(bulletCharacter->translation->x){
             
@@ -615,31 +615,31 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             endGame();
             break;
         case 'w':
-            targetTranslation.z++;
+            target.translation->z++;
             break;
         case 's':
-            if(targetTranslation.z!=1){
-                targetTranslation.z--;
+            if(target.translation->z!=1){
+                target.translation->z--;
             }
             break;
         case 'd':
-            if(targetTranslation.x!=(29)){
-                targetTranslation.x++;
+            if(target.translation->x!=(29)){
+                target.translation->x++;
             }
             break;
         case 'a':
-            if(targetTranslation.x!=(-29)){
-                targetTranslation.x--;
+            if(target.translation->x!=(-29)){
+                target.translation->x--;
             }
             break;
             //        case 'q':
-            //            if(targetTranslation.y!=(29)){
-            //                targetTranslation.y++;
+            //            if(target.translation->y!=(29)){
+            //                target.translation->y++;
             //            }
             //            break;
             //        case 'z':
-            //            if(targetTranslation.y!=(-29)){
-            //                targetTranslation.y--;
+            //            if(target.translation->y!=(-29)){
+            //                target.translation->y--;
             //            }
             //            break;
         case 'f':
