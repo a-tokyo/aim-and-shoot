@@ -195,7 +195,7 @@ gameStatus gameStat("basic", 2); //1 for bullet, 2 for grenade, 3 for shuriken
 
 gameCamera gameCam(0, 0, 100, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-// mian characters
+// Main characters
 vector grenadeTranslation(0,0,68);
 quadraple grenadeRotation(0,0,0,0);
 character grenade(&grenadeTranslation, &grenadeRotation);
@@ -298,12 +298,9 @@ void createGrenade (character* thisCharacter){
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
-    
     glPushMatrix();
-    
-    glScaled(0.3, 0.3, 0.3);
-    glRotated(90, 1, 0, 0);
-    
+    glRotated(90, 1, 0, 0); //REMOVE
+    glScaled(0.3, 0.3, 0.3); // scaling must be done here
     glPushMatrix();
     glColor3f(0,0.5,0.3);
     glTranslated(0, 0, -12);
