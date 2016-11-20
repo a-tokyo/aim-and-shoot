@@ -169,7 +169,7 @@ void createRoom();
 void createTarget();
 // Gameplay
 void drawCharacters();
-void switchWeapon();
+void switchCharacter();
 void initGame();
 void endGame();
 // Motion
@@ -512,8 +512,6 @@ void createShuriken(character* thisCharacter){
     glRotated(rotAngle, 1, 0, 0);
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
-    GLUquadricObj * qobj;
-    qobj = gluNewQuadric();
     
     glPushMatrix();
     createShurikenPart();
@@ -724,8 +722,9 @@ void fireBulletHit(){
     cout << "The bullet hit the target";
 }
 
-void switchWeapon(){
-    
+void switchCharacter(){
+    gameStat.currCharacter += 1;
+    gameStat.currCharacter %= 3;
 }
 
 void initGame(){
@@ -857,7 +856,7 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             fireBullet(&bullet);
             break;
         case 48:
-            switchWeapon();
+            switchCharacter();
             break;
         case 49:
             changeCharacterTrajectoryAimLogic(0);
