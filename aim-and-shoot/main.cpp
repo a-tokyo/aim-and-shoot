@@ -550,10 +550,10 @@ void changeCharacterTrajectoryAimLogic(int direction){
         case 2: // Grenade
             switch (direction) {
                 case 0:
-                    
+                    grenade.setRotation(grenade.rotation->a-2, 0,1,0);
                     break;
                 case 1:
-                    
+                    grenade.setRotation(grenade.rotation->a+2, 0,1,0);
                     break;
             }
             break;
