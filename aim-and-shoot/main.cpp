@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <math.h>
 using namespace std; //for using std::out and similar features
+#define PI 3.14159265
+#define toDeg 57.2957795131
 
 //global structs
 typedef struct vector {
@@ -198,7 +200,7 @@ quadraple shurikenRotation(0,0,0,0);
 character shuriken(&shurikenTranslation, &shurikenRotation);
 
 vector targetTranslation(0,0,1);
-scoreBoardTarget target(&targetTranslation, 17.5);
+scoreBoardTarget target(&targetTranslation, 20);
 
 int windowHeight = 720;
 int windowWidth = 1080;
@@ -484,15 +486,15 @@ void createTarget (scoreBoardTarget* target){
     
     glPushMatrix();
     glColor3f(1, 0, 1);
-    gluDisk(qobj, 0.001, 8, 32, 32);
+    gluDisk(qobj, 0.001, 4, 32, 32);
     glPopMatrix();
     glPushMatrix();
     glColor3f(1, 1, 0);
-    gluDisk(qobj, 8, 20, 32, 32);
+    gluDisk(qobj, 4, 13, 32, 32);
     glPopMatrix();
     glPushMatrix();
     glColor3f(0, 1, 1);
-    gluDisk(qobj, 20, 35, 32, 32);
+    gluDisk(qobj, 13, 20, 32, 32);
     glPopMatrix();
     glPopMatrix();
     
@@ -563,19 +565,43 @@ void changeCharacterTrajectoryAimLogic(int direction){
 void fireBullet(character* bulletCharacter){
     bulletCharacter->firing = true;
     
-    if (bullet.rotation->a == 0) {
+    if (bulletCharacter->rotation->a == 0) {
         bulletCharacter->translation->z -= 1*0.5;
         if (bulletCharacter->translation->z == target.translation->z) {
-            cout << "on same z level as target \n";
-            if(bulletCharacter->translation->x < target.translation->x + target.radius){
-                cout << "hit\n";
+            cout << "on same z level as target";
+            if(bulletCharacter->translation->x > target.translation->x - target.radius
+               && bulletCharacter->translation->x < target.translation->x + target.radius){
+                cout << "The bullet hit the target";
+                bulletCharacter->firing = false;
+                
             }
+            
         }
     }
     else{
-        
+        // X axis translation
+        if(bulletCharacter->rotation->a < 0){
+            float slope = tan ((180+bulletCharacter->rotation->a) * toDeg);
+            bulletCharacter->translation->x += slope*0.005;
+        }else {
+            float slope = tan ((180-bulletCharacter->rotation->a) * toDeg);
+            bulletCharacter->translation->x -= slope*0.005;
+        }
+        // Z axis default translation
+        bulletCharacter->translation->z -= 1*0.5;
+        if (bulletCharacter->translation->z == target.translation->z) {
+            if(bulletCharacter->translation->x > target.translation->x - target.radius
+               && bulletCharacter->translation->x < target.translation->x + target.radius){
+                cout << "The bullet hit the target";
+                bulletCharacter->firing = false;
+                
+            }
+        }
+        // if bullet hit the back wall // if bullet
+        if(bulletCharacter->translation->z<=-69 || bulletCharacter->translation->x<-60 || bulletCharacter->translation->x>60){
+            bulletCharacter->firing = false;
+        }
     }
-    bulletCharacter->firing = false;
 }
 
 void fireBulletHit(){
@@ -775,13 +801,13 @@ int main(int argc, char** argv)
 //void print(int x, int y, char *string)
 //{
 //    int len, i;
-//    
+//
 //    //set the position of the text in the window using the x and y coordinates
 //    glRasterPos2f(x, y);
-//    
+//
 //    //get the length of the string to display
 //    len = (int) strlen(string);
-//    
+//
 //    //loop to display character by character
 //    for (i = 0; i < len; i++)
 //    {
@@ -799,7 +825,7 @@ int main(int argc, char** argv)
 //
 //void Display() {
 //    glClear(GL_COLOR_BUFFER_BIT);
-//    
+//
 //    print(750,500,"Bezier Control Points");
 //    glColor3f(1,0,0);
 //    char* p0s [20];
@@ -817,7 +843,7 @@ int main(int argc, char** argv)
 //    char* p3s [20];
 //    sprintf((char *)p3s,"P3={%d,%d}",p3[0],p3[1]);
 //    print(785,300,(char *)p3s);
-//    
+//
 //    glPointSize(1);
 //    glColor3f(1,1,0);
 //    glBegin(GL_POINTS);
@@ -838,7 +864,7 @@ int main(int argc, char** argv)
 //    glColor3f(1,1,1);
 //    glVertex3f(p3[0],p3[1],0);
 //    glEnd();
-//    
+//
 //    glFlush();
 //}
 //
@@ -904,31 +930,31 @@ int main(int argc, char** argv)
 //
 //int main(int argc, char** argr) {
 //    glutInit(&argc, argr);
-//    
+//
 //    glutInitWindowSize(1000, 600);
 //    //	glutInitWindowPosition(150, 150);
-//    
+//
 //    p0[0]=100;
 //    p0[1]=100;
-//    
+//
 //    p1[0]=100;
 //    p1[1]=500;
-//    
+//
 //    p2[0]=500;
 //    p2[1]=500;
-//    
+//
 //    p3[0]=500;
 //    p3[1]=100;
-//    
+//
 //    glutCreateWindow("OpenGL - 2D Template");
 //    glutDisplayFunc(Display);
 //    glutMotionFunc(mo);
 //    glutMouseFunc(mou);
-//    
+//
 //    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 //    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 //    gluOrtho2D(0.0, 1000, 0.0, 600);
-//    
+//
 //    glutMainLoop();
 //    return 0;
 //}
