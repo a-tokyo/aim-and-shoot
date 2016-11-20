@@ -167,6 +167,7 @@ void endGame();
 // Motion
 void changeCharacterTrajectoryAimLogic(int direction);
 void fireBullet(character* bulletCharacter);
+void fireBulletHit();
 // environment configurations
 void setUpLights();
 void setUpCamera();
@@ -565,21 +566,10 @@ void changeCharacterTrajectoryAimLogic(int direction){
 void fireBullet(character* bulletCharacter){
     bulletCharacter->firing = true;
     
-    if (bulletCharacter->rotation->a == 0) {
-        bulletCharacter->translation->z -= 1*0.5;
-        if (bulletCharacter->translation->z == target.translation->z) {
-            cout << "on same z level as target";
-            if(bulletCharacter->translation->x > target.translation->x - target.radius
-               && bulletCharacter->translation->x < target.translation->x + target.radius){
-                cout << "The bullet hit the target";
-                bulletCharacter->firing = false;
-                
-            }
-            
-        }
-    }
-    else{
-        // X axis translation
+    // Z axis default translation
+    bulletCharacter->translation->z -= 1*0.5;
+    // X axis conditional translation
+    if (bulletCharacter->rotation->a != 0) {
         if(bulletCharacter->rotation->a < 0){
             float slope = tan ((180+bulletCharacter->rotation->a) * toDeg);
             bulletCharacter->translation->x += slope*0.005;
@@ -587,25 +577,23 @@ void fireBullet(character* bulletCharacter){
             float slope = tan ((180-bulletCharacter->rotation->a) * toDeg);
             bulletCharacter->translation->x -= slope*0.005;
         }
-        // Z axis default translation
-        bulletCharacter->translation->z -= 1*0.5;
-        if (bulletCharacter->translation->z == target.translation->z) {
-            if(bulletCharacter->translation->x > target.translation->x - target.radius
-               && bulletCharacter->translation->x < target.translation->x + target.radius){
-                cout << "The bullet hit the target";
-                bulletCharacter->firing = false;
-                
-            }
-        }
-        // if bullet hit the back wall // if bullet
-        if(bulletCharacter->translation->z<=-69 || bulletCharacter->translation->x<-60 || bulletCharacter->translation->x>60){
+    }
+    // hit or miss logic
+    if (bulletCharacter->translation->z == target.translation->z) {
+        if(bulletCharacter->translation->x > target.translation->x - target.radius
+           && bulletCharacter->translation->x < target.translation->x + target.radius){
+            fireBulletHit();
             bulletCharacter->firing = false;
         }
+    }
+    // if bullet hit the back wall // if bullet
+    if(bulletCharacter->translation->z<=-69 || bulletCharacter->translation->x<-60 || bulletCharacter->translation->x>60){
+        bulletCharacter->firing = false;
     }
 }
 
 void fireBulletHit(){
-    
+    cout << "The bullet hit the target";
 }
 
 void initGame(){
