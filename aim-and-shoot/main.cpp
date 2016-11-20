@@ -169,6 +169,7 @@ void createRoom();
 void createTarget();
 // Gameplay
 void drawCharacters();
+void switchWeapon();
 void initGame();
 void endGame();
 // Motion
@@ -614,6 +615,10 @@ void fireBulletHit(){
     cout << "The bullet hit the target";
 }
 
+void switchWeapon(){
+    
+}
+
 void initGame(){
 }
 
@@ -741,6 +746,9 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             //            break;
         case 'f':
             fireBullet(&bullet);
+            break;
+        case 48:
+            switchWeapon();
             break;
         case 49:
             changeCharacterTrajectoryAimLogic(0);
