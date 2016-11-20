@@ -178,6 +178,8 @@ void changeCharacterTrajectoryAimLogic(int direction);
 void fireCharacter();
 void fireBullet(character* bulletCharacter);
 void fireBulletHit();
+void fireGrenade(character* grenadeCharacter);
+void fireShuriken(character* shurikenCharacter);
 // environment configurations
 void setUpLights();
 void setUpCamera();
@@ -580,8 +582,10 @@ void fireCharacter(){
             fireBullet(&bullet);
             break;
         case 1:
+            fireGrenade(&grenade);
             break;
         case 2:
+            fireShuriken(&shuriken);
             break;
     }
 }
@@ -624,6 +628,14 @@ void fireBullet(character* bulletCharacter){
 
 void fireBulletHit(){
     cout << "The bullet hit the target";
+}
+
+void fireGrenade(character* grenadeCharacter){
+    
+}
+
+void fireShuriken(character* shurikenCharacter){
+    
 }
 
 void switchCharacter(){
