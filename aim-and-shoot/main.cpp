@@ -192,7 +192,7 @@ void Anim();
 //int rd=1;
 
 //Basic game state
-gameStatus gameStat("basic", 2); //1 for bullet, 2 for grenade, 3 for shuriken
+gameStatus gameStat("basic", 0); //0 for bullet, 1 for grenade, 2 for shuriken
 
 gameCamera gameCam(0, 0, 100, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
@@ -327,6 +327,116 @@ void createGrenade (character* thisCharacter){
     glPopMatrix();
 }
 
+//void createShurikenPart (){
+//    glPushMatrix();
+//    
+//    glPushMatrix();
+//    glBegin(GL_POLYGON);
+//    glColor3f(1, 0, 1);
+//    glVertex3f(5, 10, 0);
+//    glVertex3f(20, 20, 0.0f);
+//    glVertex3f(10,10, 3);
+//    glEnd();
+//    glPopMatrix();
+//    
+//    glPushMatrix();
+//    glBegin(GL_POLYGON);
+//    glColor3f(1, 1, 0);
+//    glVertex3f(10,10, 3);
+//    glVertex3f(20, 20, 0);
+//    glVertex3f(10, 5, 0.0f);
+//    
+//    glEnd();
+//    glPopMatrix();
+//    
+//    glPushMatrix();// square shape matrix
+//    glBegin(GL_POLYGON);
+//    glColor3f(0.6, 1, 0.3);
+//    glVertex3f(5, 5, 0);
+//    glVertex3f(10, 5, 0.0f);
+//    glVertex3f(10,10, 3);
+//    glVertex3f(5,10,0);
+//    glEnd();
+//    glPopMatrix();
+//    
+//    
+//    
+//    
+//    
+//    glPushMatrix();
+//    glBegin(GL_POLYGON);
+//    glColor3f(1, 0, 1);
+//    glVertex3f(5, 10, 0);
+//    glVertex3f(20, 20, 0.0f);
+//    glVertex3f(10,10, -3);
+//    glEnd();
+//    glPopMatrix();
+//    
+//    glPushMatrix();
+//    glBegin(GL_POLYGON);
+//    glColor3f(1, 1, 0);
+//    glVertex3f(10,10, -3);
+//    glVertex3f(20, 20, 0);
+//    glVertex3f(10, 5, 0.0f);
+//    
+//    glEnd();
+//    glPopMatrix();
+//    
+//    glPushMatrix();// square shape matrix
+//    glBegin(GL_POLYGON);
+//    glColor3f(0.6, 1, 0.3);
+//    glVertex3f(5, 5, 0);
+//    glVertex3f(10, 5, 0.0f);
+//    glVertex3f(10,10, -3);
+//    glVertex3f(5,10,0);
+//    glEnd();
+//    glPopMatrix();
+//    
+//    glPopMatrix();
+//    
+//    glPopMatrix();
+//    
+//}
+//
+//void createShuriken(character* thisCharacter){
+//    glPushMatrix();
+//    glRotated(rotAngle, 0, 0, 1); //REMOVE
+//    glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
+//    glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
+//    glPushMatrix();
+//    GLUquadricObj * qobj;
+//    qobj = gluNewQuadric();
+//    
+//    glPushMatrix();
+//    createShurikenPart();
+//    glPopMatrix();
+//    
+//    glPushMatrix();
+//    glRotated(240, 0, 0, 1);
+//    createShurikenPart();
+//    glPopMatrix();
+//    
+//    glPushMatrix();
+//    glRotated(120, 0, 0, 1);
+//    createShurikenPart();
+//    glPopMatrix();
+//    
+//    
+//    glPushMatrix();
+//    glColor3f(0.4,0.4,0.4);
+//    glutSolidTorus(2, 5, 32, 100);
+//    glPopMatrix();
+//    
+//    glPushMatrix();
+//    glColor3f(1,0,0);
+//    glRotated(60, 1, 1, 0);
+//    glutSolidCube(5);
+//    glPopMatrix();
+//    
+//    glPopMatrix();
+//    glPopMatrix();
+//}
+
 void createShurikenPart (){
     glPushMatrix();
     
@@ -392,18 +502,14 @@ void createShurikenPart (){
     glEnd();
     glPopMatrix();
     
-    glPopMatrix();
     
     glPopMatrix();
     
 }
 
-void createShuriken(character* thisCharacter){
+void createShuriken(){
     glPushMatrix();
-    glRotated(rotAngle, 0, 0, 1); //REMOVE
-    glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
-    glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
-    glPushMatrix();
+    glRotated(rotAngle, 1, 0, 0);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
     
@@ -433,9 +539,10 @@ void createShuriken(character* thisCharacter){
     glutSolidCube(5);
     glPopMatrix();
     
-    glPopMatrix();
+    
     glPopMatrix();
 }
+
 
 void createWall (){
     glPushMatrix();
@@ -519,14 +626,14 @@ void drawCharacters(){
     createRoom();
     createTarget(&target);
     switch(gameStat.currCharacter) {
-        case 1:
+        case 0:
             createBullet(&bullet);
             break;
-        case 2:
+        case 1:
             createGrenade(&grenade);
             break;
-        case 3:
-            createShuriken(&shuriken);
+        case 2:
+            createShuriken();
             break;
     }
 }
@@ -538,7 +645,7 @@ void drawCharacters(){
 
 void changeCharacterTrajectoryAimLogic(int direction){
     switch (gameStat.currCharacter) {
-        case 1: // Bullet
+        case 0: // Bullet
             switch (direction) {
                 case 0:
                     bullet.setRotation(bullet.rotation->a-2, 0,1,0);
@@ -548,7 +655,7 @@ void changeCharacterTrajectoryAimLogic(int direction){
                     break;
             }
             break;
-        case 2: // Grenade
+        case 1: // Grenade
             switch (direction) {
                 case 0:
                     grenade.setRotation(grenade.rotation->a-2, 0,1,0);
@@ -558,7 +665,7 @@ void changeCharacterTrajectoryAimLogic(int direction){
                     break;
             }
             break;
-        case 3: // Shuriken
+        case 2: // Shuriken
             switch (direction) {
                 case 0:
                     
