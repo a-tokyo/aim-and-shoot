@@ -75,10 +75,17 @@ typedef struct rgbColor {
 typedef struct character {
     vector *translation;
     quadraple *rotation;
+    quadraple *deepRotation;
     bool firing;
     character(vector *translation, quadraple *rotation){
         this->translation = translation;
         this->rotation = rotation;
+        this->firing = false;
+    }
+    character(vector *translation, quadraple *rotation, quadraple *deepRotation){
+        this->translation = translation;
+        this->rotation = rotation;
+        this->deepRotation = deepRotation;
         this->firing = false;
     }
     void setTranslation(vector toTranslate){
@@ -193,7 +200,8 @@ character grenade(&grenadeTranslation, &grenadeRotation);
 
 vector bulletTranslation(0,0,68);
 quadraple bulletRotation(0,0,0,0);
-character bullet(&bulletTranslation, &bulletRotation);
+quadraple bulletDeepRotation(0,0,0,0);
+character bullet(&bulletTranslation, &bulletRotation, &bulletDeepRotation);
 
 
 vector shurikenTranslation(0,0,68);
@@ -231,6 +239,7 @@ void createBullet (character* thisCharacter){
     glPushMatrix();
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
+    glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
     GLUquadricObj * qobj4;
@@ -563,9 +572,16 @@ void changeCharacterTrajectoryAimLogic(int direction){
 
 // Firing
 
+void fireBulletRotation(character* bulletCharacter){
+    bulletCharacter->deepRotation->a +=2;
+    bulletCharacter->deepRotation->z= 1;
+//    cout << "Bullet around its axis rotation angle is: "<< bulletCharacter->deepRotation->a<<"\n";
+}
+
 void fireBullet(character* bulletCharacter){
     bulletCharacter->firing = true;
-    
+    // Rotation of bullet around its axis
+    fireBulletRotation(bulletCharacter);
     // Z axis default translation
     bulletCharacter->translation->z -= 1*0.5;
     // X axis conditional translation
