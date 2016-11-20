@@ -190,7 +190,9 @@ void Anim();
 //double r=1;
 //int rd=1;
 
-gameStatus gameStat("basic", 1);
+//Basic game state
+gameStatus gameStat("basic", 2); //1 for bullet, 2 for grenade, 3 for shuriken
+
 gameCamera gameCam(0, 0, 100, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 // mian characters
@@ -291,13 +293,16 @@ void createGrenade (character* thisCharacter){
     // I swear these numbers are puuure luck, I don't understand anything in this course.
     //Oh and p.s: the learning objective of this is probably how to waste time mowahahaha
     glPushMatrix();
-    glRotated(rotAngle, 1, 0, 0); //REMOVE
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
+    glRotated(rotAngle ,1, 0,0);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
+    
     glPushMatrix();
-    glRotated(90, 1, 0, 0); //REMOVE
+    
+    glScaled(0.3, 0.3, 0.3);
+    glRotated(90, 1, 0, 0);
     
     glPushMatrix();
     glColor3f(0,0.5,0.3);
