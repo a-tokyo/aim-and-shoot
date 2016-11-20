@@ -192,7 +192,7 @@ void Anim();
 //int rd=1;
 
 //Basic game state
-gameStatus gameStat("basic", 0); //0 for bullet, 1 for grenade, 2 for shuriken
+gameStatus gameStat("basic", 2); //0 for bullet, 1 for grenade, 2 for shuriken
 
 gameCamera gameCam(0, 0, 100, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
@@ -507,9 +507,11 @@ void createShurikenPart (){
     
 }
 
-void createShuriken(){
+void createShuriken(character* thisCharacter){
     glPushMatrix();
     glRotated(rotAngle, 1, 0, 0);
+    glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
+    glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
     
@@ -633,7 +635,7 @@ void drawCharacters(){
             createGrenade(&grenade);
             break;
         case 2:
-            createShuriken();
+            createShuriken(&shuriken);
             break;
     }
 }
