@@ -173,7 +173,9 @@ void switchCharacter();
 void initGame();
 void endGame();
 // Motion
+int* bezier(float t, int* p0,int* p1,int* p2,int* p3);
 void changeCharacterTrajectoryAimLogic(int direction);
+void fireCharacter();
 void fireBullet(character* bulletCharacter);
 void fireBulletHit();
 // environment configurations
@@ -572,6 +574,18 @@ void changeCharacterTrajectoryAimLogic(int direction){
 
 // Firing
 
+void fireCharacter(){
+    switch(gameStat.currCharacter) {
+        case 0:
+            fireBullet(&bullet);
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+    }
+}
+
 void fireBulletRotation(character* bulletCharacter){
     bulletCharacter->deepRotation->a +=2;
     bulletCharacter->deepRotation->z= 1;
@@ -623,6 +637,15 @@ void initGame(){
 void endGame(){
     glutReshapeWindow(1080, 720);
     gameStat.gameOver = true;
+}
+
+//Bezier
+int* bezier(float t, int* p0,int* p1,int* p2,int* p3)
+{
+    int res[2];
+    res[0]=pow((1-t),3)*p0[0]+3*t*pow((1-t),2)*p1[0]+3*pow(t,2)*(1-t)*p2[0]+pow(t,3)*p3[0];
+    res[1]=pow((1-t),3)*p0[1]+3*t*pow((1-t),2)*p1[1]+3*pow(t,2)*(1-t)*p2[1]+pow(t,3)*p3[1];
+    return res;
 }
 
 void setupLights() {
@@ -743,7 +766,7 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             //            }
             //            break;
         case 'f':
-            fireBullet(&bullet);
+            fireCharacter();
             break;
         case 48:
             switchCharacter();
