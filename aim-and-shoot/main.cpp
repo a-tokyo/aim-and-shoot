@@ -785,7 +785,6 @@ void Display() {
 
 void anim()
 {
-    cout << mainCharacter.translation->toString();
     if(mainCharacter.firing) {
         switch (gameStat.currCharacter) {
             case 0:
