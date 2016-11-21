@@ -122,6 +122,10 @@ typedef struct character {
         rotation->y = y;
         rotation->z = z;
     }
+    void resetAttrs(){
+        this->firing = false;
+        this->bezierTranslation = 0;
+    }
 }character;
 
 typedef struct scoreBoardTarget {
@@ -141,6 +145,10 @@ typedef struct gameStatus {
         this->gameMode = gameMode;
         this->currCharacter = currCharacter;
         this->gameOver = false;
+    }
+    void switchCharacter(){
+        currCharacter += 1;
+        currCharacter %= 3;
     }
 }gameStatus;
 typedef struct gameCamera {
@@ -196,7 +204,6 @@ void createRoom();
 void createTarget();
 // Gameplay
 void drawCharacters();
-void switchCharacter();
 bool hitTarget(character* character);
 void initGame();
 void endGame();
@@ -233,7 +240,7 @@ quadraple mainCharacterRotation(0,0,0,0);
 quadraple mainCharacterDeepRotation(0,0,0,0);
 character mainCharacter(&mainCharacterTranslation, &mainCharacterRotation, &mainCharacterDeepRotation);
 
-vector targetTranslation(0,0,1);
+vector targetTranslation(0,0,0);
 scoreBoardTarget target(&targetTranslation, 20);
 
 int windowHeight = 720;
@@ -683,15 +690,12 @@ bool hitTarget(character* character){
     return false;
 }
 
-void switchCharacter(){
-    gameStat.currCharacter += 1;
-    gameStat.currCharacter %= 3;
-}
-
 void initGame(){
     mainCharacter.translation->set(0, 0, 68);
     mainCharacter.rotation->set(0,0,0,0);
     mainCharacter.deepRotation->set(0,0,0,0);
+    mainCharacter.resetAttrs();
+    target.translation->set(0, 0, 0);
 }
 
 void endGame(){
@@ -709,8 +713,9 @@ int* bezier(float t, int* p0,int* p1,int* p2,int* p3)
     return res;
 }
 
+//OPENGL FUNCS
+
 void setupLights() {
-    
     
     GLfloat lmodel_ambient[] = { 0.1f, 0.1f, 0.1f, 1.0f };
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
@@ -807,6 +812,9 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
         case 27:
             endGame();
             break;
+        case 'n':
+            initGame();
+            break;
         case 'w':
             target.translation->z++;
             break;
@@ -829,7 +837,7 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             fireCharacter();
             break;
         case 48:
-            switchCharacter();
+            gameStat.switchCharacter();
             break;
         case 49:
             changeCharacterTrajectoryAimLogic(0);
