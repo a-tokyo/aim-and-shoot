@@ -132,11 +132,13 @@ typedef struct gameStatus {
     int currCharacter;
     bool gameOver;
     bool inGameControls;
+    bool isReplayMode;
     gameStatus(std::string gameMode, int currCharacter) {
         this->gameMode = gameMode;
         this->currCharacter = currCharacter;
         this->gameOver = false;
         this->inGameControls = true;
+        this->isReplayMode = false;
     }
     void switchCharacter() {
         currCharacter += 1;
@@ -145,6 +147,7 @@ typedef struct gameStatus {
     void reset() {
         inGameControls = true;
         gameOver = false;
+        isReplayMode = false;
     }
 } gameStatus;
 typedef struct gameCamera {
@@ -199,7 +202,7 @@ void createWall();
 void createRoom();
 void createTarget();
 // Gameplay
-void drawCharacters();
+void drawGame();
 bool hitTarget(character* character);
 void initGame();
 void endGame();
@@ -566,7 +569,7 @@ void createTarget (scoreBoardTarget* target) {
     
 }
 
-void drawCharacters(scoreBoardTarget* target ,character* character) {
+void drawGame(scoreBoardTarget* target ,character* character) {
     createRoom();
     createTarget(target);
     switch(gameStat.currCharacter) {
@@ -583,7 +586,6 @@ void drawCharacters(scoreBoardTarget* target ,character* character) {
 }
 
 //Motion Logic
-
 
 //Aiming
 
@@ -616,8 +618,10 @@ void changeCharacterTrajectoryAimLogic(int direction) {
 
 void fireCharacter() {
     // Save initial firing values for replay later.
-    mainCharacter.firingInitialTranslation->set(mainCharacter.translation);
-    mainCharacter.firingInitialRotation->set(mainCharacter.rotation);
+    if(!mainCharacter.firing){
+        mainCharacter.firingInitialTranslation->set(mainCharacter.translation);
+        mainCharacter.firingInitialRotation->set(mainCharacter.rotation);
+    }
     // Call character firing function based on the current active character
     switch(gameStat.currCharacter) {
         case 0:
@@ -664,10 +668,6 @@ void fireBulletRotation(character* bulletCharacter) {
     bulletCharacter->deepRotation->a +=2;
     bulletCharacter->deepRotation->z= 1;
     //    cout << "Bullet around its axis rotation angle is: "<< bulletCharacter->deepRotation->a<<"\n";
-}
-
-void characterHit() {
-    gameStat.inGameControls = false;
 }
 
 void fireGrenade(character* grenadeCharacter) {
@@ -746,6 +746,11 @@ int* bezier(float t, int* p0,int* p1,int* p2,int* p3)
     return res;
 }
 
+void characterHit() {
+    gameStat.inGameControls = false;
+    gameStat.isReplayMode = true;
+}
+
 void replay(){
     if(!gameStat.inGameControls){
         mainCharacter.resetAttrs();
@@ -780,9 +785,7 @@ void Display() {
     if(!gameStat.gameOver) {
         setupCamera();
         setupLights();
-        
-        drawCharacters(&target, &mainCharacter);
-        
+        drawGame(&target, &mainCharacter);
     }
     
     glPopMatrix();
@@ -792,14 +795,7 @@ void Display() {
 void anim()
 {
     if(mainCharacter.firing) {
-        switch (gameStat.currCharacter) {
-            case 0:
-                fireBullet(&mainCharacter);
-                break;
-            case 1:
-                fireGrenade(&mainCharacter);
-                break;
-        }
+        fireCharacter();
     }
     glutPostRedisplay();
 }
@@ -833,7 +829,7 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                     target.translation->x--;
                 }
                 break;
-            case 'f':
+            case 32:
                 fireCharacter();
                 break;
             case 48:
