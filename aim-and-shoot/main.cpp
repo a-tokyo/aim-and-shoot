@@ -316,6 +316,18 @@ void createBullet (character* thisCharacter) {
     gluDisk(qobj, 0.001, 3, 32, 32);
     glPopMatrix();
     
+    glPushMatrix();
+    glTranslated(0, 0, 7+5+4+3);
+    glColor3f(0.4, 0.4, 0.4);
+    glutSolidTorus(0.2,3.2, 32, 32);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslated(0, 0, 7+5+4+3);
+    glColor3f(0.4, 0.4, 0.4);
+    glutSolidTorus(0.2,1.8, 32, 32);
+    glPopMatrix();
+    
     
     glPopMatrix();
     
