@@ -633,14 +633,10 @@ void fireBulletHit(){
 }
 
 void fireGrenadeStart(character* grenadeCharacter){
-//   vector v0(0,0,68);
-//   vector v1(0,10,68);
-//   vector v2(0,10,0);
-//   vector v3(0,0,0);
     grenadeCharacter->bezierTranslationPoints [0] = vector(grenadeCharacter->translation->x,grenadeCharacter->translation->y,grenadeCharacter->translation->z);
-    grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+70,grenadeCharacter->translation->z);
-    grenadeCharacter->bezierTranslationPoints [2] = vector(0,grenadeCharacter->translation->y+70,0);
-    grenadeCharacter->bezierTranslationPoints [3] = vector(0,0,0);
+    grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+40,grenadeCharacter->translation->z);
+    grenadeCharacter->bezierTranslationPoints [2] = vector(0,grenadeCharacter->translation->y+40,0);
+    grenadeCharacter->bezierTranslationPoints [3] = vector(0,-60,-50); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
     grenadeCharacter->firing = true;
 
 }
@@ -651,18 +647,25 @@ void fireGrenadeLogic(character* grenadeCharacter){
     int p2[2] = {static_cast<int>(grenadeCharacter->bezierTranslationPoints [2].z), static_cast<int>(grenadeCharacter->bezierTranslationPoints [2].y)};
     int p3[2] = {static_cast<int>(grenadeCharacter->bezierTranslationPoints [3].z),static_cast<int>(grenadeCharacter->bezierTranslationPoints [3].y)};
     
-    if (grenadeCharacter->rotation->a == 0) {
+    
         if (!(grenadeCharacter->bezierTranslation>1)) {
             grenadeCharacter->bezierTranslation+=0.03;
             int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
             grenadeCharacter->translation->z = p[0];
             grenadeCharacter->translation->y = p[1];
+                if (grenadeCharacter->translation->z <= target.translation->z+1
+                    && grenadeCharacter->translation->z >= target.translation->z-1
+                    && grenadeCharacter->translation->y > target.translation->y - target.radius
+                    && grenadeCharacter->translation->y < target.translation->y + target.radius
+                    && grenadeCharacter->translation->x > target.translation->x - target.radius
+                    && grenadeCharacter->translation->x < target.translation->x + target.radius
+                    ){
+                        grenadeCharacter->firing = false;
+                }
         }else{
-            cout << "else bezier cond <1";
+            //hitting floor condition // as end of bezier is floor - radius
             grenadeCharacter->firing = false;
         }
-        
-    }
 }
 
 void fireGrenade(character* grenadeCharacter){
