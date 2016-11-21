@@ -502,7 +502,7 @@ void createShuriken(character* thisCharacter) {
     glRotated(60, 1, 1, 0);
     glutSolidCube(5);
     glPopMatrix();
-
+    
     glPopMatrix();
     
     
@@ -962,12 +962,12 @@ int main(int argc, char** argv)
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     gluOrtho2D(0.0, windowWidth, 0.0, windowHeight);
     glEnable(GL_DEPTH_TEST);
-//        glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
-        glEnable(GL_LIGHT1);
-        glEnable(GL_LIGHT2);
-        glEnable(GL_NORMALIZE);
-        glEnable(GL_COLOR_MATERIAL);
+    //        glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT2);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_COLOR_MATERIAL);
     
     
     glShadeModel(GL_SMOOTH);
