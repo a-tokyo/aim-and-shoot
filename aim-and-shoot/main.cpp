@@ -84,7 +84,7 @@ typedef struct character {
     quadraple *deepRotation;
     vector *firingInitialTranslation;
     quadraple *firingInitialRotation;
-    bool firing;
+    bool isFiring;
     float bezierTranslation;
     vector bezierTranslationPoints [4];
     character(vector *translation, quadraple *rotation, quadraple *deepRotation, vector *firingInitialTranslation, quadraple *firingInitialRotation) {
@@ -93,7 +93,7 @@ typedef struct character {
         this->deepRotation = deepRotation;
         this->firingInitialTranslation = firingInitialTranslation;
         this->firingInitialRotation = firingInitialRotation;
-        this->firing = false;
+        this->isFiring = false;
     }
     void setTranslation(vector toTranslate) {
         translation->x = toTranslate.x;
@@ -113,9 +113,8 @@ typedef struct character {
         rotation->z = z;
     }
     void resetAttrs() {
-        this->firing = false;
         this->bezierTranslation = 0;
-        this->firing = false;
+        this->isFiring = false;
     }
 } character;
 
@@ -643,7 +642,7 @@ void changeCharacterTrajectoryAimLogic(int direction) {
 
 void fireCharacter() {
     // Save initial firing values for replay later.
-    if(!mainCharacter.firing){
+    if(!mainCharacter.isFiring){
         mainCharacter.firingInitialTranslation->set(mainCharacter.translation);
         mainCharacter.firingInitialRotation->set(mainCharacter.rotation);
     }
@@ -665,7 +664,7 @@ void fireCharacter() {
 }
 
 void replayFiringCamLogic(){
-    if (mainCharacter.firing) {
+    if (mainCharacter.isFiring) {
         switch (gameStat.replayCam) {
             case 0:
                 switch (gameStat.currCharacter) {
@@ -704,7 +703,7 @@ void replayFiringCamLogic(){
 }
 
 void fireBullet(character* bulletCharacter) {
-    bulletCharacter->firing = true;
+    bulletCharacter->isFiring = true;
     // Rotation of bullet around its axis
     fireBulletRotation(bulletCharacter);
     // Z axis default translation
@@ -721,12 +720,12 @@ void fireBullet(character* bulletCharacter) {
     }
     // hit or miss logic
     if(hitTarget(bulletCharacter)) {
-        bulletCharacter->firing = false;
+        bulletCharacter->isFiring = false;
         characterHit();
     }
     // if bullet hit the back wall // if bullet
     if(bulletCharacter->translation->z<=-69 || bulletCharacter->translation->x<-60 || bulletCharacter->translation->x>60) {
-        bulletCharacter->firing = false;
+        bulletCharacter->isFiring = false;
         characterHit();
     }
 }
@@ -738,7 +737,7 @@ void fireBulletRotation(character* bulletCharacter) {
 }
 
 void fireGrenade(character* grenadeCharacter) {
-    if(!grenadeCharacter->firing) {
+    if(!grenadeCharacter->isFiring) {
         fireGrenadeStart(grenadeCharacter);
     } else {
         fireGrenadeLogic(grenadeCharacter);
@@ -750,7 +749,7 @@ void fireGrenadeStart(character* grenadeCharacter) {
     grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+40,grenadeCharacter->translation->z);
     grenadeCharacter->bezierTranslationPoints [2] = vector(0,grenadeCharacter->translation->y+40,0);
     grenadeCharacter->bezierTranslationPoints [3] = vector(0,-60,-50); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
-    grenadeCharacter->firing = true;
+    grenadeCharacter->isFiring = true;
     
 }
 
@@ -769,13 +768,13 @@ void fireGrenadeLogic(character* grenadeCharacter) {
         grenadeCharacter->translation->z = p[0];
         grenadeCharacter->translation->y = p[1];
         if (hitTarget(grenadeCharacter)) {
-            grenadeCharacter->firing = false;
+            grenadeCharacter->isFiring = false;
             characterHit();
             cout << "The grenade hit the target \n";
         }
     } else {
         //hitting floor condition // as end of bezier is floor - radius
-        grenadeCharacter->firing = false;
+        grenadeCharacter->isFiring = false;
         characterHit();
         cout << "The grenade hit the floor "<< grenadeCharacter->translation->toString()<<"\n";
     }
@@ -863,7 +862,7 @@ void Display() {
 
 void anim()
 {
-    if(mainCharacter.firing) {
+    if(mainCharacter.isFiring) {
         fireCharacter();
     }
     glutPostRedisplay();
@@ -878,7 +877,7 @@ void passM(int x,int y) {
 
 void keyUp(unsigned char k, int x,int y)//keyboard up function is called whenever the keyboard key is released
 {
-//    if(gameStat.inGameControls){
+    if(gameStat.inGameControls){
         switch (k) {
             case 'w':
                 target.translation->z++;
@@ -918,7 +917,7 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 rotAngle+=3;
                 break;
         }
-//    }
+    }
     switch (k) {
         case 27:
             endGame();
