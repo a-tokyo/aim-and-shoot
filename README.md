@@ -15,7 +15,7 @@ Each model animates as follows:
 - Grenade:
     - Rotates continually around a diagonal axis between its direction and horizontal axis’s.
     - Travels along the room in a normal projectile motion as per the side view.
-       
+
 - Shuriken:
     - Rotates continually around its vertical axis (as its first image is a top view).
     - Travels along the room in a Frisbee motion as per the top view. The room traveling motions include testing if the shot hit a target or the room border; also it is not affected by any power factor.
@@ -26,7 +26,7 @@ At the replay mode, the camera is attached to the trajectory (as the trajectory 
 
 ## Gameplay
 There is only one target in the middle of the room. The player can move this target (left, right, near, or far) with the keyboard.
-The player also can change the trajectory with the number keys. After firing, the trajectory travels the room till it stops hitting something (the target, or a wall), 
+The player also can change the trajectory with the number keys. After firing, the trajectory travels the room till it stops hitting something (the target, or a wall),
 then the replay mode starts showing where did the shot land. This practice mode is repeated as many times as the player wants.
 
 ## Controls
@@ -35,10 +35,10 @@ then the replay mode starts showing where did the shot land. This practice mode 
 - s: move the target away from you
 - d: move the target to the right
 - w: move the target closer to you
-- f: fire weapon
 - 0: change weapon
 - 1: change trajectory of firing to the right
 - 2: change trajectory of firing to the left
-- n: new game.
+- space: fire weapon
 - r: replay throw
-- ESC: exit game
+- n: new game.
+- esc: exit game
