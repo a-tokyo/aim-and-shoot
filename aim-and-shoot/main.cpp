@@ -148,12 +148,10 @@ typedef struct gameStatus {
         this->replaying = false;
     }
     void switchCharacter() {
-        currCharacter += 1;
-        currCharacter %= 3;
+        ++currCharacter%=3;
     }
     void toggleReplayCam() {
-        replayCam ++;
-        replayCam %=2;
+        ++replayCam%=2;
     }
     void reset() {
         inGameControls = true;
