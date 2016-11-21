@@ -833,7 +833,7 @@ void anim()
 
 void passM(int x,int y) {
     float mappedX = (x - (windowWidth/2));
-    if(mappedX>-260 && mappedX < 260)
+    if(mappedX>-windowWidth/4.2 && mappedX < windowWidth/4.2)
         gameCam.eyeX = mappedX*0.2;
 }
 
