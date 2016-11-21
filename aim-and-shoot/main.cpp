@@ -85,6 +85,7 @@ typedef struct character {
     vector *firingInitialTranslation;
     quadraple *firingInitialRotation;
     bool isFiring;
+    bool hasFired;
     float bezierTranslation;
     vector bezierTranslationPoints [4];
     character(vector *translation, quadraple *rotation, quadraple *deepRotation, vector *firingInitialTranslation, quadraple *firingInitialRotation) {
@@ -94,6 +95,7 @@ typedef struct character {
         this->firingInitialTranslation = firingInitialTranslation;
         this->firingInitialRotation = firingInitialRotation;
         this->isFiring = false;
+        this->hasFired = false;
     }
     void setTranslation(vector toTranslate) {
         translation->x = toTranslate.x;
@@ -115,6 +117,7 @@ typedef struct character {
     void resetAttrs() {
         this->bezierTranslation = 0;
         this->isFiring = false;
+        this->hasFired = false;
     }
 } character;
 
@@ -898,7 +901,8 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 }
                 break;
             case 32:
-                fireCharacter();
+                if(!mainCharacter.hasFired)
+                    fireCharacter();
                 break;
             case 48:
                 gameStat.switchCharacter();
