@@ -169,6 +169,16 @@ typedef struct gameCamera {
         this->eyeY += eyeY;
         this->eyeZ += eyeZ;
     }
+    void setEye(double eyeX, double eyeY, double eyeZ){
+        this->eyeX = eyeX;
+        this->eyeY = eyeY;
+        this->eyeZ = eyeZ;
+    }
+    void setCenter(double centerX, double centerY, double centerZ){
+        this->centerX = centerX;
+        this->centerY = centerY;
+        this->centerZ = centerZ;
+    }
     std::string eyeToString(){
         return "[" + std::to_string(eyeX) + ", " + std::to_string(eyeY) + ", " + std::to_string(eyeZ) + "]" ;
     }
