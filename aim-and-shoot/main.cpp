@@ -115,6 +115,7 @@ typedef struct character {
     void resetAttrs() {
         this->firing = false;
         this->bezierTranslation = 0;
+        this->firing = false;
     }
 } character;
 
@@ -658,7 +659,7 @@ void fireCharacter() {
             fireShuriken(&mainCharacter);
             break;
     }
-    if(gameStat.isReplayMode){
+    if(gameStat.isReplayMode && gameStat.replaying){
         replayFiringCamLogic();
     }
 }
@@ -672,7 +673,7 @@ void replayFiringCamLogic(){
                         gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z);
                         break;
                     case 1:
-                        gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y-12, mainCharacter.translation->z-10);
+                        gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y>0?mainCharacter.translation->y-12:mainCharacter.translation->y+25, mainCharacter.translation->z>0?mainCharacter.translation->z-10:mainCharacter.translation->z+10);
                         break;
                 }
                 break;
@@ -689,6 +690,11 @@ void replayFiringCamLogic(){
     }else{
         switch (gameStat.replayCam) {
             case 0:
+                switch (gameStat.currCharacter) {
+                    case 1:
+                        gameCam.setCenter(0, 0, 0);
+                        break;
+                }
                 break;
             case 1:
                 gameCam.setEye(0, 0, 100);
@@ -771,7 +777,7 @@ void fireGrenadeLogic(character* grenadeCharacter) {
         //hitting floor condition // as end of bezier is floor - radius
         grenadeCharacter->firing = false;
         characterHit();
-        cout << "The grenade hit the floor \n";
+        cout << "The grenade hit the floor "<< grenadeCharacter->translation->toString()<<"\n";
     }
 }
 
@@ -810,7 +816,6 @@ int* bezier(float t, int* p0,int* p1,int* p2,int* p3)
 void characterHit() {
     gameStat.inGameControls = false;
     gameStat.isReplayMode = true;
-    gameStat.replaying = false;
 }
 
 void replay(){
