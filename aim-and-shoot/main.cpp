@@ -133,21 +133,31 @@ typedef struct gameStatus {
     bool gameOver;
     bool inGameControls;
     bool isReplayMode;
+    bool replaying;
+    int replayCam;
     gameStatus(std::string gameMode, int currCharacter) {
         this->gameMode = gameMode;
         this->currCharacter = currCharacter;
         this->gameOver = false;
         this->inGameControls = true;
         this->isReplayMode = false;
+        this->replayCam = 0;
+        this->replaying = false;
     }
     void switchCharacter() {
         currCharacter += 1;
         currCharacter %= 3;
     }
+    void toggleReplayCam() {
+        replayCam ++;
+        replayCam %=2;
+    }
     void reset() {
         inGameControls = true;
         gameOver = false;
         isReplayMode = false;
+        replayCam = 0;
+        this->replaying = false;
     }
 } gameStatus;
 typedef struct gameCamera {
@@ -186,6 +196,17 @@ typedef struct gameCamera {
         this->centerY = centerY;
         this->centerZ = centerZ;
     }
+    void set(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ, double upX, double upY, double upZ) {
+        this->eyeX = eyeX;
+        this->eyeY = eyeY;
+        this->eyeZ = eyeZ;
+        this->centerX = centerX;
+        this->centerY = centerY;
+        this->centerZ = centerZ;
+        this->upX = upX;
+        this->upY = upY;
+        this->upZ = upZ;
+    }
     std::string eyeToString() {
         return "[" + std::to_string(eyeX) + ", " + std::to_string(eyeY) + ", " + std::to_string(eyeZ) + "]" ;
     }
@@ -218,6 +239,9 @@ void fireGrenade(character* grenadeCharacter);
 void fireGrenadeStart(character* grenadeCharacter);
 void fireGrenadeLogic(character* grenadeCharacter);
 void fireShuriken(character* shurikenCharacter);
+// Replay
+void replay();
+void replayFiringCamLogic();
 // environment configurations
 void setUpLights();
 void setUpCamera();
@@ -634,6 +658,43 @@ void fireCharacter() {
             fireShuriken(&mainCharacter);
             break;
     }
+    if(gameStat.isReplayMode){
+        replayFiringCamLogic();
+    }
+}
+
+void replayFiringCamLogic(){
+    if (mainCharacter.firing) {
+        switch (gameStat.replayCam) {
+            case 0:
+                switch (gameStat.currCharacter) {
+                    case 0:
+                        gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z);
+                        break;
+                    case 1:
+                        gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y-12, mainCharacter.translation->z-10);
+                        break;
+                }
+                break;
+            case 1:
+                switch (gameStat.currCharacter) {
+                    case 0:
+                        gameCam.setEye(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z);
+                        break;
+                    case 1:
+                        break;
+                }
+                break;
+        }
+    }else{
+        switch (gameStat.replayCam) {
+            case 0:
+                break;
+            case 1:
+                gameCam.setEye(0, 0, 100);
+                break;
+        }
+    }
 }
 
 void fireBullet(character* bulletCharacter) {
@@ -725,7 +786,7 @@ bool hitTarget(character* character) {
             && character->translation->x < target.translation->x + target.radius;
         case 1:
             return character->translation->z <= target.translation->z+5
-            && character->translation->z >= target.translation->z-5
+            && character->translation->z >= target.translation->z
             && character->translation->y > target.translation->y - target.radius
             && character->translation->y < target.translation->y + target.radius
             && character->translation->x > target.translation->x - target.radius
@@ -749,6 +810,7 @@ int* bezier(float t, int* p0,int* p1,int* p2,int* p3)
 void characterHit() {
     gameStat.inGameControls = false;
     gameStat.isReplayMode = true;
+    gameStat.replaying = false;
 }
 
 void replay(){
@@ -757,11 +819,13 @@ void replay(){
         mainCharacter.translation->set(mainCharacter.firingInitialTranslation);
         mainCharacter.rotation->set(mainCharacter.firingInitialRotation);
         mainCharacter.deepRotation->set(0,0,0,0);
+        gameStat.replaying = true;
         fireCharacter();
     }
 }
 
 void initGame() {
+    gameCam.set(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     gameStat.reset();
     mainCharacter.translation->set(0, 0, 68);
     mainCharacter.rotation->set(0,0,0,0);
@@ -809,7 +873,7 @@ void passM(int x,int y) {
 
 void keyUp(unsigned char k, int x,int y)//keyboard up function is called whenever the keyboard key is released
 {
-    if(gameStat.inGameControls){
+//    if(gameStat.inGameControls){
         switch (k) {
             case 'w':
                 target.translation->z++;
@@ -849,7 +913,7 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 rotAngle+=3;
                 break;
         }
-    }
+//    }
     switch (k) {
         case 27:
             endGame();
@@ -859,6 +923,9 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             break;
         case 'r':
             replay();
+            break;
+        case 9:
+            gameStat.toggleReplayCam();
             break;
     }
     glutPostRedisplay();//redisplay to update the screen with the changed
