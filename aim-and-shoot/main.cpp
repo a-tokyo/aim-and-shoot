@@ -212,8 +212,11 @@ int* bezier(float t, int* p0,int* p1,int* p2,int* p3);
 void changeCharacterTrajectoryAimLogic(int direction);
 void fireCharacter();
 void fireBullet(character* bulletCharacter);
+void fireBulletRotation(character* bulletCharacter);
 void fireBulletHit();
 void fireGrenade(character* grenadeCharacter);
+void fireGrenadeStart(character* grenadeCharacter);
+void fireGrenadeLogic(character* grenadeCharacter);
 void fireShuriken(character* shurikenCharacter);
 // environment configurations
 void setUpLights();
@@ -224,6 +227,8 @@ void keyUp(unsigned char k, int x,int y);
 // basic openGL
 void Display();
 void Anim();
+void setupCamera();
+void setupLights();
 // END Function signatures
 
 //global variables
