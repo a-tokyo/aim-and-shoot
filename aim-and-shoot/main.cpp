@@ -212,8 +212,11 @@ int* bezier(float t, int* p0,int* p1,int* p2,int* p3);
 void changeCharacterTrajectoryAimLogic(int direction);
 void fireCharacter();
 void fireBullet(character* bulletCharacter);
+void fireBulletRotation(character* bulletCharacter);
 void fireBulletHit();
 void fireGrenade(character* grenadeCharacter);
+void fireGrenadeStart(character* grenadeCharacter);
+void fireGrenadeLogic(character* grenadeCharacter);
 void fireShuriken(character* shurikenCharacter);
 // environment configurations
 void setUpLights();
@@ -224,6 +227,8 @@ void keyUp(unsigned char k, int x,int y);
 // basic openGL
 void Display();
 void Anim();
+void setupCamera();
+void setupLights();
 // END Function signatures
 
 //global variables
@@ -589,12 +594,6 @@ void fireCharacter() {
     }
 }
 
-void fireBulletRotation(character* bulletCharacter) {
-    bulletCharacter->deepRotation->a +=2;
-    bulletCharacter->deepRotation->z= 1;
-    //    cout << "Bullet around its axis rotation angle is: "<< bulletCharacter->deepRotation->a<<"\n";
-}
-
 void fireBullet(character* bulletCharacter) {
     bulletCharacter->firing = true;
     // Rotation of bullet around its axis
@@ -622,8 +621,22 @@ void fireBullet(character* bulletCharacter) {
     }
 }
 
+void fireBulletRotation(character* bulletCharacter) {
+    bulletCharacter->deepRotation->a +=2;
+    bulletCharacter->deepRotation->z= 1;
+    //    cout << "Bullet around its axis rotation angle is: "<< bulletCharacter->deepRotation->a<<"\n";
+}
+
 void fireBulletHit() {
     cout << "The bullet hit the target \n";
+}
+
+void fireGrenade(character* grenadeCharacter) {
+    if(!grenadeCharacter->firing) {
+        fireGrenadeStart(grenadeCharacter);
+    } else {
+        fireGrenadeLogic(grenadeCharacter);
+    }
 }
 
 void fireGrenadeStart(character* grenadeCharacter) {
@@ -659,14 +672,6 @@ void fireGrenadeLogic(character* grenadeCharacter) {
     }
 }
 
-void fireGrenade(character* grenadeCharacter) {
-    if(!grenadeCharacter->firing) {
-        fireGrenadeStart(grenadeCharacter);
-    } else {
-        fireGrenadeLogic(grenadeCharacter);
-    }
-}
-
 void fireShuriken(character* shurikenCharacter) {
     
 }
@@ -690,6 +695,15 @@ bool hitTarget(character* character) {
     return false;
 }
 
+//Bezier
+int* bezier(float t, int* p0,int* p1,int* p2,int* p3)
+{
+    int res[2];
+    res[0]=pow((1-t),3)*p0[0]+3*t*pow((1-t),2)*p1[0]+3*pow(t,2)*(1-t)*p2[0]+pow(t,3)*p3[0];
+    res[1]=pow((1-t),3)*p0[1]+3*t*pow((1-t),2)*p1[1]+3*pow(t,2)*(1-t)*p2[1]+pow(t,3)*p3[1];
+    return res;
+}
+
 void initGame() {
     mainCharacter.translation->set(0, 0, 68);
     mainCharacter.rotation->set(0,0,0,0);
@@ -704,68 +718,7 @@ void endGame() {
     exit (0);
 }
 
-//Bezier
-int* bezier(float t, int* p0,int* p1,int* p2,int* p3)
-{
-    int res[2];
-    res[0]=pow((1-t),3)*p0[0]+3*t*pow((1-t),2)*p1[0]+3*pow(t,2)*(1-t)*p2[0]+pow(t,3)*p3[0];
-    res[1]=pow((1-t),3)*p0[1]+3*t*pow((1-t),2)*p1[1]+3*pow(t,2)*(1-t)*p2[1]+pow(t,3)*p3[1];
-    return res;
-}
-
 //OPENGL FUNCS
-
-void setupLights() {
-    
-    GLfloat lmodel_ambient[] = { 0.1f, 0.1f, 0.1f, 1.0f };
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
-    
-    GLfloat l0Diffuse[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-    GLfloat l0Ambient[] = { 0.1f, 0.0f, 0.0f, 1.0f };
-    GLfloat l0Position[] = { 10.0f, 0.0f, 0.0f, static_cast<GLfloat>(s) };
-    GLfloat l0Direction[] = { -1.0, 0.0, 0.0 };
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, l0Diffuse);
-    glLightfv(GL_LIGHT0,GL_AMBIENT, l0Ambient);
-    glLightfv(GL_LIGHT0, GL_POSITION, l0Position);
-    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 30.0);
-    glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 90.0);
-    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, l0Direction);
-    
-    GLfloat l1Diffuse[] = { 0.0f, 1.0f, 0.0f, 1.0f };
-    GLfloat l1Ambient[] = { 0.0f, 0.1f, 0.0f, 1.0f };
-    GLfloat l1Position[] = { 0.0f, 10.0f, 0.0f, static_cast<GLfloat>(s) };
-    GLfloat l1Direction[] = { 0.0, -1.0, 0.0 };
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, l1Diffuse);
-    glLightfv(GL_LIGHT1,GL_AMBIENT, l1Ambient);
-    glLightfv(GL_LIGHT1, GL_POSITION, l1Position);
-    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 30.0);
-    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 90.0);
-    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l1Direction);
-    
-    GLfloat l2Diffuse[] = { 0.0f, 0.0f, 1.0f, 1.0f };
-    GLfloat l2Ambient[] = { 0.0f, 0.0f, 0.1f, 1.0f };
-    GLfloat l2Position[] = { 0.0f, 0.0f, 10.0f, static_cast<GLfloat>(s) };
-    GLfloat l2Direction[] = { 0.0, 0.0, -1.0 };
-    glLightfv(GL_LIGHT2, GL_DIFFUSE, l2Diffuse);
-    glLightfv(GL_LIGHT2,GL_AMBIENT, l2Ambient);
-    glLightfv(GL_LIGHT2, GL_POSITION, l2Position);
-    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
-    glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 90.0);
-    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l2Direction);
-    
-    
-}
-
-void setupCamera() {
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(1, 1, -1, 1, -1, 1);
-    gluPerspective(80, 640 / 480, 0.001, 1000);
-    
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(gameCam.eyeX, gameCam.eyeY, gameCam.eyeZ, gameCam.centerX, gameCam.centerY, gameCam.centerZ, gameCam.upX, gameCam.upY, gameCam.upZ);
-}
 
 void Display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -853,6 +806,58 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             break;
     }
     glutPostRedisplay();//redisplay to update the screen with the changed
+}
+
+void setupCamera() {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(1, 1, -1, 1, -1, 1);
+    gluPerspective(80, 640 / 480, 0.001, 1000);
+    
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(gameCam.eyeX, gameCam.eyeY, gameCam.eyeZ, gameCam.centerX, gameCam.centerY, gameCam.centerZ, gameCam.upX, gameCam.upY, gameCam.upZ);
+}
+
+void setupLights() {
+    
+    GLfloat lmodel_ambient[] = { 0.1f, 0.1f, 0.1f, 1.0f };
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+    
+    GLfloat l0Diffuse[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+    GLfloat l0Ambient[] = { 0.1f, 0.0f, 0.0f, 1.0f };
+    GLfloat l0Position[] = { 10.0f, 0.0f, 0.0f, static_cast<GLfloat>(s) };
+    GLfloat l0Direction[] = { -1.0, 0.0, 0.0 };
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, l0Diffuse);
+    glLightfv(GL_LIGHT0,GL_AMBIENT, l0Ambient);
+    glLightfv(GL_LIGHT0, GL_POSITION, l0Position);
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 30.0);
+    glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 90.0);
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, l0Direction);
+    
+    GLfloat l1Diffuse[] = { 0.0f, 1.0f, 0.0f, 1.0f };
+    GLfloat l1Ambient[] = { 0.0f, 0.1f, 0.0f, 1.0f };
+    GLfloat l1Position[] = { 0.0f, 10.0f, 0.0f, static_cast<GLfloat>(s) };
+    GLfloat l1Direction[] = { 0.0, -1.0, 0.0 };
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, l1Diffuse);
+    glLightfv(GL_LIGHT1,GL_AMBIENT, l1Ambient);
+    glLightfv(GL_LIGHT1, GL_POSITION, l1Position);
+    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 30.0);
+    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 90.0);
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l1Direction);
+    
+    GLfloat l2Diffuse[] = { 0.0f, 0.0f, 1.0f, 1.0f };
+    GLfloat l2Ambient[] = { 0.0f, 0.0f, 0.1f, 1.0f };
+    GLfloat l2Position[] = { 0.0f, 0.0f, 10.0f, static_cast<GLfloat>(s) };
+    GLfloat l2Direction[] = { 0.0, 0.0, -1.0 };
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, l2Diffuse);
+    glLightfv(GL_LIGHT2,GL_AMBIENT, l2Ambient);
+    glLightfv(GL_LIGHT2, GL_POSITION, l2Position);
+    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
+    glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 90.0);
+    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l2Direction);
+    
+    
 }
 
 int main(int argc, char** argv)
