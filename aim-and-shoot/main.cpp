@@ -567,14 +567,27 @@ void drawCharacters(scoreBoardTarget* target ,character* character) {
 //Aiming
 
 void changeCharacterTrajectoryAimLogic(int direction) {
-    switch (direction) {
+    bool canIncrease = true;
+    bool canDecrease = true;
+    switch (gameStat.currCharacter) {
         case 0:
-            mainCharacter.setRotation(mainCharacter.rotation->a-2, 0,1,0);
+            if(mainCharacter.rotation->a == 48)
+                canIncrease = false;
+            if(mainCharacter.rotation->a == -48)
+                canDecrease = false;
             break;
         case 1:
-            mainCharacter.setRotation(mainCharacter.rotation->a+2, 0,1,0);
+            if(mainCharacter.rotation->a == 40)
+                canIncrease = false;
+            if(mainCharacter.rotation->a == -40)
+                canDecrease = false;
             break;
     }
+    if(direction == 0 && canDecrease)
+        mainCharacter.setRotation(mainCharacter.rotation->a-2, 0,1,0);
+    if(direction == 1 && canIncrease)
+        mainCharacter.setRotation(mainCharacter.rotation->a+2, 0,1,0);
+    
 }
 
 
