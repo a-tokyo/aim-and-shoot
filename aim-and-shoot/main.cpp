@@ -200,7 +200,7 @@ void Anim();
 //Basic game state
 gameStatus gameStat("basic", 2); //0 for bullet, 1 for grenade, 2 for shuriken
 
-gameCamera gameCam(0, 0, 100, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+gameCamera gameCam(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 // Main characters
 vector grenadeTranslation(0,0,68);
@@ -638,8 +638,8 @@ void fireGrenadeStart(character* grenadeCharacter){
 //   vector v2(0,10,0);
 //   vector v3(0,0,0);
     grenadeCharacter->bezierTranslationPoints [0] = vector(0,0,68);
-    grenadeCharacter->bezierTranslationPoints [1] = vector(0,10,68);
-    grenadeCharacter->bezierTranslationPoints [2] = vector(0,10,0);
+    grenadeCharacter->bezierTranslationPoints [1] = vector(0,70,68);
+    grenadeCharacter->bezierTranslationPoints [2] = vector(0,70,0);
     grenadeCharacter->bezierTranslationPoints [3] = vector(0,0,0);
     grenadeCharacter->firing = true;
 
@@ -653,11 +653,10 @@ void fireGrenadeLogic(character* grenadeCharacter){
     
     if (grenadeCharacter->rotation->a == 0) {
         if (!(grenadeCharacter->bezierTranslation>1)) {
-            grenadeCharacter->bezierTranslation+=0.02;
+            grenadeCharacter->bezierTranslation+=0.03;
             int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
-            //                    glVertex3f(p[0],p[1],0);
             grenadeCharacter->translation->z = p[0];
-            grenadeCharacter->translation->y = p[0];
+            grenadeCharacter->translation->y = p[1];
         }else{
             cout << "else bezier cond <1";
             grenadeCharacter->firing = false;
