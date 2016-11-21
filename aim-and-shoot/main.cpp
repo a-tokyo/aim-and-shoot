@@ -36,6 +36,11 @@ typedef struct vector {
         y = newy;
         z = newz;
     }
+    void set(vector* vector) {
+        x = vector->x;
+        y = vector->y;
+        z = vector->z;
+    }
     float magnitude() {
         return sqrtf(pow(x,2)+pow(y,2)+pow(z,2));
     }
@@ -63,6 +68,12 @@ typedef struct quadraple {
         this->y = y;
         this->z =z;
     }
+    void set(quadraple* quadraple) {
+        this-> a = quadraple->a;
+        this->x = quadraple->x;
+        this->y = quadraple->y;
+        this->z = quadraple->z;
+    }
     std::string toString() {
         return "["+ std::to_string(a) + ", "+ std::to_string(x) + ", "+ std::to_string(y) + std::to_string(z)+"]" ;
     }
@@ -86,13 +97,11 @@ typedef struct character {
     vector *translation;
     quadraple *rotation;
     quadraple *deepRotation;
+    vector *firingInitialTranslation;
+    quadraple *firingInitialRotation;
     bool firing;
     float bezierTranslation;
     vector bezierTranslationPoints [4];
-    character() {
-        this->firing = false;
-        this->bezierTranslation = 0;
-    }
     character(vector *translation, quadraple *rotation) {
         this->translation = translation;
         this->rotation = rotation;
@@ -103,6 +112,14 @@ typedef struct character {
         this->translation = translation;
         this->rotation = rotation;
         this->deepRotation = deepRotation;
+        this->firing = false;
+    }
+    character(vector *translation, quadraple *rotation, quadraple *deepRotation, vector *firingInitialTranslation, quadraple *firingInitialRotation) {
+        this->translation = translation;
+        this->rotation = rotation;
+        this->deepRotation = deepRotation;
+        this->firingInitialTranslation = firingInitialTranslation;
+        this->firingInitialRotation = firingInitialRotation;
         this->firing = false;
     }
     void setTranslation(vector toTranslate) {
@@ -241,9 +258,11 @@ gameStatus gameStat("basic", 0); //0 for bullet, 1 for grenade, 2 for shuriken
 gameCamera gameCam(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 vector mainCharacterTranslation(0,0,68);
+vector mainCharacterInitialTranslation(0,0,68);
 quadraple mainCharacterRotation(0,0,0,0);
+quadraple mainCharacterInitialRotation(0,0,0,0);
 quadraple mainCharacterDeepRotation(0,0,0,0);
-character mainCharacter(&mainCharacterTranslation, &mainCharacterRotation, &mainCharacterDeepRotation);
+character mainCharacter(&mainCharacterTranslation, &mainCharacterRotation, &mainCharacterDeepRotation,&mainCharacterInitialTranslation ,&mainCharacterInitialRotation);
 
 vector targetTranslation(0,0,0);
 scoreBoardTarget target(&targetTranslation, 20);
@@ -616,6 +635,10 @@ void changeCharacterTrajectoryAimLogic(int direction) {
 // Firing
 
 void fireCharacter() {
+    // Save initial firing values for replay later.
+    mainCharacter.firingInitialTranslation->set(mainCharacter.translation);
+    mainCharacter.firingInitialRotation->set(mainCharacter.rotation);
+    // Call character firing function based on the current active character
     switch(gameStat.currCharacter) {
         case 0:
             fireBullet(&mainCharacter);
@@ -663,6 +686,7 @@ void fireBulletRotation(character* bulletCharacter) {
 }
 
 void fireBulletHit() {
+    
     cout << "The bullet hit the target \n";
 }
 
