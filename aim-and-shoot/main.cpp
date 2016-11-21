@@ -102,18 +102,6 @@ typedef struct character {
     bool firing;
     float bezierTranslation;
     vector bezierTranslationPoints [4];
-    character(vector *translation, quadraple *rotation) {
-        this->translation = translation;
-        this->rotation = rotation;
-        this->firing = false;
-        this->bezierTranslation = 0;
-    }
-    character(vector *translation, quadraple *rotation, quadraple *deepRotation) {
-        this->translation = translation;
-        this->rotation = rotation;
-        this->deepRotation = deepRotation;
-        this->firing = false;
-    }
     character(vector *translation, quadraple *rotation, quadraple *deepRotation, vector *firingInitialTranslation, quadraple *firingInitialRotation) {
         this->translation = translation;
         this->rotation = rotation;
