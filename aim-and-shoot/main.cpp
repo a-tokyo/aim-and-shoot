@@ -653,8 +653,8 @@ void fireGrenadeLogic(character* grenadeCharacter){
             int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
             grenadeCharacter->translation->z = p[0];
             grenadeCharacter->translation->y = p[1];
-                if (grenadeCharacter->translation->z <= target.translation->z+1
-                    && grenadeCharacter->translation->z >= target.translation->z-1
+                if (grenadeCharacter->translation->z <= target.translation->z+5
+                    && grenadeCharacter->translation->z >= target.translation->z-5
                     && grenadeCharacter->translation->y > target.translation->y - target.radius
                     && grenadeCharacter->translation->y < target.translation->y + target.radius
                     && grenadeCharacter->translation->x > target.translation->x - target.radius
