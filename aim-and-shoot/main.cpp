@@ -354,6 +354,7 @@ void createGrenade (character* thisCharacter) {
     
     glPushMatrix();
     glColor3f(0,0.8,0.3);
+    gluQuadricNormals(qobj, GLU_SMOOTH);
     glutSolidSphere(10, 32, 32);
     glPopMatrix();
     
@@ -485,12 +486,14 @@ void createWall () {
 void createRoom () {
     //face
     glPushMatrix();
+    glNormal3f(0, 0, 1);
     glColor3f(0,0.6,1);
     glTranslated(0, 0, -70);
     createWall();
     glPopMatrix();
     
     glPushMatrix();
+    glNormal3f(-1, 0, 0);
     glColor3f(0.8,0.4,0.4);
     glTranslated(70, 0, 0);
     glRotated(90, 0, 1, 0);
@@ -498,6 +501,7 @@ void createRoom () {
     glPopMatrix();
     
     glPushMatrix();
+    glNormal3i(1, 0, 0);
     glColor3f(0.8,0.4,0.4);
     glTranslated(-70, 0, 0);
     glRotated(90, 0, 1, 0);
@@ -506,6 +510,7 @@ void createRoom () {
     
     //ceiling
     glPushMatrix();
+    glNormal3f(0, -1, 0);
     glColor3f(0.9,0.5,0.3);
     glTranslated(0, 70, 0);
     glRotated(90, 1, 0, 0);
@@ -514,6 +519,7 @@ void createRoom () {
     
     //floor
     glPushMatrix();
+    glNormal3f(0, 1, 0);
     glColor3f(0.9,0.5,0.3);
     glTranslated(0, -70, 0);
     glRotated(90, 1, 0, 0);
@@ -771,7 +777,7 @@ void anim()
 
 void passM(int x,int y) {
     float mappedX = (x - (windowWidth/2));
-    if(mappedX>-260 && mappedX < 260)
+//    if(mappedX>-260 && mappedX < 260)
         gameCam.eyeX = mappedX*0.2;
 }
 
@@ -893,12 +899,12 @@ int main(int argc, char** argv)
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     gluOrtho2D(0.0, windowWidth, 0.0, windowHeight);
     glEnable(GL_DEPTH_TEST);
-    //    glEnable(GL_LIGHTING);
-    //    glEnable(GL_LIGHT0);
-    //    glEnable(GL_LIGHT1);
-    //    glEnable(GL_LIGHT2);
+//        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glEnable(GL_LIGHT1);
+        glEnable(GL_LIGHT2);
     glEnable(GL_NORMALIZE);
-    //    glEnable(GL_COLOR_MATERIAL);
+        glEnable(GL_COLOR_MATERIAL);
     
     
     glShadeModel(GL_SMOOTH);
