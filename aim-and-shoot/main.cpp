@@ -437,6 +437,8 @@ void createShuriken(character* thisCharacter) {
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     
     glPushMatrix();
+    glRotated(90, 1, 0, 0);
+    glPushMatrix();
     createShurikenPart();
     glPopMatrix();
     
@@ -460,6 +462,8 @@ void createShuriken(character* thisCharacter) {
     glColor3f(1,0,0);
     glRotated(60, 1, 1, 0);
     glutSolidCube(5);
+    glPopMatrix();
+
     glPopMatrix();
     
     
@@ -670,6 +674,7 @@ void fireGrenadeLogic(character* grenadeCharacter) {
     if (!(grenadeCharacter->bezierTranslation>1)) {
         grenadeCharacter->deepRotation->a+=10;
         grenadeCharacter->deepRotation->z=1;
+        grenadeCharacter->deepRotation->y=1;
         grenadeCharacter->bezierTranslation+=0.03;
         int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
         grenadeCharacter->translation->z = p[0];
