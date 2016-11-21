@@ -31,6 +31,11 @@ typedef struct vector {
         vector unitVector(x/magnitude,y/magnitude,z/magnitude);
         return unitVector;
     }
+    void set(float newx, float newy, float newz){
+        x = newx;
+        y = newy;
+        z = newz;
+    }
     float magnitude(){
         return sqrtf(pow(x,2)+pow(y,2)+pow(z,2));
     }
@@ -51,6 +56,12 @@ typedef struct quadraple {
         this->x = 0;
         this->y = 0;
         this->z =0;
+    }
+    void set(float a, float x, float y, float z){
+        this-> a = a;
+        this->x = x;
+        this->y = y;
+        this->z =z;
     }
     std::string toString(){
         return "["+ std::to_string(a) + ", "+ std::to_string(x) + ", "+ std::to_string(y) + std::to_string(z)+"]" ;
@@ -206,22 +217,11 @@ gameStatus gameStat("basic", 0); //0 for bullet, 1 for grenade, 2 for shuriken
 
 gameCamera gameCam(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-// Main characters
-vector grenadeTranslation(0,0,68);
-quadraple grenadeRotation(0,0,0,0);
-quadraple grenadeDeepRotation(0,0,0,0);
-character grenade(&grenadeTranslation, &grenadeRotation, &grenadeDeepRotation);
+vector mainCharacterTranslation(0,0,68);
+quadraple mainCharacterRotation(0,0,0,0);
+quadraple mainCharacterDeepRotation(0,0,0,0);
+character mainCharacter(&mainCharacterTranslation, &mainCharacterRotation, &mainCharacterDeepRotation);
 
-vector bulletTranslation(0,0,68);
-quadraple bulletRotation(0,0,0,0);
-quadraple bulletDeepRotation(0,0,0,0);
-character bullet(&bulletTranslation, &bulletRotation, &bulletDeepRotation);
-character mainCharacter(&bulletTranslation, &bulletRotation, &bulletDeepRotation);
-
-
-vector shurikenTranslation(0,0,68);
-quadraple shurikenRotation(0,0,0,0);
-character shuriken(&shurikenTranslation, &shurikenRotation);
 
 vector targetTranslation(0,0,1);
 scoreBoardTarget target(&targetTranslation, 20);
@@ -628,30 +628,29 @@ void fireGrenadeLogic(character* grenadeCharacter){
     int p1[2] = {static_cast<int>(grenadeCharacter->bezierTranslationPoints [1].z), static_cast<int>(grenadeCharacter->bezierTranslationPoints [1].y)};
     int p2[2] = {static_cast<int>(grenadeCharacter->bezierTranslationPoints [2].z), static_cast<int>(grenadeCharacter->bezierTranslationPoints [2].y)};
     int p3[2] = {static_cast<int>(grenadeCharacter->bezierTranslationPoints [3].z),static_cast<int>(grenadeCharacter->bezierTranslationPoints [3].y)};
-    
-    
-        if (!(grenadeCharacter->bezierTranslation>1)) {
-            grenadeCharacter->deepRotation->a+=10;
-            grenadeCharacter->deepRotation->z=1;
-            grenadeCharacter->bezierTranslation+=0.03;
-            int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
-            grenadeCharacter->translation->z = p[0];
-            grenadeCharacter->translation->y = p[1];
-                if (grenadeCharacter->translation->z <= target.translation->z+5
-                    && grenadeCharacter->translation->z >= target.translation->z-5
-                    && grenadeCharacter->translation->y > target.translation->y - target.radius
-                    && grenadeCharacter->translation->y < target.translation->y + target.radius
-                    && grenadeCharacter->translation->x > target.translation->x - target.radius
-                    && grenadeCharacter->translation->x < target.translation->x + target.radius
-                    ){
-                        grenadeCharacter->firing = false;
-                        cout << "The grenade hit the target \n";
-                }
-        }else{
-            //hitting floor condition // as end of bezier is floor - radius
+
+    if (!(grenadeCharacter->bezierTranslation>1)) {
+        grenadeCharacter->deepRotation->a+=10;
+        grenadeCharacter->deepRotation->z=1;
+        grenadeCharacter->bezierTranslation+=0.03;
+        int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
+        grenadeCharacter->translation->z = p[0];
+        grenadeCharacter->translation->y = p[1];
+        if (grenadeCharacter->translation->z <= target.translation->z+5
+            && grenadeCharacter->translation->z >= target.translation->z-5
+            && grenadeCharacter->translation->y > target.translation->y - target.radius
+            && grenadeCharacter->translation->y < target.translation->y + target.radius
+            && grenadeCharacter->translation->x > target.translation->x - target.radius
+            && grenadeCharacter->translation->x < target.translation->x + target.radius
+            ){
+                grenadeCharacter->firing = false;
+                cout << "The grenade hit the target \n";
+            }
+            }else{
+                //hitting floor condition // as end of bezier is floor - radius
             grenadeCharacter->firing = false;
             cout << "The grenade hit the floor \n";
-        }
+    }
 }
 
 void fireGrenade(character* grenadeCharacter){
@@ -672,6 +671,9 @@ void switchCharacter(){
 }
 
 void initGame(){
+    mainCharacter.translation->set(0, 0, 68);
+    mainCharacter.rotation->set(0,0,0,0);
+    mainCharacter.deepRotation->set(0,0,0,0);
 }
 
 void endGame(){
@@ -760,6 +762,7 @@ void Display() {
 
 void anim()
 {
+    cout << mainCharacter.translation->toString();
     if(mainCharacter.firing){
         switch (gameStat.currCharacter) {
             case 0:
