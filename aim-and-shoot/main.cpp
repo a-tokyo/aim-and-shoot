@@ -197,6 +197,7 @@ void createTarget();
 // Gameplay
 void drawCharacters();
 void switchCharacter();
+bool hitTarget(character* character);
 void initGame();
 void endGame();
 // Motion
@@ -237,8 +238,6 @@ scoreBoardTarget target(&targetTranslation, 20);
 
 int windowHeight = 720;
 int windowWidth = 1080;
-
-//bool gameOver = false;
 
 //double rw=1;
 //double rl=1;
@@ -606,13 +605,10 @@ void fireBullet(character* bulletCharacter){
         }
     }
     // hit or miss logic
-    if (bulletCharacter->translation->z == target.translation->z) {
-        if(bulletCharacter->translation->x > target.translation->x - target.radius
-           && bulletCharacter->translation->x < target.translation->x + target.radius){
+        if(hitTarget(bulletCharacter)){
             fireBulletHit();
             bulletCharacter->firing = false;
         }
-    }
     // if bullet hit the back wall // if bullet
     if(bulletCharacter->translation->z<=-69 || bulletCharacter->translation->x<-60 || bulletCharacter->translation->x>60){
         bulletCharacter->firing = false;
@@ -645,13 +641,7 @@ void fireGrenadeLogic(character* grenadeCharacter){
         int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
         grenadeCharacter->translation->z = p[0];
         grenadeCharacter->translation->y = p[1];
-        if (grenadeCharacter->translation->z <= target.translation->z+5
-            && grenadeCharacter->translation->z >= target.translation->z-5
-            && grenadeCharacter->translation->y > target.translation->y - target.radius
-            && grenadeCharacter->translation->y < target.translation->y + target.radius
-            && grenadeCharacter->translation->x > target.translation->x - target.radius
-            && grenadeCharacter->translation->x < target.translation->x + target.radius
-            ){
+        if (hitTarget(grenadeCharacter)){
                 grenadeCharacter->firing = false;
                 cout << "The grenade hit the target \n";
             }
@@ -672,6 +662,25 @@ void fireGrenade(character* grenadeCharacter){
 
 void fireShuriken(character* shurikenCharacter){
     
+}
+
+bool hitTarget(character* character){
+    switch (gameStat.currCharacter) {
+        case 0:
+            return character->translation->z == target.translation->z && character->translation->x > target.translation->x - target.radius
+            && character->translation->x < target.translation->x + target.radius;
+        case 1:
+            return character->translation->z <= target.translation->z+5
+            && character->translation->z >= target.translation->z-5
+            && character->translation->y > target.translation->y - target.radius
+            && character->translation->y < target.translation->y + target.radius
+            && character->translation->x > target.translation->x - target.radius
+            && character->translation->x < target.translation->x + target.radius;
+            break;
+        case 2:
+            break;
+    }
+    return false;
 }
 
 void switchCharacter(){
