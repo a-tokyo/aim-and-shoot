@@ -677,12 +677,13 @@ void fireBullet(character* bulletCharacter) {
     }
     // hit or miss logic
     if(hitTarget(bulletCharacter)) {
-        characterHit();
         bulletCharacter->firing = false;
+        characterHit();
     }
     // if bullet hit the back wall // if bullet
     if(bulletCharacter->translation->z<=-69 || bulletCharacter->translation->x<-60 || bulletCharacter->translation->x>60) {
         bulletCharacter->firing = false;
+        characterHit();
     }
 }
 
@@ -694,7 +695,6 @@ void fireBulletRotation(character* bulletCharacter) {
 
 void characterHit() {
     gameStat.inGameControls = false;
-    cout << "Congratulations !!! you hit the target. \n";
 }
 
 void fireGrenade(character* grenadeCharacter) {
@@ -736,6 +736,7 @@ void fireGrenadeLogic(character* grenadeCharacter) {
     } else {
         //hitting floor condition // as end of bezier is floor - radius
         grenadeCharacter->firing = false;
+        characterHit();
         cout << "The grenade hit the floor \n";
     }
 }
