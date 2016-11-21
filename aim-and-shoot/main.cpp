@@ -169,6 +169,10 @@ typedef struct gameStatus {
         currCharacter += 1;
         currCharacter %= 3;
     }
+    void reset() {
+        inGameControls = true;
+        gameOver = false;
+    }
 } gameStatus;
 typedef struct gameCamera {
     double eyeX;
@@ -226,13 +230,14 @@ void drawCharacters();
 bool hitTarget(character* character);
 void initGame();
 void endGame();
+void replay();
 // Motion
 int* bezier(float t, int* p0,int* p1,int* p2,int* p3);
 void changeCharacterTrajectoryAimLogic(int direction);
 void fireCharacter();
 void fireBullet(character* bulletCharacter);
 void fireBulletRotation(character* bulletCharacter);
-void fireBulletHit();
+void characterHit();
 void fireGrenade(character* grenadeCharacter);
 void fireGrenadeStart(character* grenadeCharacter);
 void fireGrenadeLogic(character* grenadeCharacter);
@@ -672,7 +677,7 @@ void fireBullet(character* bulletCharacter) {
     }
     // hit or miss logic
     if(hitTarget(bulletCharacter)) {
-        fireBulletHit();
+        characterHit();
         bulletCharacter->firing = false;
     }
     // if bullet hit the back wall // if bullet
@@ -687,9 +692,9 @@ void fireBulletRotation(character* bulletCharacter) {
     //    cout << "Bullet around its axis rotation angle is: "<< bulletCharacter->deepRotation->a<<"\n";
 }
 
-void fireBulletHit() {
-    
-    cout << "The bullet hit the target \n";
+void characterHit() {
+    gameStat.inGameControls = false;
+    cout << "Congratulations !!! you hit the target. \n";
 }
 
 void fireGrenade(character* grenadeCharacter) {
@@ -725,6 +730,7 @@ void fireGrenadeLogic(character* grenadeCharacter) {
         grenadeCharacter->translation->y = p[1];
         if (hitTarget(grenadeCharacter)) {
             grenadeCharacter->firing = false;
+            characterHit();
             cout << "The grenade hit the target \n";
         }
     } else {
@@ -760,13 +766,24 @@ bool hitTarget(character* character) {
 //Bezier
 int* bezier(float t, int* p0,int* p1,int* p2,int* p3)
 {
-    int res[2];
+    int res [2];
     res[0]=pow((1-t),3)*p0[0]+3*t*pow((1-t),2)*p1[0]+3*pow(t,2)*(1-t)*p2[0]+pow(t,3)*p3[0];
     res[1]=pow((1-t),3)*p0[1]+3*t*pow((1-t),2)*p1[1]+3*pow(t,2)*(1-t)*p2[1]+pow(t,3)*p3[1];
     return res;
 }
 
+void replay(){
+    if(!gameStat.inGameControls){
+        mainCharacter.resetAttrs();
+        mainCharacter.translation->set(mainCharacter.firingInitialTranslation);
+        mainCharacter.rotation->set(mainCharacter.firingInitialRotation);
+        mainCharacter.deepRotation->set(0,0,0,0);
+        fireCharacter();
+    }
+}
+
 void initGame() {
+    gameStat.reset();
     mainCharacter.translation->set(0, 0, 68);
     mainCharacter.rotation->set(0,0,0,0);
     mainCharacter.deepRotation->set(0,0,0,0);
@@ -815,7 +832,7 @@ void anim()
 
 void passM(int x,int y) {
     float mappedX = (x - (windowWidth/2));
-//    if(mappedX>-260 && mappedX < 260)
+    if(mappedX>-260 && mappedX < 260)
         gameCam.eyeX = mappedX*0.2;
 }
 
@@ -869,6 +886,9 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             break;
         case 'n':
             initGame();
+            break;
+        case 'r':
+            replay();
             break;
     }
     glutPostRedisplay();//redisplay to update the screen with the changed
@@ -945,7 +965,7 @@ int main(int argc, char** argv)
         glEnable(GL_LIGHT0);
         glEnable(GL_LIGHT1);
         glEnable(GL_LIGHT2);
-    glEnable(GL_NORMALIZE);
+        glEnable(GL_NORMALIZE);
         glEnable(GL_COLOR_MATERIAL);
     
     
