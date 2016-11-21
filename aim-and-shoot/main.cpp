@@ -223,15 +223,14 @@ void Anim();
 //int rd=1;
 
 //Basic game state
-gameStatus gameStat("basic", 0); //0 for bullet, 1 for grenade, 2 for shuriken
 
+gameStatus gameStat("basic", 0); //0 for bullet, 1 for grenade, 2 for shuriken
 gameCamera gameCam(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 vector mainCharacterTranslation(0,0,68);
 quadraple mainCharacterRotation(0,0,0,0);
 quadraple mainCharacterDeepRotation(0,0,0,0);
 character mainCharacter(&mainCharacterTranslation, &mainCharacterRotation, &mainCharacterDeepRotation);
-
 
 vector targetTranslation(0,0,1);
 scoreBoardTarget target(&targetTranslation, 20);
@@ -687,7 +686,7 @@ void initGame(){
 }
 
 void endGame(){
-    glutReshapeWindow(1080, 720);
+    glutReshapeWindow(windowWidth, windowHeight);
     gameStat.gameOver = true;
     exit (0);
 }
@@ -844,7 +843,7 @@ int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutCreateWindow("Aim and Shoot");
-    glutInitWindowSize(1080, 720);
+    glutInitWindowSize(windowWidth, windowHeight);
     glutFullScreen();
     glutDisplayFunc(Display);
     glutIdleFunc(anim);
@@ -853,7 +852,7 @@ int main(int argc, char** argv)
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
     
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-    gluOrtho2D(0.0, 1080, 0.0, 720);
+    gluOrtho2D(0.0, windowWidth, 0.0, windowHeight);
     glEnable(GL_DEPTH_TEST);
     //    glEnable(GL_LIGHTING);
     //    glEnable(GL_LIGHT0);
