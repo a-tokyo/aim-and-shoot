@@ -36,4 +36,7 @@ then the replay mode starts showing where did the shot land. This practice mode 
 - d: move the target to the right
 - w: move the target closer to you
 - f: fire weapon
+- 0: change weapon
+- 1: change trajectory of firing to the right
+- 2: change trajectory of firing to the left
 - ESC: exit game
