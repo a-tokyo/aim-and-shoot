@@ -158,10 +158,12 @@ typedef struct gameStatus {
     std::string gameMode;
     int currCharacter;
     bool gameOver;
+    bool inGameControls;
     gameStatus(std::string gameMode, int currCharacter) {
         this->gameMode = gameMode;
         this->currCharacter = currCharacter;
         this->gameOver = false;
+        this->inGameControls = true;
     }
     void switchCharacter() {
         currCharacter += 1;
@@ -820,49 +822,53 @@ void passM(int x,int y) {
 
 void keyUp(unsigned char k, int x,int y)//keyboard up function is called whenever the keyboard key is released
 {
+    if(gameStat.inGameControls){
+        switch (k) {
+            case 'w':
+                target.translation->z++;
+                break;
+            case 's':
+                if(target.translation->z!=1) {
+                    target.translation->z--;
+                }
+                break;
+            case 'd':
+                if(target.translation->x!=(29)) {
+                    target.translation->x++;
+                }
+                break;
+            case 'a':
+                if(target.translation->x!=(-29)) {
+                    target.translation->x--;
+                }
+                break;
+            case 'f':
+                fireCharacter();
+                break;
+            case 48:
+                gameStat.switchCharacter();
+                break;
+            case 49:
+                changeCharacterTrajectoryAimLogic(0);
+                break;
+            case 50:
+                changeCharacterTrajectoryAimLogic(1);
+                break;
+            case 'o':
+                rotAngle-=3;
+                break;
+                
+            case 'p':
+                rotAngle+=3;
+                break;
+        }
+    }
     switch (k) {
         case 27:
             endGame();
             break;
         case 'n':
             initGame();
-            break;
-        case 'w':
-            target.translation->z++;
-            break;
-        case 's':
-            if(target.translation->z!=1) {
-                target.translation->z--;
-            }
-            break;
-        case 'd':
-            if(target.translation->x!=(29)) {
-                target.translation->x++;
-            }
-            break;
-        case 'a':
-            if(target.translation->x!=(-29)) {
-                target.translation->x--;
-            }
-            break;
-        case 'f':
-            fireCharacter();
-            break;
-        case 48:
-            gameStat.switchCharacter();
-            break;
-        case 49:
-            changeCharacterTrajectoryAimLogic(0);
-            break;
-        case 50:
-            changeCharacterTrajectoryAimLogic(1);
-            break;
-        case 'o':
-            rotAngle-=3;
-            break;
-            
-        case 'p':
-            rotAngle+=3;
             break;
     }
     glutPostRedisplay();//redisplay to update the screen with the changed
