@@ -637,9 +637,9 @@ void fireGrenadeStart(character* grenadeCharacter){
 //   vector v1(0,10,68);
 //   vector v2(0,10,0);
 //   vector v3(0,0,0);
-    grenadeCharacter->bezierTranslationPoints [0] = vector(0,0,68);
-    grenadeCharacter->bezierTranslationPoints [1] = vector(0,70,68);
-    grenadeCharacter->bezierTranslationPoints [2] = vector(0,70,0);
+    grenadeCharacter->bezierTranslationPoints [0] = vector(grenadeCharacter->translation->x,grenadeCharacter->translation->y,grenadeCharacter->translation->z);
+    grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+70,grenadeCharacter->translation->z);
+    grenadeCharacter->bezierTranslationPoints [2] = vector(0,grenadeCharacter->translation->y+70,0);
     grenadeCharacter->bezierTranslationPoints [3] = vector(0,0,0);
     grenadeCharacter->firing = true;
 
