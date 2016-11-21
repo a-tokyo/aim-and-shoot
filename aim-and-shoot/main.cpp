@@ -205,7 +205,8 @@ gameCamera gameCam(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 // Main characters
 vector grenadeTranslation(0,0,68);
 quadraple grenadeRotation(0,0,0,0);
-character grenade(&grenadeTranslation, &grenadeRotation);
+quadraple grenadeDeepRotation(0,0,0,0);
+character grenade(&grenadeTranslation, &grenadeRotation, &grenadeDeepRotation);
 
 vector bulletTranslation(0,0,68);
 quadraple bulletRotation(0,0,0,0);
@@ -303,6 +304,7 @@ void createGrenade (character* thisCharacter){
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glRotated(rotAngle ,1, 0,0);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
+    glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
     glPushMatrix();
@@ -629,7 +631,7 @@ void fireBullet(character* bulletCharacter){
 }
 
 void fireBulletHit(){
-    cout << "The bullet hit the target";
+    cout << "The bullet hit the target \n";
 }
 
 void fireGrenadeStart(character* grenadeCharacter){
@@ -649,6 +651,8 @@ void fireGrenadeLogic(character* grenadeCharacter){
     
     
         if (!(grenadeCharacter->bezierTranslation>1)) {
+            grenadeCharacter->deepRotation->a+=10;
+            grenadeCharacter->deepRotation->z=1;
             grenadeCharacter->bezierTranslation+=0.03;
             int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
             grenadeCharacter->translation->z = p[0];
@@ -661,10 +665,12 @@ void fireGrenadeLogic(character* grenadeCharacter){
                     && grenadeCharacter->translation->x < target.translation->x + target.radius
                     ){
                         grenadeCharacter->firing = false;
+                        cout << "The grenade hit the target \n";
                 }
         }else{
             //hitting floor condition // as end of bezier is floor - radius
             grenadeCharacter->firing = false;
+            cout << "The grenade hit the floor \n";
         }
 }
 
