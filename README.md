@@ -40,5 +40,6 @@ then the replay mode starts showing where did the shot land. This practice mode 
 - 2: change trajectory of firing to the left
 - space: fire weapon
 - r: replay throw
+- tab: toggle replay camera view
 - n: new game.
 - esc: exit game
