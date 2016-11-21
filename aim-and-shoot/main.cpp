@@ -13,75 +13,75 @@ typedef struct vector {
     float x;
     float y;
     float z;
-    vector(float x, float y, float z){
+    vector(float x, float y, float z) {
         this->x = x;
         this->y = y;
         this->z =z;
     }
-    vector(){
+    vector() {
         this->x = 0;
         this->y = 0;
         this->z =0;
     }
-    std::string toString(){
+    std::string toString() {
         return "["+ std::to_string(x) + ", "+ std::to_string(y) + ", "+std::to_string(z)+"]" ;
     }
-    vector unitVector(){
+    vector unitVector() {
         float magnitude = sqrtf(pow(x,2)+pow(y,2)+pow(z,2));
         vector unitVector(x/magnitude,y/magnitude,z/magnitude);
         return unitVector;
     }
-    void set(float newx, float newy, float newz){
+    void set(float newx, float newy, float newz) {
         x = newx;
         y = newy;
         z = newz;
     }
-    float magnitude(){
+    float magnitude() {
         return sqrtf(pow(x,2)+pow(y,2)+pow(z,2));
     }
-}vector;
+} vector;
 typedef struct quadraple {
     float a;
     float x;
     float y;
     float z;
-    quadraple(float a, float x, float y, float z){
+    quadraple(float a, float x, float y, float z) {
         this-> a = a;
         this->x = x;
         this->y = y;
         this->z =z;
     }
-    quadraple(){
+    quadraple() {
         this-> a = 0;
         this->x = 0;
         this->y = 0;
         this->z =0;
     }
-    void set(float a, float x, float y, float z){
+    void set(float a, float x, float y, float z) {
         this-> a = a;
         this->x = x;
         this->y = y;
         this->z =z;
     }
-    std::string toString(){
+    std::string toString() {
         return "["+ std::to_string(a) + ", "+ std::to_string(x) + ", "+ std::to_string(y) + std::to_string(z)+"]" ;
     }
-}quadraple;
+} quadraple;
 typedef struct rgbColor {
     float r;
     float g;
     float b;
-    rgbColor(float r, float g, float b){
+    rgbColor(float r, float g, float b) {
         this->r = r;
         this->g = g;
         this->b =b;
     }
-    rgbColor(){
+    rgbColor() {
         this->r = 1;
         this->g = 1;
         this->b =1;
     }
-}rgbColor;
+} rgbColor;
 typedef struct character {
     vector *translation;
     quadraple *rotation;
@@ -89,68 +89,68 @@ typedef struct character {
     bool firing;
     float bezierTranslation;
     vector bezierTranslationPoints [4];
-    character(){
+    character() {
         this->firing = false;
         this->bezierTranslation = 0;
     }
-    character(vector *translation, quadraple *rotation){
+    character(vector *translation, quadraple *rotation) {
         this->translation = translation;
         this->rotation = rotation;
         this->firing = false;
         this->bezierTranslation = 0;
     }
-    character(vector *translation, quadraple *rotation, quadraple *deepRotation){
+    character(vector *translation, quadraple *rotation, quadraple *deepRotation) {
         this->translation = translation;
         this->rotation = rotation;
         this->deepRotation = deepRotation;
         this->firing = false;
     }
-    void setTranslation(vector toTranslate){
+    void setTranslation(vector toTranslate) {
         translation->x = toTranslate.x;
         translation->y = toTranslate.y;
         translation->z = toTranslate.z;
     }
-    void setRotation(quadraple toRotate){
+    void setRotation(quadraple toRotate) {
         rotation->a = toRotate.a;
         rotation->x = toRotate.x;
         rotation->y = toRotate.y;
         rotation->z = toRotate.z;
     }
-    void setRotation(float a, float x, float y, float z){
+    void setRotation(float a, float x, float y, float z) {
         rotation->a = a;
         rotation->x = x;
         rotation->y = y;
         rotation->z = z;
     }
-    void resetAttrs(){
+    void resetAttrs() {
         this->firing = false;
         this->bezierTranslation = 0;
     }
-}character;
+} character;
 
 typedef struct scoreBoardTarget {
     vector *translation;
     double radius;
-    scoreBoardTarget(vector *translation, double radius){
+    scoreBoardTarget(vector *translation, double radius) {
         this->translation = translation;
         this->radius = radius;
     }
-}scoreBoardTarget;
+} scoreBoardTarget;
 
 typedef struct gameStatus {
     std::string gameMode;
     int currCharacter;
     bool gameOver;
-    gameStatus(std::string gameMode, int currCharacter){
+    gameStatus(std::string gameMode, int currCharacter) {
         this->gameMode = gameMode;
         this->currCharacter = currCharacter;
         this->gameOver = false;
     }
-    void switchCharacter(){
+    void switchCharacter() {
         currCharacter += 1;
         currCharacter %= 3;
     }
-}gameStatus;
+} gameStatus;
 typedef struct gameCamera {
     double eyeX;
     double eyeY;
@@ -161,7 +161,7 @@ typedef struct gameCamera {
     double upX;
     double upY;
     double upZ;
-    gameCamera(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ, double upX, double upY, double upZ){
+    gameCamera(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ, double upX, double upY, double upZ) {
         this->eyeX = eyeX;
         this->eyeY = eyeY;
         this->eyeZ = eyeZ;
@@ -172,25 +172,25 @@ typedef struct gameCamera {
         this->upY = upY;
         this->upZ = upZ;
     }
-    void incrementEye(double eyeX, double eyeY, double eyeZ){
+    void incrementEye(double eyeX, double eyeY, double eyeZ) {
         this->eyeX += eyeX;
         this->eyeY += eyeY;
         this->eyeZ += eyeZ;
     }
-    void setEye(double eyeX, double eyeY, double eyeZ){
+    void setEye(double eyeX, double eyeY, double eyeZ) {
         this->eyeX = eyeX;
         this->eyeY = eyeY;
         this->eyeZ = eyeZ;
     }
-    void setCenter(double centerX, double centerY, double centerZ){
+    void setCenter(double centerX, double centerY, double centerZ) {
         this->centerX = centerX;
         this->centerY = centerY;
         this->centerZ = centerZ;
     }
-    std::string eyeToString(){
+    std::string eyeToString() {
         return "[" + std::to_string(eyeX) + ", " + std::to_string(eyeY) + ", " + std::to_string(eyeZ) + "]" ;
     }
-}gameCamera;
+} gameCamera;
 
 
 // Function signatures
@@ -265,7 +265,7 @@ int rotAngle = 0;
 
 //end of initializations
 
-void createBullet (character* thisCharacter){
+void createBullet (character* thisCharacter) {
     glPushMatrix();
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
@@ -317,7 +317,7 @@ void createBullet (character* thisCharacter){
 }
 
 
-void createGrenade (character* thisCharacter){
+void createGrenade (character* thisCharacter) {
     // I swear these numbers are puuure luck, I don't understand anything in this course.
     //Oh and p.s: the learning objective of this is probably how to waste time mowahahaha
     glPushMatrix();
@@ -355,7 +355,7 @@ void createGrenade (character* thisCharacter){
     glPopMatrix();
 }
 
-void createShurikenPart (){
+void createShurikenPart () {
     glPushMatrix();
     
     glPushMatrix();
@@ -425,7 +425,7 @@ void createShurikenPart (){
     
 }
 
-void createShuriken(character* thisCharacter){
+void createShuriken(character* thisCharacter) {
     glPushMatrix();
     glRotated(rotAngle, 1, 0, 0);
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
@@ -462,7 +462,7 @@ void createShuriken(character* thisCharacter){
 }
 
 
-void createWall (){
+void createWall () {
     glPushMatrix();
     glBegin(GL_POLYGON);
     glVertex3f(-70, -70, 0);
@@ -473,7 +473,7 @@ void createWall (){
     glPopMatrix();
 }
 
-void createRoom (){
+void createRoom () {
     //face
     glPushMatrix();
     glColor3f(0,0.6,1);
@@ -514,7 +514,7 @@ void createRoom (){
 }
 
 
-void createTarget (scoreBoardTarget* target){
+void createTarget (scoreBoardTarget* target) {
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
     glPushMatrix();
@@ -540,7 +540,7 @@ void createTarget (scoreBoardTarget* target){
     
 }
 
-void drawCharacters(scoreBoardTarget* target ,character* character){
+void drawCharacters(scoreBoardTarget* target ,character* character) {
     createRoom();
     createTarget(target);
     switch(gameStat.currCharacter) {
@@ -561,7 +561,7 @@ void drawCharacters(scoreBoardTarget* target ,character* character){
 
 //Aiming
 
-void changeCharacterTrajectoryAimLogic(int direction){
+void changeCharacterTrajectoryAimLogic(int direction) {
     switch (direction) {
         case 0:
             mainCharacter.setRotation(mainCharacter.rotation->a-2, 0,1,0);
@@ -575,7 +575,7 @@ void changeCharacterTrajectoryAimLogic(int direction){
 
 // Firing
 
-void fireCharacter(){
+void fireCharacter() {
     switch(gameStat.currCharacter) {
         case 0:
             fireBullet(&mainCharacter);
@@ -589,13 +589,13 @@ void fireCharacter(){
     }
 }
 
-void fireBulletRotation(character* bulletCharacter){
+void fireBulletRotation(character* bulletCharacter) {
     bulletCharacter->deepRotation->a +=2;
     bulletCharacter->deepRotation->z= 1;
-//    cout << "Bullet around its axis rotation angle is: "<< bulletCharacter->deepRotation->a<<"\n";
+    //    cout << "Bullet around its axis rotation angle is: "<< bulletCharacter->deepRotation->a<<"\n";
 }
 
-void fireBullet(character* bulletCharacter){
+void fireBullet(character* bulletCharacter) {
     bulletCharacter->firing = true;
     // Rotation of bullet around its axis
     fireBulletRotation(bulletCharacter);
@@ -603,44 +603,44 @@ void fireBullet(character* bulletCharacter){
     bulletCharacter->translation->z -= 1*0.5;
     // X axis conditional translation
     if (bulletCharacter->rotation->a != 0) {
-        if(bulletCharacter->rotation->a < 0){
+        if(bulletCharacter->rotation->a < 0) {
             float slope = tan ((180+bulletCharacter->rotation->a) * toDeg);
             bulletCharacter->translation->x += slope*0.005;
-        }else {
+        } else {
             float slope = tan ((180-bulletCharacter->rotation->a) * toDeg);
             bulletCharacter->translation->x -= slope*0.005;
         }
     }
     // hit or miss logic
-        if(hitTarget(bulletCharacter)){
-            fireBulletHit();
-            bulletCharacter->firing = false;
-        }
+    if(hitTarget(bulletCharacter)) {
+        fireBulletHit();
+        bulletCharacter->firing = false;
+    }
     // if bullet hit the back wall // if bullet
-    if(bulletCharacter->translation->z<=-69 || bulletCharacter->translation->x<-60 || bulletCharacter->translation->x>60){
+    if(bulletCharacter->translation->z<=-69 || bulletCharacter->translation->x<-60 || bulletCharacter->translation->x>60) {
         bulletCharacter->firing = false;
     }
 }
 
-void fireBulletHit(){
+void fireBulletHit() {
     cout << "The bullet hit the target \n";
 }
 
-void fireGrenadeStart(character* grenadeCharacter){
+void fireGrenadeStart(character* grenadeCharacter) {
     grenadeCharacter->bezierTranslationPoints [0] = vector(grenadeCharacter->translation->x,grenadeCharacter->translation->y,grenadeCharacter->translation->z);
     grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+40,grenadeCharacter->translation->z);
     grenadeCharacter->bezierTranslationPoints [2] = vector(0,grenadeCharacter->translation->y+40,0);
     grenadeCharacter->bezierTranslationPoints [3] = vector(0,-60,-50); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
     grenadeCharacter->firing = true;
-
+    
 }
 
-void fireGrenadeLogic(character* grenadeCharacter){
+void fireGrenadeLogic(character* grenadeCharacter) {
     int p0[2] = {static_cast<int>(grenadeCharacter->bezierTranslationPoints [0].z), static_cast<int>(grenadeCharacter->bezierTranslationPoints [0].y)};
     int p1[2] = {static_cast<int>(grenadeCharacter->bezierTranslationPoints [1].z), static_cast<int>(grenadeCharacter->bezierTranslationPoints [1].y)};
     int p2[2] = {static_cast<int>(grenadeCharacter->bezierTranslationPoints [2].z), static_cast<int>(grenadeCharacter->bezierTranslationPoints [2].y)};
     int p3[2] = {static_cast<int>(grenadeCharacter->bezierTranslationPoints [3].z),static_cast<int>(grenadeCharacter->bezierTranslationPoints [3].y)};
-
+    
     if (!(grenadeCharacter->bezierTranslation>1)) {
         grenadeCharacter->deepRotation->a+=10;
         grenadeCharacter->deepRotation->z=1;
@@ -648,30 +648,30 @@ void fireGrenadeLogic(character* grenadeCharacter){
         int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
         grenadeCharacter->translation->z = p[0];
         grenadeCharacter->translation->y = p[1];
-        if (hitTarget(grenadeCharacter)){
-                grenadeCharacter->firing = false;
-                cout << "The grenade hit the target \n";
-            }
-            }else{
-                //hitting floor condition // as end of bezier is floor - radius
+        if (hitTarget(grenadeCharacter)) {
             grenadeCharacter->firing = false;
-            cout << "The grenade hit the floor \n";
+            cout << "The grenade hit the target \n";
+        }
+    } else {
+        //hitting floor condition // as end of bezier is floor - radius
+        grenadeCharacter->firing = false;
+        cout << "The grenade hit the floor \n";
     }
 }
 
-void fireGrenade(character* grenadeCharacter){
-    if(!grenadeCharacter->firing){
+void fireGrenade(character* grenadeCharacter) {
+    if(!grenadeCharacter->firing) {
         fireGrenadeStart(grenadeCharacter);
-    }else{
-     fireGrenadeLogic(grenadeCharacter);
+    } else {
+        fireGrenadeLogic(grenadeCharacter);
     }
 }
 
-void fireShuriken(character* shurikenCharacter){
+void fireShuriken(character* shurikenCharacter) {
     
 }
 
-bool hitTarget(character* character){
+bool hitTarget(character* character) {
     switch (gameStat.currCharacter) {
         case 0:
             return character->translation->z == target.translation->z && character->translation->x > target.translation->x - target.radius
@@ -690,7 +690,7 @@ bool hitTarget(character* character){
     return false;
 }
 
-void initGame(){
+void initGame() {
     mainCharacter.translation->set(0, 0, 68);
     mainCharacter.rotation->set(0,0,0,0);
     mainCharacter.deepRotation->set(0,0,0,0);
@@ -698,7 +698,7 @@ void initGame(){
     target.translation->set(0, 0, 0);
 }
 
-void endGame(){
+void endGame() {
     glutReshapeWindow(windowWidth, windowHeight);
     gameStat.gameOver = true;
     exit (0);
@@ -771,7 +771,7 @@ void Display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
     
-    if(!gameStat.gameOver){
+    if(!gameStat.gameOver) {
         setupCamera();
         setupLights();
         
@@ -786,7 +786,7 @@ void Display() {
 void anim()
 {
     cout << mainCharacter.translation->toString();
-    if(mainCharacter.firing){
+    if(mainCharacter.firing) {
         switch (gameStat.currCharacter) {
             case 0:
                 fireBullet(&mainCharacter);
@@ -799,7 +799,7 @@ void anim()
     glutPostRedisplay();
 }
 
-void passM(int x,int y){
+void passM(int x,int y) {
     float mappedX = (x - (windowWidth/2));
     if(mappedX>-320 && mappedX < 320)
         gameCam.eyeX = mappedX*0.2;
@@ -819,17 +819,17 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             target.translation->z++;
             break;
         case 's':
-            if(target.translation->z!=1){
+            if(target.translation->z!=1) {
                 target.translation->z--;
             }
             break;
         case 'd':
-            if(target.translation->x!=(29)){
+            if(target.translation->x!=(29)) {
                 target.translation->x++;
             }
             break;
         case 'a':
-            if(target.translation->x!=(-29)){
+            if(target.translation->x!=(-29)) {
                 target.translation->x--;
             }
             break;
