@@ -842,7 +842,6 @@ void initGame() {
 }
 
 void endGame() {
-    glutReshapeWindow(windowWidth, windowHeight);
     gameStat.gameOver = true;
     exit (0);
 }
