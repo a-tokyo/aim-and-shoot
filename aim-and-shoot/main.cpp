@@ -782,7 +782,7 @@ void fireGrenadeLogic(character* grenadeCharacter) {
 }
 
 void fireShuriken(character* shurikenCharacter) {
-    
+    // TODO
 }
 
 bool hitTarget(character* character) {
