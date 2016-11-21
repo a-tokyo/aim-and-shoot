@@ -78,21 +78,6 @@ typedef struct quadraple {
         return "["+ std::to_string(a) + ", "+ std::to_string(x) + ", "+ std::to_string(y) + std::to_string(z)+"]" ;
     }
 } quadraple;
-typedef struct rgbColor {
-    float r;
-    float g;
-    float b;
-    rgbColor(float r, float g, float b) {
-        this->r = r;
-        this->g = g;
-        this->b =b;
-    }
-    rgbColor() {
-        this->r = 1;
-        this->g = 1;
-        this->b =1;
-    }
-} rgbColor;
 typedef struct character {
     vector *translation;
     quadraple *rotation;
