@@ -78,6 +78,10 @@ typedef struct character {
     bool firing;
     float bezierTranslation;
     vector bezierTranslationPoints [4];
+    character(){
+        this->firing = false;
+        this->bezierTranslation = 0;
+    }
     character(vector *translation, quadraple *rotation){
         this->translation = translation;
         this->rotation = rotation;
@@ -198,7 +202,7 @@ void Anim();
 //int rd=1;
 
 //Basic game state
-gameStatus gameStat("basic", 2); //0 for bullet, 1 for grenade, 2 for shuriken
+gameStatus gameStat("basic", 0); //0 for bullet, 1 for grenade, 2 for shuriken
 
 gameCamera gameCam(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
@@ -212,6 +216,7 @@ vector bulletTranslation(0,0,68);
 quadraple bulletRotation(0,0,0,0);
 quadraple bulletDeepRotation(0,0,0,0);
 character bullet(&bulletTranslation, &bulletRotation, &bulletDeepRotation);
+character mainCharacter(&bulletTranslation, &bulletRotation, &bulletDeepRotation);
 
 
 vector shurikenTranslation(0,0,68);
@@ -520,18 +525,18 @@ void createTarget (scoreBoardTarget* target){
     
 }
 
-void drawCharacters(){
+void drawCharacters(scoreBoardTarget* target ,character* character){
     createRoom();
-    createTarget(&target);
+    createTarget(target);
     switch(gameStat.currCharacter) {
         case 0:
-            createBullet(&bullet);
+            createBullet(character);
             break;
         case 1:
-            createGrenade(&grenade);
+            createGrenade(character);
             break;
         case 2:
-            createShuriken(&shuriken);
+            createShuriken(character);
             break;
     }
 }
@@ -542,39 +547,14 @@ void drawCharacters(){
 //Aiming
 
 void changeCharacterTrajectoryAimLogic(int direction){
-    switch (gameStat.currCharacter) {
-        case 0: // Bullet
-            switch (direction) {
-                case 0:
-                    bullet.setRotation(bullet.rotation->a-2, 0,1,0);
-                    break;
-                case 1:
-                    bullet.setRotation(bullet.rotation->a+2, 0,1,0);
-                    break;
-            }
+    switch (direction) {
+        case 0:
+            mainCharacter.setRotation(mainCharacter.rotation->a-2, 0,1,0);
             break;
-        case 1: // Grenade
-            switch (direction) {
-                case 0:
-                    grenade.setRotation(grenade.rotation->a-2, 0,1,0);
-                    break;
-                case 1:
-                    grenade.setRotation(grenade.rotation->a+2, 0,1,0);
-                    break;
-            }
-            break;
-        case 2: // Shuriken
-            switch (direction) {
-                case 0:
-                    
-                    break;
-                case 1:
-                    
-                    break;
-            }
+        case 1:
+            mainCharacter.setRotation(mainCharacter.rotation->a+2, 0,1,0);
             break;
     }
-    
 }
 
 
@@ -583,13 +563,13 @@ void changeCharacterTrajectoryAimLogic(int direction){
 void fireCharacter(){
     switch(gameStat.currCharacter) {
         case 0:
-            fireBullet(&bullet);
+            fireBullet(&mainCharacter);
             break;
         case 1:
-            fireGrenade(&grenade);
+            fireGrenade(&mainCharacter);
             break;
         case 2:
-            fireShuriken(&shuriken);
+            fireShuriken(&mainCharacter);
             break;
     }
 }
@@ -770,7 +750,8 @@ void Display() {
         setupCamera();
         setupLights();
         
-        drawCharacters();
+        drawCharacters(&target, &mainCharacter);
+        
     }
     
     glPopMatrix();
@@ -779,11 +760,15 @@ void Display() {
 
 void anim()
 {
-    if(bullet.firing){
-        fireBullet(&bullet);
-    }
-    if(grenade.firing){
-        fireGrenade(&grenade);
+    if(mainCharacter.firing){
+        switch (gameStat.currCharacter) {
+            case 0:
+                fireBullet(&mainCharacter);
+                break;
+            case 1:
+                fireGrenade(&mainCharacter);
+                break;
+        }
     }
     glutPostRedisplay();
 }
