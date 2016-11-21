@@ -323,7 +323,7 @@ void createBullet (character* thisCharacter) {
     glPopMatrix();
     
     glPushMatrix();
-    glTranslated(0, 0, 7+5+4+3);
+    glTranslated(0, 0, 7+5+4+3+0.01);
     glColor3f(0.4, 0.4, 0.4);
     glutSolidTorus(0.2,1.8, 32, 32);
     glPopMatrix();
