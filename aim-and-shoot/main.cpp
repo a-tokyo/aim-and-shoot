@@ -684,6 +684,9 @@ void replayFiringCamLogic(){
                     case 1:
                         gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y>0?mainCharacter.translation->y-12:mainCharacter.translation->y+25, mainCharacter.translation->z>0?mainCharacter.translation->z-10:mainCharacter.translation->z+10);
                         break;
+                    case 2:
+                        gameCam.setCenter(mainCharacter.translation->x>0?mainCharacter.translation->x-10:mainCharacter.translation->x+10, mainCharacter.translation->y, mainCharacter.translation->z);
+                        break;
                 }
                 break;
             case 1:
@@ -692,7 +695,14 @@ void replayFiringCamLogic(){
                         gameCam.setEye(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z);
                         break;
                     case 1:
+                        gameCam.setEye(0, mainCharacter.translation->y, mainCharacter.translation->z+30);
                         break;
+                    case 2:
+                        if(mainCharacter.translation->z>0){
+                        gameCam.setEye(0, mainCharacter.translation->y, mainCharacter.translation->z);
+                        }
+                        gameCam.setCenter(mainCharacter.translation->x>0?mainCharacter.translation->x-10:mainCharacter.translation->x+10, mainCharacter.translation->y, mainCharacter.translation->z);
+
                 }
                 break;
         }
