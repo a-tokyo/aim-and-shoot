@@ -808,9 +808,9 @@ void fireShurikenLogic(character* shurikenCharacter) {
 
 void fireShurikenStart(character* shurikenCharacter) {
     shurikenCharacter->bezierTranslationPoints [0] = vector(shurikenCharacter->translation->x,shurikenCharacter->translation->y,shurikenCharacter->translation->z);
-    shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)*toRad+40,0,shurikenCharacter->translation->z-90);
-    shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)*toRad+40,0,shurikenCharacter->translation->z-90);
-    shurikenCharacter->bezierTranslationPoints [3] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)*toRad-70,0,-60); // -60 in Y is floor
+    shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a*toRad)+40,0,shurikenCharacter->translation->z-90);
+    shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a*toRad)+40,0,shurikenCharacter->translation->z-90);
+    shurikenCharacter->bezierTranslationPoints [3] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a*toRad)-70,0,-60); // -60 in Y is floor
     shurikenCharacter->isFiring = true;
     
 }
