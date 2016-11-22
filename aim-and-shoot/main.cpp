@@ -289,7 +289,7 @@ gameStatus gameStat("basic", 0); //0 for bullet, 1 for grenade, 2 for shuriken
 gameCamera gameCam(0, 0, 180, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // Defining default camera
 
 vector mainCharacterTranslation(0,0,120);
-vector mainCharacterInitialTranslation(0,0,120);
+vector mainCharacterInitialTranslation(0,0,0);
 quadraple mainCharacterRotation(0,0,0,0);
 quadraple mainCharacterInitialRotation(0,0,0,0);
 quadraple mainCharacterDeepRotation(0,0,0,0);
