@@ -968,7 +968,6 @@ void setupCamera() {
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    cout << gameCam.DefaultEye.toString();
     gluLookAt(gameCam.eyeX, gameCam.eyeY, gameCam.eyeZ, gameCam.centerX, gameCam.centerY, gameCam.centerZ, gameCam.upX, gameCam.upY, gameCam.upZ);
 }
 
