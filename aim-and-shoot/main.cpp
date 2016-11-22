@@ -84,9 +84,10 @@ typedef struct character {
     quadraple *deepRotation;
     vector *firingInitialTranslation;
     quadraple *firingInitialRotation;
+    float trajectoryXrotation;
+    float bezierTranslation;
     bool isFiring;
     bool hasFired;
-    float bezierTranslation;
     vector bezierTranslationPoints [4];
     character(vector *translation, quadraple *rotation, quadraple *deepRotation, vector *firingInitialTranslation, quadraple *firingInitialRotation) {
         this->translation = translation;
@@ -94,6 +95,8 @@ typedef struct character {
         this->deepRotation = deepRotation;
         this->firingInitialTranslation = firingInitialTranslation;
         this->firingInitialRotation = firingInitialRotation;
+        this->trajectoryXrotation = 0;
+        this->bezierTranslation = 0;
         this->isFiring = false;
         this->hasFired = false;
     }
@@ -115,6 +118,7 @@ typedef struct character {
         rotation->z = z;
     }
     void resetAttrs() {
+        this->trajectoryXrotation = 0;
         this->bezierTranslation = 0;
         this->isFiring = false;
         this->hasFired = false;
@@ -300,7 +304,6 @@ scoreBoardTarget target(&targetTranslation, 20);
 //GLuint texEarthID;
 
 //trials
-int rotAngle = 0;
 
 
 //end of initializations
@@ -308,6 +311,7 @@ int rotAngle = 0;
 void createBullet (character* thisCharacter) {
     glPushMatrix();
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
+    glRotated(thisCharacter->trajectoryXrotation ,1, 0,0);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
     
@@ -373,7 +377,7 @@ void createBullet (character* thisCharacter) {
 void createGrenade (character* thisCharacter) {
     glPushMatrix();
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
-    glRotated(rotAngle ,1, 0,0);
+    glRotated(thisCharacter->trajectoryXrotation, 1, 0, 0);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
     GLUquadricObj * qobj;
@@ -477,7 +481,7 @@ void createShurikenPart () {
 
 void createShuriken(character* thisCharacter) {
     glPushMatrix();
-    glRotated(rotAngle, 1, 0, 0);
+    glRotated(thisCharacter->trajectoryXrotation, 1, 0, 0);
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
@@ -971,11 +975,11 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 changeCharacterTrajectoryAimLogic(1);
                 break;
             case 'o':
-                rotAngle-=3;
+                mainCharacter.trajectoryXrotation-=3;
                 break;
                 
             case 'p':
-                rotAngle+=3;
+                 mainCharacter.trajectoryXrotation+=3;
                 break;
         }
     }
