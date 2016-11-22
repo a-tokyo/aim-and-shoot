@@ -1016,7 +1016,6 @@ int main(int argc, char** argv)
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
     
-    
     glShadeModel(GL_SMOOTH);
     //	glEnable(GL_TEXTURE_2D);
     //	loadBMP(&texEarthID, "textures/earth.bmp", false);
