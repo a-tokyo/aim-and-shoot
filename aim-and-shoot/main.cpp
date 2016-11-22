@@ -255,7 +255,6 @@ int* bezier(float t, int* p0,int* p1,int* p2,int* p3);
 void changeCharacterTrajectoryAimLogic(int direction);
 void fireCharacter();
 void fireBullet(character* bulletCharacter);
-void fireBulletRotation(character* bulletCharacter);
 void fireGrenade(character* grenadeCharacter);
 void fireGrenadeStart(character* grenadeCharacter);
 void fireGrenadeLogic(character* grenadeCharacter);
@@ -726,7 +725,8 @@ void replayFiringCamLogic(){
 void fireBullet(character* bulletCharacter) {
     bulletCharacter->isFiring = true;
     // Rotation of bullet around its axis
-    fireBulletRotation(bulletCharacter);
+    bulletCharacter->deepRotation->a +=2;
+    bulletCharacter->deepRotation->z= 1;
     // Z axis default translation
     bulletCharacter->translation->z -= 1*0.5;
     // X axis conditional translation
@@ -744,12 +744,6 @@ void fireBullet(character* bulletCharacter) {
         bulletCharacter->isFiring = false;
         characterHit();
     }
-}
-
-void fireBulletRotation(character* bulletCharacter) {
-    bulletCharacter->deepRotation->a +=2;
-    bulletCharacter->deepRotation->z= 1;
-    //    cout << "Bullet around its axis rotation angle is: "<< bulletCharacter->deepRotation->a<<"\n";
 }
 
 void fireGrenade(character* grenadeCharacter) {
