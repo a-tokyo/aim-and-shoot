@@ -6,7 +6,6 @@
 #include <math.h>
 using namespace std; //for using std::out and similar features
 #define PI 3.14159265
-#define toDeg 57.2957795131
 #define toRad 0.01745329251
 
 //global structs
@@ -732,10 +731,10 @@ void fireBullet(character* bulletCharacter) {
     // X axis conditional translation
     if (bulletCharacter->rotation->a != 0) {
         if(bulletCharacter->rotation->a < 0) {
-            float slope = tan ((180+bulletCharacter->rotation->a) * toDeg);
+            float slope = tan ((180+bulletCharacter->rotation->a) * toRad);
             bulletCharacter->translation->x += slope*0.01;
         } else {
-            float slope = tan ((180-bulletCharacter->rotation->a) * toDeg);
+            float slope = tan ((180-bulletCharacter->rotation->a) * toRad);
             bulletCharacter->translation->x -= slope*0.01;
         }
     }
