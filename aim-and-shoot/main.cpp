@@ -292,7 +292,7 @@ quadraple mainCharacterInitialRotation(0,0,0,0);
 quadraple mainCharacterDeepRotation(0,0,0,0);
 character mainCharacter(&mainCharacterTranslation, &mainCharacterRotation, &mainCharacterDeepRotation,&mainCharacterInitialTranslation ,&mainCharacterInitialRotation);
 
-vector targetTranslation(0,0,-10);
+vector targetTranslation(0,0,-50);
 scoreBoardTarget target(&targetTranslation, 20);
 
 //GLuint texEarthID;
@@ -746,9 +746,9 @@ void fireGrenade(character* grenadeCharacter) {
 
 void fireGrenadeStart(character* grenadeCharacter) {
     grenadeCharacter->bezierTranslationPoints [0] = vector(grenadeCharacter->translation->x,grenadeCharacter->translation->y,grenadeCharacter->translation->z);
-    grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+40,grenadeCharacter->translation->z);
-    grenadeCharacter->bezierTranslationPoints [2] = vector(0,grenadeCharacter->translation->y+40,0);
-    grenadeCharacter->bezierTranslationPoints [3] = vector(0,-60,-50); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
+    grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+65,grenadeCharacter->translation->z);
+    grenadeCharacter->bezierTranslationPoints [2] = vector(0,grenadeCharacter->translation->y+65,0);
+    grenadeCharacter->bezierTranslationPoints [3] = vector(0,-60,-100); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
     grenadeCharacter->isFiring = true;
     
 }
@@ -810,9 +810,9 @@ void fireShurikenLogic(character* shurikenCharacter) {
 
 void fireShurikenStart(character* shurikenCharacter) {
     shurikenCharacter->bezierTranslationPoints [0] = vector(shurikenCharacter->translation->x,shurikenCharacter->translation->y,shurikenCharacter->translation->z);
-    shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->x+40,0,shurikenCharacter->translation->z-60);
-    shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->x+40,0,shurikenCharacter->translation->z-60);
-    shurikenCharacter->bezierTranslationPoints [3] = vector(-30,0,-60); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
+    shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->x+50,0,shurikenCharacter->translation->z-90);
+    shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->x+50,0,shurikenCharacter->translation->z-90);
+    shurikenCharacter->bezierTranslationPoints [3] = vector(-20,0,-60); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
     shurikenCharacter->isFiring = true;
     
 }
@@ -884,7 +884,7 @@ void initGame() {
     mainCharacter.rotation->set(0,0,0,0);
     mainCharacter.deepRotation->set(0,0,0,0);
     mainCharacter.resetAttrs();
-    target.translation->set(0, 0, 0);
+    target.translation->set(&targetTranslation);
 }
 
 void endGame() {
@@ -936,12 +936,12 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 }
                 break;
             case 'd':
-                if(target.translation->x!=(29)) {
+                if(target.translation->x!=(45)) {
                     target.translation->x++;
                 }
                 break;
             case 'a':
-                if(target.translation->x!=(-29)) {
+                if(target.translation->x!=(-45)) {
                     target.translation->x--;
                 }
                 break;
