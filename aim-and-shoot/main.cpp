@@ -246,6 +246,7 @@ void createTarget();
 // Gameplay
 void drawGame();
 bool hitTarget(character* character);
+bool hitWall(character* character);
 void initGame();
 void endGame();
 // Motion
@@ -258,6 +259,8 @@ void fireGrenade(character* grenadeCharacter);
 void fireGrenadeStart(character* grenadeCharacter);
 void fireGrenadeLogic(character* grenadeCharacter);
 void fireShuriken(character* shurikenCharacter);
+void fireShurikenStart(character* grenadeCharacter);
+void fireShurikenLogic(character* grenadeCharacter);
 void characterHit();
 // Replay
 void replay();
@@ -283,16 +286,16 @@ static int windowWidth = 1080;
 //Basic game state
 
 gameStatus gameStat("basic", 0); //0 for bullet, 1 for grenade, 2 for shuriken
-gameCamera gameCam(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // Defining default camera
+gameCamera gameCam(0, 0, 180, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // Defining default camera
 
-vector mainCharacterTranslation(0,0,68);
-vector mainCharacterInitialTranslation(0,0,68);
+vector mainCharacterTranslation(0,0,120);
+vector mainCharacterInitialTranslation(0,0,120);
 quadraple mainCharacterRotation(0,0,0,0);
 quadraple mainCharacterInitialRotation(0,0,0,0);
 quadraple mainCharacterDeepRotation(0,0,0,0);
 character mainCharacter(&mainCharacterTranslation, &mainCharacterRotation, &mainCharacterDeepRotation,&mainCharacterInitialTranslation ,&mainCharacterInitialRotation);
 
-vector targetTranslation(0,0,-50);
+vector targetTranslation(0,0,5);
 scoreBoardTarget target(&targetTranslation, 20);
 
 //GLuint texEarthID;
@@ -532,14 +535,14 @@ void createRoom () {
     glPushMatrix();
     glNormal3f(0, 0, 1);
     glColor3f(0,0.6,1);
-    glTranslated(0, 0, -70);
+    glTranslated(0, 0, 0);
     createWall();
     glPopMatrix();
     
     glPushMatrix();
     glNormal3f(-1, 0, 0);
     glColor3f(0.8,0.4,0.4);
-    glTranslated(70, 0, 0);
+    glTranslated(70, 0, 70);
     glRotated(90, 0, 1, 0);
     createWall();
     glPopMatrix();
@@ -547,7 +550,7 @@ void createRoom () {
     glPushMatrix();
     glNormal3i(1, 0, 0);
     glColor3f(0.8,0.4,0.4);
-    glTranslated(-70, 0, 0);
+    glTranslated(-70, 0, 70);
     glRotated(90, 0, 1, 0);
     createWall();
     glPopMatrix();
@@ -556,7 +559,7 @@ void createRoom () {
     glPushMatrix();
     glNormal3f(0, -1, 0);
     glColor3f(0.9,0.5,0.3);
-    glTranslated(0, 70, 0);
+    glTranslated(0, 70, 70);
     glRotated(90, 1, 0, 0);
     createWall();
     glPopMatrix();
@@ -565,7 +568,7 @@ void createRoom () {
     glPushMatrix();
     glNormal3f(0, 1, 0);
     glColor3f(0.9,0.5,0.3);
-    glTranslated(0, -70, 0);
+    glTranslated(0, -70, 70);
     glRotated(90, 1, 0, 0);
     createWall();
     glPopMatrix();
@@ -729,12 +732,7 @@ void fireBullet(character* bulletCharacter) {
         }
     }
     // hit or miss logic
-    if(hitTarget(bulletCharacter)) {
-        bulletCharacter->isFiring = false;
-        characterHit();
-    }
-    // if bullet hit the back wall // if bullet
-    if(bulletCharacter->translation->z<=-69 || bulletCharacter->translation->x<-60 || bulletCharacter->translation->x>60) {
+    if(hitTarget(bulletCharacter) || hitWall(bulletCharacter)) {
         bulletCharacter->isFiring = false;
         characterHit();
     }
@@ -758,7 +756,7 @@ void fireGrenadeStart(character* grenadeCharacter) {
     grenadeCharacter->bezierTranslationPoints [0] = vector(grenadeCharacter->translation->x,grenadeCharacter->translation->y,grenadeCharacter->translation->z);
     grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+65,grenadeCharacter->translation->z);
     grenadeCharacter->bezierTranslationPoints [2] = vector(0,grenadeCharacter->translation->y+65,0);
-    grenadeCharacter->bezierTranslationPoints [3] = vector(0,-60,-100); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
+    grenadeCharacter->bezierTranslationPoints [3] = vector(0,-60,0); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
     grenadeCharacter->isFiring = true;
     
 }
@@ -777,16 +775,11 @@ void fireGrenadeLogic(character* grenadeCharacter) {
         int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
         grenadeCharacter->translation->z = p[0];
         grenadeCharacter->translation->y = p[1];
-        if (hitTarget(grenadeCharacter)) {
-            grenadeCharacter->isFiring = false;
-            characterHit();
-            cout << "The grenade hit the target \n";
-        }
-    } else {
-        //hitting floor condition // as end of bezier is floor - radius
+    }
+    if (hitTarget(grenadeCharacter) || hitWall(grenadeCharacter)) {
         grenadeCharacter->isFiring = false;
         characterHit();
-        cout << "The grenade hit the floor "<< grenadeCharacter->translation->toString()<<"\n";
+        cout << "The grenade hit the target \n";
     }
 }
 
@@ -801,20 +794,15 @@ void fireShurikenLogic(character* shurikenCharacter) {
     if (!(shurikenCharacter->bezierTranslation>1)) {
         shurikenCharacter->deepRotation->a+=20;
         shurikenCharacter->deepRotation->y=1;
-        shurikenCharacter->bezierTranslation+=0.03;
+        shurikenCharacter->bezierTranslation+=0.01;
         int* p =bezier(shurikenCharacter->bezierTranslation,p0,p1,p2,p3);
         shurikenCharacter->translation->z = p[0];
         shurikenCharacter->translation->x = p[1];
-        if (hitTarget(shurikenCharacter)) {
-            shurikenCharacter->isFiring = false;
-            characterHit();
-            cout << "The Shuriken hit the target \n";
-        }
-    } else {
-        //hitting floor condition // as end of bezier is floor - radius
+    }
+    if (hitTarget(shurikenCharacter) || hitWall(shurikenCharacter)) {
         shurikenCharacter->isFiring = false;
         characterHit();
-        cout << "The Shuriken hit the floor "<< shurikenCharacter->translation->toString()<<"\n";
+        cout << "The Shuriken hit \n";
     }
 }
 
@@ -836,6 +824,21 @@ void fireShuriken(character* shurikenCharacter) {
 }
 
 
+bool hitWall(character* character){
+    switch (gameStat.currCharacter) {
+        case 0:
+                return (character->translation->z<=0 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
+            break;
+        case 1:
+            return (character->translation->z<=10 ||character->translation->z<=-10 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
+            break;
+        case 2:
+            return (character->translation->z<=10 ||character->translation->z<=-10 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
+            break;
+    }
+    return false;
+}
+
 bool hitTarget(character* character) {
     switch (gameStat.currCharacter) {
         case 0:
@@ -851,12 +854,12 @@ bool hitTarget(character* character) {
             break;
         case 2:
             // TODO CONV TO SHURIKEN
-            return character->translation->z <= target.translation->z+5
+            return character->translation->z <= target.translation->z+10
             && character->translation->z >= target.translation->z
             && character->translation->y > target.translation->y - target.radius
             && character->translation->y < target.translation->y + target.radius
-            && character->translation->x > target.translation->x - target.radius
-            && character->translation->x < target.translation->x + target.radius;
+            && character->translation->x > target.translation->x - target.radius-3
+            && character->translation->x < target.translation->x + target.radius+3;
             break;
     }
     return false;
@@ -888,9 +891,9 @@ void replay(){
 }
 
 void initGame() {
-    gameCam.set(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gameCam.reset();
     gameStat.reset();
-    mainCharacter.translation->set(0, 0, 68);
+    mainCharacter.translation->set(0, 0, 140);
     mainCharacter.rotation->set(0,0,0,0);
     mainCharacter.deepRotation->set(0,0,0,0);
     mainCharacter.resetAttrs();
@@ -941,7 +944,7 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 target.translation->z++;
                 break;
             case 's':
-                if(target.translation->z!=-50) {
+                if(target.translation->z!=1) {
                     target.translation->z--;
                 }
                 break;
