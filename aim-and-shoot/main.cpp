@@ -696,18 +696,6 @@ void replayFiringCamLogic(){
                 break;
         }
     }else{
-//        switch (gameStat.replayCam) {
-//            case 0:
-//                switch (gameStat.currCharacter) {
-//                    case 1:
-//                        gameCam.setCenter(0, 0, 0);
-//                        break;
-//                }
-//                break;
-//            case 1:
-//                gameCam.setEye(0, 0, 100);
-//                break;
-//        }
         gameCam.reset();
 
     }
