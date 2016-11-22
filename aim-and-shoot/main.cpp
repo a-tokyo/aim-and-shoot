@@ -894,10 +894,10 @@ void initGame() {
     gameCam.reset();
     gameStat.reset();
     mainCharacter.resetAttrs();
-    mainCharacter.translation->set(&mainCharacterTranslation);
-    mainCharacter.rotation->set(&mainCharacterRotation);
-    mainCharacter.deepRotation->set(&mainCharacterDeepRotation);
-    target.translation->set(&targetTranslation);
+    mainCharacter.translation->set(0,0,140);
+    mainCharacter.rotation->set(0,0,0,0);
+    mainCharacter.deepRotation->set(0,0,0,0);
+    target.translation->set(0,0,5);
 }
 
 void endGame() {
