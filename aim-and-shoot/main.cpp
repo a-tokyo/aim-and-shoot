@@ -780,7 +780,6 @@ void fireGrenadeLogic(character* grenadeCharacter) {
     if (hitTarget(grenadeCharacter) || hitWall(grenadeCharacter)) {
         grenadeCharacter->isFiring = false;
         characterHit();
-        cout << "The grenade hit the target \n";
     }
 }
 
@@ -803,7 +802,6 @@ void fireShurikenLogic(character* shurikenCharacter) {
     if (hitTarget(shurikenCharacter) || hitWall(shurikenCharacter)) {
         shurikenCharacter->isFiring = false;
         characterHit();
-        cout << "The Shuriken hit \n";
     }
 }
 
@@ -811,7 +809,7 @@ void fireShurikenStart(character* shurikenCharacter) {
     shurikenCharacter->bezierTranslationPoints [0] = vector(shurikenCharacter->translation->x,shurikenCharacter->translation->y,shurikenCharacter->translation->z);
     shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)*toRad+40,0,shurikenCharacter->translation->z-90);
     shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)*toRad+40,0,shurikenCharacter->translation->z-90);
-    shurikenCharacter->bezierTranslationPoints [3] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)*toRad-70,0,-60); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
+    shurikenCharacter->bezierTranslationPoints [3] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)*toRad-70,0,-60); // -60 in Y is floor
     shurikenCharacter->isFiring = true;
     
 }
