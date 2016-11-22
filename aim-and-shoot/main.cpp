@@ -632,18 +632,25 @@ void changeCharacterTrajectoryAimLogic(int direction) {
     bool canDecrease = true;
     switch (gameStat.currCharacter) {
         case 0:
-            if(mainCharacter.rotation->a == 48)
+            if(mainCharacter.rotation->a >= 24)
                 canIncrease = false;
-            if(mainCharacter.rotation->a == -48)
+            if(mainCharacter.rotation->a <= -24)
                 canDecrease = false;
             break;
         case 1:
-            if(mainCharacter.rotation->a == 40)
+            if(mainCharacter.rotation->a >= 28)
                 canIncrease = false;
-            if(mainCharacter.rotation->a == -40)
+            if(mainCharacter.rotation->a <= -28)
+                canDecrease = false;
+            break;
+        case 2:
+            if(mainCharacter.rotation->a >= 26)
+                canIncrease = false;
+            if(mainCharacter.rotation->a <= -26)
                 canDecrease = false;
             break;
     }
+    cout << mainCharacter.rotation->a;
     if(direction == 0 && canDecrease)
         mainCharacter.setRotation(mainCharacter.rotation->a-2, 0,1,0);
     if(direction == 1 && canIncrease)
