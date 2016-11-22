@@ -690,18 +690,22 @@ void replayFiringCamLogic(){
                 break;
         }
     }else{
-        switch (gameStat.replayCam) {
-            case 0:
-                switch (gameStat.currCharacter) {
-                    case 1:
-                        gameCam.setCenter(0, 0, 0);
-                        break;
-                }
-                break;
-            case 1:
-                gameCam.setEye(0, 0, 100);
-                break;
-        }
+//        switch (gameStat.replayCam) {
+//            case 0:
+//                switch (gameStat.currCharacter) {
+//                    case 1:
+//                        gameCam.setCenter(0, 0, 0);
+//                        break;
+//                }
+//                break;
+//            case 1:
+//                gameCam.setEye(0, 0, 100);
+//                break;
+//        }
+                                gameCam.setCenter(0, 0, 0);
+                        gameCam.setEye(0, 0, 100);
+
+
     }
 }
 
@@ -832,7 +836,7 @@ void replay(){
 }
 
 void initGame() {
-    gameCam.set(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gameCam.set(0, 0, 100, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     gameStat.reset();
     mainCharacter.translation->set(0, 0, 68);
     mainCharacter.rotation->set(0,0,0,0);
