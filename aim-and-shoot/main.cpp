@@ -657,10 +657,10 @@ void changeCharacterTrajectoryAimLogic(int direction) {
         mainCharacter.setRotation(mainCharacter.rotation->a-2, 0,1,0);
     if(direction == 2 && canIncreaseY)
         mainCharacter.setRotation(mainCharacter.rotation->a+2, 0,1,0);
-    if(direction == 3){
+    if(direction == 3 && mainCharacter.trajectoryXrotation>=-10){
         mainCharacter.trajectoryXrotation-=2;
     }
-    if(direction == 4){
+    if(direction == 4 && mainCharacter.trajectoryXrotation<=10){
         mainCharacter.trajectoryXrotation+=2;
     }
     
