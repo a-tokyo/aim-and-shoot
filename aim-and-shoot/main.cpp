@@ -7,6 +7,7 @@
 using namespace std; //for using std::out and similar features
 #define PI 3.14159265
 #define toDeg 57.2957795131
+#define toRad 0.01745329251
 
 //global structs
 typedef struct vector {
@@ -808,9 +809,9 @@ void fireShurikenLogic(character* shurikenCharacter) {
 
 void fireShurikenStart(character* shurikenCharacter) {
     shurikenCharacter->bezierTranslationPoints [0] = vector(shurikenCharacter->translation->x,shurikenCharacter->translation->y,shurikenCharacter->translation->z);
-    shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->x+50,0,shurikenCharacter->translation->z-90);
-    shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->x+50,0,shurikenCharacter->translation->z-90);
-    shurikenCharacter->bezierTranslationPoints [3] = vector(-20,0,-60); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
+    shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)*toRad+40,0,shurikenCharacter->translation->z-90);
+    shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)*toRad+40,0,shurikenCharacter->translation->z-90);
+    shurikenCharacter->bezierTranslationPoints [3] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)*toRad-70,0,-60); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
     shurikenCharacter->isFiring = true;
     
 }
