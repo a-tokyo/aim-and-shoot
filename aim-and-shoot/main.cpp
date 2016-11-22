@@ -396,6 +396,8 @@ void createGrenade (character* thisCharacter) {
     gluQuadricNormals(qobj, GLU_SMOOTH);
     glutSolidSphere(10, 32, 32);
     glPopMatrix();
+    glPopMatrix();
+
     
     glPopMatrix();
 }
