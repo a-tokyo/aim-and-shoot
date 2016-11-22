@@ -757,7 +757,7 @@ void fireGrenadeStart(character* grenadeCharacter) {
     grenadeCharacter->bezierTranslationPoints [0] = vector(grenadeCharacter->translation->x,grenadeCharacter->translation->y,grenadeCharacter->translation->z);
     grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+65,grenadeCharacter->translation->z);
     grenadeCharacter->bezierTranslationPoints [2] = vector(0,grenadeCharacter->translation->y+65,0);
-    grenadeCharacter->bezierTranslationPoints [3] = vector(0,-60,0); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
+    grenadeCharacter->bezierTranslationPoints [3] = vector(0,-45,0); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
     grenadeCharacter->isFiring = true;
     
 }
