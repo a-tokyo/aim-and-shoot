@@ -698,7 +698,7 @@ void replayFiringCamLogic(){
                         gameCam.setEye(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z);
                         break;
                     case 1:
-                        gameCam.setEye(0, mainCharacter.translation->y, mainCharacter.translation->z+30);
+                        gameCam.setEye(0, mainCharacter.translation->y, mainCharacter.translation->z+20);
                         break;
                     case 2:
                         if(mainCharacter.translation->z>0){
@@ -725,10 +725,10 @@ void fireBullet(character* bulletCharacter) {
     if (bulletCharacter->rotation->a != 0) {
         if(bulletCharacter->rotation->a < 0) {
             float slope = tan ((180+bulletCharacter->rotation->a) * toDeg);
-            bulletCharacter->translation->x += slope*0.005;
+            bulletCharacter->translation->x += slope*0.01;
         } else {
             float slope = tan ((180-bulletCharacter->rotation->a) * toDeg);
-            bulletCharacter->translation->x -= slope*0.005;
+            bulletCharacter->translation->x -= slope*0.01;
         }
     }
     // hit or miss logic
@@ -827,7 +827,7 @@ void fireShuriken(character* shurikenCharacter) {
 bool hitWall(character* character){
     switch (gameStat.currCharacter) {
         case 0:
-                return (character->translation->z<=0 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
+                return (character->translation->z<=3 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
             break;
         case 1:
             return (character->translation->z<=10 ||character->translation->z<=-10 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
