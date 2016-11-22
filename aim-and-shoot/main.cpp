@@ -974,11 +974,11 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
             case 50:
                 changeCharacterTrajectoryAimLogic(1);
                 break;
-            case 'o':
+            case 51:
                 mainCharacter.trajectoryXrotation-=3;
                 break;
                 
-            case 'p':
+            case 52:
                  mainCharacter.trajectoryXrotation+=3;
                 break;
         }

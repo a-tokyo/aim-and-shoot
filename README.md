@@ -38,6 +38,8 @@ then the replay mode starts showing where did the shot land. This practice mode 
 - 0: change weapon
 - 1: change trajectory of firing to the right
 - 2: change trajectory of firing to the left
+- 3: change trajectory of firing to the bottom
+- 4: change trajectory of firing to the top
 - space: fire weapon
 - r: replay throw
 - tab: toggle replay camera view
