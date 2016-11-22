@@ -171,6 +171,9 @@ typedef struct gameCamera {
     double upX;
     double upY;
     double upZ;
+    vector DefaultEye;
+    vector DefaultCenter;
+    vector DefaultUp;
     gameCamera(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ, double upX, double upY, double upZ) {
         this->eyeX = eyeX;
         this->eyeY = eyeY;
@@ -181,6 +184,12 @@ typedef struct gameCamera {
         this->upX = upX;
         this->upY = upY;
         this->upZ = upZ;
+        vector DefaultEye(eyeX,eyeY,eyeZ);
+        vector DefaultCenter(centerX,centerY,centerZ);
+        vector DefaultUp(upX,upY,upZ);
+        this->DefaultEye = DefaultEye;
+        this->DefaultCenter = DefaultCenter;
+        this->DefaultUp = DefaultUp;
     }
     void incrementEye(double eyeX, double eyeY, double eyeZ) {
         this->eyeX += eyeX;
@@ -207,6 +216,17 @@ typedef struct gameCamera {
         this->upX = upX;
         this->upY = upY;
         this->upZ = upZ;
+    }
+    void reset(){
+        this->eyeX = DefaultEye.x;
+        this->eyeY = DefaultEye.y;
+        this->eyeZ = DefaultEye.z;
+        this->centerX = DefaultCenter.x;
+        this->centerY = DefaultCenter.y;
+        this->centerZ = DefaultCenter.z;
+        this->upX = DefaultUp.x;
+        this->upY = DefaultUp.y;
+        this->upZ = DefaultUp.z;
     }
     std::string eyeToString() {
         return "[" + std::to_string(eyeX) + ", " + std::to_string(eyeY) + ", " + std::to_string(eyeZ) + "]" ;
@@ -702,9 +722,7 @@ void replayFiringCamLogic(){
 //                gameCam.setEye(0, 0, 100);
 //                break;
 //        }
-                                gameCam.setCenter(0, 0, 0);
-                        gameCam.setEye(0, 0, 120);
-
+        gameCam.reset();
 
     }
 }
@@ -950,6 +968,7 @@ void setupCamera() {
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    cout << gameCam.DefaultEye.toString();
     gluLookAt(gameCam.eyeX, gameCam.eyeY, gameCam.eyeZ, gameCam.centerX, gameCam.centerY, gameCam.centerZ, gameCam.upX, gameCam.upY, gameCam.upZ);
 }
 
