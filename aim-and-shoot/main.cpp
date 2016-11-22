@@ -295,18 +295,7 @@ character mainCharacter(&mainCharacterTranslation, &mainCharacterRotation, &main
 vector targetTranslation(0,0,0);
 scoreBoardTarget target(&targetTranslation, 20);
 
-//double rw=1;
-//double rl=1;
-
-//bool w =true;
-//bool rwb=false;
-//bool rlb=false;
-
-bool s=true;
-bool l=true;
-bool tex=true;
-
-GLuint texEarthID;
+//GLuint texEarthID;
 
 //trials
 int rotAngle = 0;
@@ -975,7 +964,7 @@ void setupLights() {
     
     GLfloat l0Diffuse[] = { 1.0f, 0.0f, 0.0f, 1.0f };
     GLfloat l0Ambient[] = { 0.1f, 0.0f, 0.0f, 1.0f };
-    GLfloat l0Position[] = { 10.0f, 0.0f, 0.0f, static_cast<GLfloat>(s) };
+    GLfloat l0Position[] = { 10.0f, 0.0f, 0.0f, static_cast<GLfloat>(true) };
     GLfloat l0Direction[] = { -1.0, 0.0, 0.0 };
     glLightfv(GL_LIGHT0, GL_DIFFUSE, l0Diffuse);
     glLightfv(GL_LIGHT0,GL_AMBIENT, l0Ambient);
@@ -986,7 +975,7 @@ void setupLights() {
     
     GLfloat l1Diffuse[] = { 0.0f, 1.0f, 0.0f, 1.0f };
     GLfloat l1Ambient[] = { 0.0f, 0.1f, 0.0f, 1.0f };
-    GLfloat l1Position[] = { 0.0f, 10.0f, 0.0f, static_cast<GLfloat>(s) };
+    GLfloat l1Position[] = { 0.0f, 10.0f, 0.0f, static_cast<GLfloat>(true) };
     GLfloat l1Direction[] = { 0.0, -1.0, 0.0 };
     glLightfv(GL_LIGHT1, GL_DIFFUSE, l1Diffuse);
     glLightfv(GL_LIGHT1,GL_AMBIENT, l1Ambient);
@@ -997,7 +986,7 @@ void setupLights() {
     
     GLfloat l2Diffuse[] = { 0.0f, 0.0f, 1.0f, 1.0f };
     GLfloat l2Ambient[] = { 0.0f, 0.0f, 0.1f, 1.0f };
-    GLfloat l2Position[] = { 0.0f, 0.0f, 10.0f, static_cast<GLfloat>(s) };
+    GLfloat l2Position[] = { 0.0f, 0.0f, 10.0f, static_cast<GLfloat>(true) };
     GLfloat l2Direction[] = { 0.0, 0.0, -1.0 };
     glLightfv(GL_LIGHT2, GL_DIFFUSE, l2Diffuse);
     glLightfv(GL_LIGHT2,GL_AMBIENT, l2Ambient);
