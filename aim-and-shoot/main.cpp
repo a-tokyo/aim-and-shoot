@@ -292,7 +292,7 @@ quadraple mainCharacterInitialRotation(0,0,0,0);
 quadraple mainCharacterDeepRotation(0,0,0,0);
 character mainCharacter(&mainCharacterTranslation, &mainCharacterRotation, &mainCharacterDeepRotation,&mainCharacterInitialTranslation ,&mainCharacterInitialRotation);
 
-vector targetTranslation(0,0,0);
+vector targetTranslation(0,0,-10);
 scoreBoardTarget target(&targetTranslation, 20);
 
 //GLuint texEarthID;
@@ -810,9 +810,9 @@ void fireShurikenLogic(character* shurikenCharacter) {
 
 void fireShurikenStart(character* shurikenCharacter) {
     shurikenCharacter->bezierTranslationPoints [0] = vector(shurikenCharacter->translation->x,shurikenCharacter->translation->y,shurikenCharacter->translation->z);
-    shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->x+50,0,shurikenCharacter->translation->z-60);
-    shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->x+50,0,shurikenCharacter->translation->z-60);
-    shurikenCharacter->bezierTranslationPoints [3] = vector(-60,0,-60); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
+    shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->x+40,0,shurikenCharacter->translation->z-60);
+    shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->x+40,0,shurikenCharacter->translation->z-60);
+    shurikenCharacter->bezierTranslationPoints [3] = vector(-30,0,-60); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
     shurikenCharacter->isFiring = true;
     
 }
