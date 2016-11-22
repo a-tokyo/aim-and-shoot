@@ -248,42 +248,42 @@ void drawGame();
 bool hitTarget(character* character);
 void initGame();
 void endGame();
-void replay();
 // Motion
 int* bezier(float t, int* p0,int* p1,int* p2,int* p3);
 void changeCharacterTrajectoryAimLogic(int direction);
 void fireCharacter();
 void fireBullet(character* bulletCharacter);
 void fireBulletRotation(character* bulletCharacter);
-void characterHit();
 void fireGrenade(character* grenadeCharacter);
 void fireGrenadeStart(character* grenadeCharacter);
 void fireGrenadeLogic(character* grenadeCharacter);
 void fireShuriken(character* shurikenCharacter);
+void characterHit();
 // Replay
 void replay();
 void replayFiringCamLogic();
-// environment configurations
-void setUpLights();
-void setUpCamera();
 // I/O
 void passM(int x,int y);
 void keyUp(unsigned char k, int x,int y);
+// Environment Configuration
+void setupCamera();
+void setupLights();
 // basic openGL
 void Display();
 void Anim();
-void setupCamera();
-void setupLights();
 // END Function signatures
 
 //global variables
+
+static int windowHeight = 720;
+static int windowWidth = 1080;
 //double r=1;
 //int rd=1;
 
 //Basic game state
 
 gameStatus gameStat("basic", 0); //0 for bullet, 1 for grenade, 2 for shuriken
-gameCamera gameCam(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+gameCamera gameCam(0, 0, 120, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // Defining default camera
 
 vector mainCharacterTranslation(0,0,68);
 vector mainCharacterInitialTranslation(0,0,68);
@@ -294,9 +294,6 @@ character mainCharacter(&mainCharacterTranslation, &mainCharacterRotation, &main
 
 vector targetTranslation(0,0,0);
 scoreBoardTarget target(&targetTranslation, 20);
-
-int windowHeight = 720;
-int windowWidth = 1080;
 
 //double rw=1;
 //double rl=1;
