@@ -308,6 +308,7 @@ void createBullet (character* thisCharacter) {
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
+    
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
     GLUquadricObj * qobj4;
@@ -368,8 +369,6 @@ void createBullet (character* thisCharacter) {
 
 
 void createGrenade (character* thisCharacter) {
-    // I swear these numbers are puuure luck, I don't understand anything in this course.
-    //Oh and p.s: the learning objective of this is probably how to waste time mowahahaha
     glPushMatrix();
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glRotated(rotAngle ,1, 0,0);
@@ -377,9 +376,11 @@ void createGrenade (character* thisCharacter) {
     glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
     GLUquadricObj * qobj;
     qobj = gluNewQuadric();
+    
     glPushMatrix();
     glRotated(90, 1, 0, 0); //REMOVE
     glScaled(0.3, 0.3, 0.3); // scaling must be done here
+    
     glPushMatrix();
     glColor3f(0,0.5,0.3);
     glTranslated(0, 0, -12);
@@ -402,9 +403,9 @@ void createGrenade (character* thisCharacter) {
     gluQuadricNormals(qobj, GLU_SMOOTH);
     glutSolidSphere(10, 32, 32);
     glPopMatrix();
+    
     glPopMatrix();
 
-    
     glPopMatrix();
 }
 
@@ -426,7 +427,6 @@ void createShurikenPart () {
     glVertex3f(10,10, 3);
     glVertex3f(20, 20, 0);
     glVertex3f(10, 5, 0.0f);
-    
     glEnd();
     glPopMatrix();
     
@@ -439,11 +439,7 @@ void createShurikenPart () {
     glVertex3f(5,10,0);
     glEnd();
     glPopMatrix();
-    
-    
-    
-    
-    
+    // bottom mirror
     glPushMatrix();
     glBegin(GL_POLYGON);
     glColor3f(1, 0, 1);
@@ -459,7 +455,6 @@ void createShurikenPart () {
     glVertex3f(10,10, -3);
     glVertex3f(20, 20, 0);
     glVertex3f(10, 5, 0.0f);
-    
     glEnd();
     glPopMatrix();
     
@@ -486,6 +481,7 @@ void createShuriken(character* thisCharacter) {
     
     glPushMatrix();
     glRotated(90, 1, 0, 0);
+    
     glPushMatrix();
     createShurikenPart();
     glPopMatrix();
@@ -513,7 +509,6 @@ void createShuriken(character* thisCharacter) {
     glPopMatrix();
     
     glPopMatrix();
-    
     
     glPopMatrix();
 }
@@ -581,6 +576,7 @@ void createTarget (scoreBoardTarget* target) {
     qobj = gluNewQuadric();
     glPushMatrix();
     glTranslated(target->translation->x, target->translation->y, target->translation->z);
+    
     glPushMatrix();
     glTranslated(0, 0, 0);
     
@@ -588,14 +584,17 @@ void createTarget (scoreBoardTarget* target) {
     glColor3f(1, 0, 1);
     gluDisk(qobj, 0.001, 4, 32, 32);
     glPopMatrix();
+    
     glPushMatrix();
     glColor3f(1, 1, 0);
     gluDisk(qobj, 4, 13, 32, 32);
     glPopMatrix();
+    
     glPushMatrix();
     glColor3f(0, 1, 1);
     gluDisk(qobj, 13, 20, 32, 32);
     glPopMatrix();
+    
     glPopMatrix();
     
     glPopMatrix();
