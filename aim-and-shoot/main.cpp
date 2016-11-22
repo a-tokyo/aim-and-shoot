@@ -414,7 +414,7 @@ void createShurikenPart () {
     
     glPushMatrix();
     glBegin(GL_POLYGON);
-    glColor3f(1, 0, 1);
+    glColor3f(1, 0.3, 1);
     glVertex3f(5, 10, 0);
     glVertex3f(20, 20, 0.0f);
     glVertex3f(10,10, 3);
@@ -423,7 +423,7 @@ void createShurikenPart () {
     
     glPushMatrix();
     glBegin(GL_POLYGON);
-    glColor3f(1, 1, 0);
+    glColor3f(0.7, 0.8, 0.3);
     glVertex3f(10,10, 3);
     glVertex3f(20, 20, 0);
     glVertex3f(10, 5, 0.0f);
@@ -432,7 +432,7 @@ void createShurikenPart () {
     
     glPushMatrix();// square shape matrix
     glBegin(GL_POLYGON);
-    glColor3f(0.6, 1, 0.3);
+    glColor3f(0.6, 0.7, 0.3);
     glVertex3f(5, 5, 0);
     glVertex3f(10, 5, 0.0f);
     glVertex3f(10,10, 3);
@@ -442,7 +442,7 @@ void createShurikenPart () {
     // bottom mirror
     glPushMatrix();
     glBegin(GL_POLYGON);
-    glColor3f(1, 0, 1);
+    glColor3f(0.7, 0.3, 0.8);
     glVertex3f(5, 10, 0);
     glVertex3f(20, 20, 0.0f);
     glVertex3f(10,10, -3);
@@ -451,7 +451,7 @@ void createShurikenPart () {
     
     glPushMatrix();
     glBegin(GL_POLYGON);
-    glColor3f(1, 1, 0);
+    glColor3f(0.7, 1, 0.8);
     glVertex3f(10,10, -3);
     glVertex3f(20, 20, 0);
     glVertex3f(10, 5, 0.0f);
@@ -478,9 +478,11 @@ void createShuriken(character* thisCharacter) {
     glRotated(rotAngle, 1, 0, 0);
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
+    glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
     
     glPushMatrix();
     glRotated(90, 1, 0, 0);
+    glScaled(0.3, 0.3, 0.3);
     
     glPushMatrix();
     createShurikenPart();
@@ -778,9 +780,51 @@ void fireGrenadeLogic(character* grenadeCharacter) {
     }
 }
 
-void fireShuriken(character* shurikenCharacter) {
-    // TODO
+
+
+void fireShurikenLogic(character* shurikenCharacter) {
+    int p0[2] = {static_cast<int>(shurikenCharacter->bezierTranslationPoints [0].z), static_cast<int>(shurikenCharacter->bezierTranslationPoints [0].x)};
+    int p1[2] = {static_cast<int>(shurikenCharacter->bezierTranslationPoints [1].z), static_cast<int>(shurikenCharacter->bezierTranslationPoints [1].x)};
+    int p2[2] = {static_cast<int>(shurikenCharacter->bezierTranslationPoints [2].z), static_cast<int>(shurikenCharacter->bezierTranslationPoints [2].x)};
+    int p3[2] = {static_cast<int>(shurikenCharacter->bezierTranslationPoints [3].z),static_cast<int>(shurikenCharacter->bezierTranslationPoints [3].x)};
+    
+    if (!(shurikenCharacter->bezierTranslation>1)) {
+        shurikenCharacter->deepRotation->a+=20;
+        shurikenCharacter->deepRotation->y=1;
+        shurikenCharacter->bezierTranslation+=0.03;
+        int* p =bezier(shurikenCharacter->bezierTranslation,p0,p1,p2,p3);
+        shurikenCharacter->translation->z = p[0];
+        shurikenCharacter->translation->x = p[1];
+        if (hitTarget(shurikenCharacter)) {
+            shurikenCharacter->isFiring = false;
+            characterHit();
+            cout << "The Shuriken hit the target \n";
+        }
+    } else {
+        //hitting floor condition // as end of bezier is floor - radius
+        shurikenCharacter->isFiring = false;
+        characterHit();
+        cout << "The Shuriken hit the floor "<< shurikenCharacter->translation->toString()<<"\n";
+    }
 }
+
+void fireShurikenStart(character* shurikenCharacter) {
+    shurikenCharacter->bezierTranslationPoints [0] = vector(shurikenCharacter->translation->x,shurikenCharacter->translation->y,shurikenCharacter->translation->z);
+    shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->x+50,0,shurikenCharacter->translation->z-60);
+    shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->x+50,0,shurikenCharacter->translation->z-60);
+    shurikenCharacter->bezierTranslationPoints [3] = vector(-60,0,-60); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
+    shurikenCharacter->isFiring = true;
+    
+}
+
+void fireShuriken(character* shurikenCharacter) {
+    if(!shurikenCharacter->isFiring) {
+        fireShurikenStart(shurikenCharacter);
+    } else {
+        fireShurikenLogic(shurikenCharacter);
+    }
+}
+
 
 bool hitTarget(character* character) {
     switch (gameStat.currCharacter) {
@@ -796,6 +840,13 @@ bool hitTarget(character* character) {
             && character->translation->x < target.translation->x + target.radius;
             break;
         case 2:
+            // TODO CONV TO SHURIKEN
+            return character->translation->z <= target.translation->z+5
+            && character->translation->z >= target.translation->z
+            && character->translation->y > target.translation->y - target.radius
+            && character->translation->y < target.translation->y + target.radius
+            && character->translation->x > target.translation->x - target.radius
+            && character->translation->x < target.translation->x + target.radius;
             break;
     }
     return false;
@@ -880,7 +931,7 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 target.translation->z++;
                 break;
             case 's':
-                if(target.translation->z!=1) {
+                if(target.translation->z!=-50) {
                     target.translation->z--;
                 }
                 break;
