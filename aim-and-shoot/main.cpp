@@ -630,33 +630,39 @@ void drawGame(scoreBoardTarget* target ,character* character) {
 //Aiming
 
 void changeCharacterTrajectoryAimLogic(int direction) {
-    bool canIncrease = true;
-    bool canDecrease = true;
+    bool canIncreaseY = true;
+    bool canDecreaseY = true;
     switch (gameStat.currCharacter) {
         case 0:
             if(mainCharacter.rotation->a >= 24)
-                canIncrease = false;
+                canIncreaseY = false;
             if(mainCharacter.rotation->a <= -24)
-                canDecrease = false;
+                canDecreaseY = false;
             break;
         case 1:
             if(mainCharacter.rotation->a >= 28)
-                canIncrease = false;
+                canIncreaseY = false;
             if(mainCharacter.rotation->a <= -28)
-                canDecrease = false;
+                canDecreaseY = false;
             break;
         case 2:
             if(mainCharacter.rotation->a >= 26)
-                canIncrease = false;
+                canIncreaseY = false;
             if(mainCharacter.rotation->a <= -26)
-                canDecrease = false;
+                canDecreaseY = false;
             break;
     }
     cout << mainCharacter.rotation->a;
-    if(direction == 0 && canDecrease)
+    if(direction == 1 && canDecreaseY)
         mainCharacter.setRotation(mainCharacter.rotation->a-2, 0,1,0);
-    if(direction == 1 && canIncrease)
+    if(direction == 2 && canIncreaseY)
         mainCharacter.setRotation(mainCharacter.rotation->a+2, 0,1,0);
+    if(direction == 3){
+        mainCharacter.trajectoryXrotation-=2;
+    }
+    if(direction == 4){
+        mainCharacter.trajectoryXrotation+=2;
+    }
     
 }
 
@@ -969,17 +975,17 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 gameStat.switchCharacter();
                 break;
             case 49:
-                changeCharacterTrajectoryAimLogic(0);
-                break;
-            case 50:
                 changeCharacterTrajectoryAimLogic(1);
                 break;
+            case 50:
+                changeCharacterTrajectoryAimLogic(2);
+                break;
             case 51:
-                mainCharacter.trajectoryXrotation-=3;
+                changeCharacterTrajectoryAimLogic(3);
                 break;
                 
             case 52:
-                 mainCharacter.trajectoryXrotation+=3;
+                 changeCharacterTrajectoryAimLogic(4);
                 break;
         }
     }
