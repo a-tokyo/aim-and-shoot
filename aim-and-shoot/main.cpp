@@ -143,6 +143,7 @@ typedef struct gameStatus {
     bool isReplayMode;
     bool replaying;
     int replayCam;
+    int score;
     gameStatus(std::string gameMode, int currCharacter) {
         this->gameMode = gameMode;
         this->currCharacter = currCharacter;
@@ -150,6 +151,7 @@ typedef struct gameStatus {
         this->inGameControls = true;
         this->isReplayMode = false;
         this->replayCam = 0;
+        this->score = 0;
         this->replaying = false;
     }
     void switchCharacter() {
@@ -762,6 +764,10 @@ void fireBullet(character* bulletCharacter) {
     }
     // hit or miss logic
     if(hitTarget(bulletCharacter) || hitWall(bulletCharacter)) {
+        if(hitTarget(bulletCharacter)){
+            gameStat.score++;
+            cout << gameStat.score;
+        }
         bulletCharacter->isFiring = false;
         characterHit();
     }
@@ -821,6 +827,10 @@ void fireGrenadeLogic(character* grenadeCharacter) {
         }
     }
     if (hitTarget(grenadeCharacter) || hitWall(grenadeCharacter)) {
+        if(hitTarget(grenadeCharacter)){
+            gameStat.score++;
+            cout << gameStat.score;
+        }
         grenadeCharacter->isFiring = false;
         characterHit();
     }
@@ -843,6 +853,10 @@ void fireShurikenLogic(character* shurikenCharacter) {
         shurikenCharacter->translation->x = p[1];
     }
     if (hitTarget(shurikenCharacter) || hitWall(shurikenCharacter)) {
+        if(hitTarget(shurikenCharacter)){
+            gameStat.score++;
+            cout << gameStat.score;
+        }
         shurikenCharacter->isFiring = false;
         characterHit();
     }
@@ -992,10 +1006,6 @@ void passM(int x,int y) {
         gameCam.eyeX = mappedX*0.2;
     if(!mainCharacter.isFiring)
         mainCharacter.trajectoryYrotation =  mappedX*0.4;
-//    float mappedY = (windowHeight-y);
-//    if(mappedY < 250) {
-//        gameCam.eyeY = mappedY*0.05;
-//    }
 }
 
 
