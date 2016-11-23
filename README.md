@@ -32,14 +32,14 @@ then the replay mode starts showing where did the shot land. This practice mode 
 ## Controls
 - Use the mouse to move the camera
 - a: move the target to the left
-- s: move the target away from you
 - d: move the target to the right
 - w: move the target closer to you
+- s: move the target away from you
 - 0: change weapon
-- 1: change trajectory of firing to the right
-- 2: change trajectory of firing to the left
-- 3: change trajectory of firing to the bottom
-- 4: change trajectory of firing to the top
+- j: change trajectory of firing to the right
+- l: change trajectory of firing to the left
+- i: change trajectory of firing to the bottom
+- k: change trajectory of firing to the top
 - space: fire weapon
 - r: replay throw
 - tab: toggle replay camera view
