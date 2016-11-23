@@ -1033,23 +1033,23 @@ void setupLights() {
     
     GLfloat lightIntensity[] = { 0.7f, 0.7f, 1, 1.5f };
     GLfloat lightPosition[] = { 0.0f, 60.0f, 70.0f, 0 };
-    GLfloat l1Direction[] = { 0.0, -1.0, -1.0};
+    GLfloat lightDirection[] = { 0.0, -1.0, -1.0};
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
     glMaterialfv(GL_LIGHT0, GL_SPECULAR, specular);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightIntensity);
-    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, l1Direction);
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDirection);
     glMaterialfv(GL_LIGHT0, GL_SHININESS, shininess);
     
-    GLfloat l2Diffuse[] = { 0.5f, 0.5f, 0.5f, 0.3f };
-    GLfloat l2Ambient[] = { 0.2f, 0.2f, 0.2f, 0.2f };
-    GLfloat l2Position[] = { 0.0f, 0.0f, 140.0f, 0 };
-    GLfloat l2Direction[] = { 0.0, 0.0, -1.0 };
-    glLightfv(GL_LIGHT2, GL_DIFFUSE, l2Diffuse);
-    glLightfv(GL_LIGHT2,GL_AMBIENT, l2Ambient);
-    glLightfv(GL_LIGHT2, GL_POSITION, l2Position);
-    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
-    glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 90.0);
-    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l2Direction);
+    GLfloat l1Diffuse[] = { 0.5f, 0.5f, 0.5f, 0.3f };
+    GLfloat l1Ambient[] = { 0.2f, 0.2f, 0.2f, 0.2f };
+    GLfloat l1Position[] = { 0.0f, 0.0f, 140.0f, 0 };
+    GLfloat l1Direction[] = { 0.0, 0.0, -1.0 };
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, l1Diffuse);
+    glLightfv(GL_LIGHT1,GL_AMBIENT, l1Ambient);
+    glLightfv(GL_LIGHT1, GL_POSITION, l1Position);
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l1Direction);
+    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 30.0);
+    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 90.0);
     
 }
 
@@ -1068,15 +1068,14 @@ int main(int argc, char** argv)
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     gluOrtho2D(0.0, windowWidth, 0.0, windowHeight);
     glEnable(GL_DEPTH_TEST);
-            glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    //glEnable(GL_LIGHT1);
-    glEnable(GL_LIGHT2);
+    glEnable(GL_LIGHT1);
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
     
     glShadeModel(GL_SMOOTH);
-    //	glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
     //	loadBMP(&texEarthID, "textures/earth.bmp", false);
     
     initGame();
