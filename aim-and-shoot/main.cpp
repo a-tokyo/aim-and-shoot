@@ -1050,7 +1050,6 @@ void setupLights() {
     glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l1Direction);
     glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 30.0);
     glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 90.0);
-    
 }
 
 int main(int argc, char** argv)
