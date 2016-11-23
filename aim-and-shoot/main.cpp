@@ -86,6 +86,7 @@ typedef struct character {
     quadraple *firingInitialRotation;
     float trajectoryXrotation;
     float trajectoryYrotation;
+    float initialTrajectoryYrotation;
     float bezierTranslation;
     bool isFiring;
     bool hasFired;
@@ -678,6 +679,7 @@ void fireCharacter() {
     if(!mainCharacter.isFiring){
         mainCharacter.firingInitialTranslation->set(mainCharacter.translation);
         mainCharacter.firingInitialRotation->set(mainCharacter.rotation);
+        mainCharacter.initialTrajectoryYrotation = mainCharacter.trajectoryYrotation;
     }
     // Call character firing function based on the current active character
     switch(gameStat.currCharacter) {
@@ -719,7 +721,8 @@ void replayFiringCamLogic(){
                         gameCam.setEye(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z-10);
                         break;
                     case 1:
-                        gameCam.setEye(0, mainCharacter.translation->y, mainCharacter.translation->z+20);
+                        gameCam.setEye(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z+20);
+                        gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y>0?mainCharacter.translation->y-12:mainCharacter.translation->y+25, mainCharacter.translation->z>0?mainCharacter.translation->z-10:mainCharacter.translation->z+10);
                         break;
                     case 2:
                         if(mainCharacter.translation->z>0){
@@ -974,6 +977,7 @@ void replay(){
         mainCharacter.rotation->set(mainCharacter.firingInitialRotation);
         mainCharacter.deepRotation->set(0,0,0,0);
         gameStat.replaying = true;
+        mainCharacter.trajectoryYrotation = mainCharacter.initialTrajectoryYrotation;
         fireCharacter();
     }
 }
@@ -1023,7 +1027,7 @@ void passM(int x,int y) {
     float mappedX = (x - (windowWidth/2));
     if(mappedX>-windowWidth/4.2 && mappedX < windowWidth/4.2)
         gameCam.eyeX = mappedX*0.2;
-    if(!mainCharacter.isFiring){
+    if(!mainCharacter.isFiring && !gameStat.isReplayMode){
         if (mappedX*0.4<80 && mappedX*0.4 >-80) {
             mainCharacter.trajectoryYrotation =  mappedX*0.4;
         }
