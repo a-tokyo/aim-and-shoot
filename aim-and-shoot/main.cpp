@@ -842,7 +842,7 @@ bool hitWall(character* character){
             return (character->translation->z<=10 ||character->translation->z<=-10 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
             break;
         case 2:
-            return (character->translation->z<=10 ||character->translation->z<=-10 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
+            return (character->translation->z<=10 ||character->translation->z<=-10 || character->translation->x<-40 || character->translation->x>40 || character->translation->y<-60 || character->translation->y>60);
             break;
     }
     return false;
