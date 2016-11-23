@@ -942,6 +942,10 @@ void passM(int x,int y) {
     float mappedX = (x - (windowWidth/2));
     if(mappedX>-windowWidth/4.2 && mappedX < windowWidth/4.2)
         gameCam.eyeX = mappedX*0.2;
+//    float mappedY = (windowHeight-y);
+//    if(mappedY < 250) {
+//        gameCam.eyeY = mappedY*0.05;
+//    }
 }
 
 
