@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Aim and shoot by A-Tokyo</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Aim and shoot</h1>
+          <h2>A simple openGL 3D game.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/A-Tokyo/aim-and-shoot/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/A-Tokyo/aim-and-shoot/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/A-Tokyo/aim-and-shoot" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="aim-and-shoot" class="anchor" href="#aim-and-shoot" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Aim and Shoot</h1>
+
+<h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Description</h2>
+
+<p>This is a simple 3D game implemented in C++ using openGL.
+As a player, you are in a shooting training room, with some targets, and some trajectories. You are practicing on types of trajectories, which are:</p>
+
+<ul>
+<li>Bullet.</li>
+<li>Grenade.</li>
+<li>Shuriken (ninja star).</li>
+</ul>
+
+<h2>
+<a id="animations" class="anchor" href="#animations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Animations</h2>
+
+<p>Each model animates as follows:</p>
+
+<ul>
+<li>Bullet:
+
+<ul>
+<li>Rotates continually around its direction axis.</li>
+<li>Travels along the room in a straight line.</li>
+</ul>
+</li>
+<li>
+<p>Grenade:</p>
+
+<ul>
+<li>Rotates continually around a diagonal axis between its direction and horizontal axis’s.</li>
+<li>Travels along the room in a normal projectile motion as per the side view.</li>
+</ul>
+</li>
+<li>
+<p>Shuriken:</p>
+
+<ul>
+<li>Rotates continually around its vertical axis (as its first image is a top view).</li>
+<li>Travels along the room in a Frisbee motion as per the top view. The room traveling motions include testing if the shot hit a target or the room border; also it is not affected by any power factor.</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="camera-control" class="anchor" href="#camera-control" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Camera Control</h2>
+
+<p>At the aiming phase, the player can turn left or right (using the mouse), changing both the camera view alongside the initial shooting direction. Turnings up and down are not allowed (to simplify the room traversal of the trajectories).
+At the replay mode, the camera is attached to the trajectory (as the trajectory is visible with its view), and the camera follows the object till it stops.</p>
+
+<h2>
+<a id="gameplay" class="anchor" href="#gameplay" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gameplay</h2>
+
+<p>There is only one target in the middle of the room. The player can move this target (left, right, near, or far) with the keyboard.
+The player also can change the trajectory with the number keys. After firing, the trajectory travels the room till it stops hitting something (the target, or a wall),
+then the replay mode starts showing where did the shot land. This practice mode is repeated as many times as the player wants.</p>
+
+<h2>
+<a id="controls" class="anchor" href="#controls" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Controls</h2>
+
+<ul>
+<li>Use the mouse to move the camera</li>
+<li>a: move the target to the left</li>
+<li>d: move the target to the right</li>
+<li>w: move the target closer to you</li>
+<li>s: move the target away from you</li>
+<li>0: change weapon</li>
+<li>j: change trajectory of firing to the right</li>
+<li>l: change trajectory of firing to the left</li>
+<li>i: change trajectory of firing to the bottom</li>
+<li>k: change trajectory of firing to the top</li>
+<li>space: fire weapon</li>
+<li>r: replay throw</li>
+<li>tab: toggle replay camera view</li>
+<li>n: new game.</li>
+<li>esc: exit game</li>
+</ul>
+        </section>
+
+        <footer>
+          Aim and shoot is maintained by <a href="https://github.com/A-Tokyo">A-Tokyo</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
