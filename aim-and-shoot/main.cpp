@@ -318,9 +318,10 @@ void createBullet (character* thisCharacter) {
     glRotated(thisCharacter->rotation->a ,thisCharacter->rotation->x, thisCharacter->rotation->y, thisCharacter->rotation->z);
     glRotated(thisCharacter->trajectoryXrotation ,1, 0,0);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
-    glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
     glRotated(thisCharacter->trajectoryYrotation ,0, 1,0);
-    
+
+    glPushMatrix();
+    glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
     GLUquadricObj * qobj4;
@@ -374,7 +375,8 @@ void createBullet (character* thisCharacter) {
     glutSolidTorus(0.2,1.8, 32, 32);
     glPopMatrix();
     
-    
+
+    glPopMatrix();
     glPopMatrix();
     
 }
@@ -743,7 +745,7 @@ void replayFiringCamLogic(){
 void fireBullet(character* bulletCharacter) {
     bulletCharacter->isFiring = true;
     // Rotation of bullet around its axis
-    // bulletCharacter->deepRotation->a +=2;
+//    bulletCharacter->deepRotation->a +=2;
     bulletCharacter->deepRotation->z= 1;
     // Z axis default translation
     bulletCharacter->translation->z -= 1*0.5;
