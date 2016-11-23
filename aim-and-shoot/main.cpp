@@ -118,7 +118,6 @@ typedef struct character {
         rotation->z = z;
     }
     void resetAttrs() {
-        this->trajectoryXrotation = 0;
         this->bezierTranslation = 0;
         this->isFiring = false;
         this->hasFired = false;
@@ -906,6 +905,7 @@ void initGame() {
     mainCharacter.translation->set(0,0,140);
     mainCharacter.rotation->set(0,0,0,0);
     mainCharacter.deepRotation->set(0,0,0,0);
+    mainCharacter.trajectoryXrotation = 0;
     target.translation->set(0,0,5);
 }
 
