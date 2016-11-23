@@ -252,11 +252,12 @@ void createWall();
 void createRoom();
 void createTarget();
 // Gameplay
-void drawGame();
-bool hitTarget(character* character);
-bool hitWall(character* character);
 void initGame();
 void endGame();
+void drawGame();
+bool hitWall(character* character);
+bool hitTarget(character* character);
+void calculateScore(character* character);
 // Motion
 int* bezier(float t, int* p0,int* p1,int* p2,int* p3);
 void changeCharacterTrajectoryAimLogic(int direction);
@@ -768,11 +769,15 @@ void fireBullet(character* bulletCharacter) {
     }
     // hit or miss logic
     if(hitTarget(bulletCharacter) || hitWall(bulletCharacter)) {
-        if(hitTarget(bulletCharacter) && !gameStat.isReplayMode){
-            cout << "score: " << ++gameStat.score << "\n";
-        }
-         bulletCharacter->isFiring = false;
+        calculateScore(bulletCharacter);
+        bulletCharacter->isFiring = false;
         characterHit();
+    }
+}
+
+void calculateScore(character* character){
+    if(hitTarget(character) && !gameStat.isReplayMode){
+        cout << "score: " << ++gameStat.score << "\n";
     }
 }
 
@@ -830,9 +835,7 @@ void fireGrenadeLogic(character* grenadeCharacter) {
         }
     }
     if (hitTarget(grenadeCharacter) || hitWall(grenadeCharacter)) {
-        if(hitTarget(grenadeCharacter) && !gameStat.isReplayMode){
-            cout << "score: " << ++gameStat.score << "\n";
-        }
+        calculateScore(grenadeCharacter);
         grenadeCharacter->isFiring = false;
         characterHit();
     }
@@ -856,9 +859,7 @@ void fireShurikenLogic(character* shurikenCharacter) {
     }
     if (hitTarget(shurikenCharacter) || hitWall(shurikenCharacter)) {
         shurikenCharacter->isFiring = false;
-        if(hitTarget(shurikenCharacter) && !gameStat.isReplayMode){
-            cout << "score: " << ++gameStat.score << "\n";
-        }
+        calculateScore(shurikenCharacter);
         characterHit();
     }
 }
