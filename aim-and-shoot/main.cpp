@@ -85,6 +85,7 @@ typedef struct character {
     vector *firingInitialTranslation;
     quadraple *firingInitialRotation;
     float trajectoryXrotation;
+    float trajectoryYrotation;
     float bezierTranslation;
     bool isFiring;
     bool hasFired;
@@ -96,6 +97,7 @@ typedef struct character {
         this->firingInitialTranslation = firingInitialTranslation;
         this->firingInitialRotation = firingInitialRotation;
         this->trajectoryXrotation = 0;
+        this->trajectoryYrotation = 0;
         this->bezierTranslation = 0;
         this->isFiring = false;
         this->hasFired = false;
@@ -313,6 +315,7 @@ void createBullet (character* thisCharacter) {
     glRotated(thisCharacter->trajectoryXrotation ,1, 0,0);
     glTranslated(thisCharacter->translation->x, thisCharacter->translation->y, thisCharacter->translation->z);
     glRotated(thisCharacter->deepRotation->a ,thisCharacter->deepRotation->x, thisCharacter->deepRotation->y, thisCharacter->deepRotation->z);
+    glRotated(thisCharacter->trajectoryYrotation ,0, 1,0);
     
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
@@ -710,7 +713,8 @@ void replayFiringCamLogic(){
             case 1:
                 switch (gameStat.currCharacter) {
                     case 0:
-                        gameCam.setEye(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z);
+                        gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z-10);
+                        gameCam.setEye(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z-10);
                         break;
                     case 1:
                         gameCam.setEye(0, mainCharacter.translation->y, mainCharacter.translation->z+20);
@@ -733,7 +737,7 @@ void replayFiringCamLogic(){
 void fireBullet(character* bulletCharacter) {
     bulletCharacter->isFiring = true;
     // Rotation of bullet around its axis
-    bulletCharacter->deepRotation->a +=2;
+//    bulletCharacter->deepRotation->a +=2;
     bulletCharacter->deepRotation->z= 1;
     // Z axis default translation
     bulletCharacter->translation->z -= 1*0.5;
@@ -745,6 +749,15 @@ void fireBullet(character* bulletCharacter) {
         } else {
             float slope = tan ((180-bulletCharacter->rotation->a) * toRad);
             bulletCharacter->translation->x -= slope*0.01;
+        }
+    }
+    if (bulletCharacter->trajectoryYrotation != 0) {
+        if(bulletCharacter->trajectoryYrotation < 0) {
+            float slope = tan ((180+bulletCharacter->trajectoryYrotation) * toRad);
+            bulletCharacter->translation->x -= slope*0.5;
+        } else {
+            float slope = tan ((180-bulletCharacter->trajectoryYrotation) * toRad);
+            bulletCharacter->translation->x += slope*0.5;
         }
     }
     // hit or miss logic
@@ -942,6 +955,9 @@ void passM(int x,int y) {
     float mappedX = (x - (windowWidth/2));
     if(mappedX>-windowWidth/4.2 && mappedX < windowWidth/4.2)
         gameCam.eyeX = mappedX*0.2;
+    if(!mainCharacter.isFiring)
+        mainCharacter.trajectoryYrotation =  mappedX*0.3;
+        cout << mainCharacter.rotation->toString() << "\n";
 //    float mappedY = (windowHeight-y);
 //    if(mappedY < 250) {
 //        gameCam.eyeY = mappedY*0.05;
