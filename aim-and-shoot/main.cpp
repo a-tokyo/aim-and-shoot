@@ -1040,16 +1040,16 @@ void setupLights() {
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, l1Direction);
     glMaterialfv(GL_LIGHT0, GL_SHININESS, shininess);
     
-//    GLfloat l2Diffuse[] = { 0.5f, 0.5f, 0.5f, 0.8f };
-//    GLfloat l2Ambient[] = { 1.0f, 1.0f, 1.0f, 0.8f };
-//    GLfloat l2Position[] = { 0.0f, 0.0f, 120.0f, 0 };
-//    GLfloat l2Direction[] = { 0.0, 0.0, -1.0 };
-//    glLightfv(GL_LIGHT2, GL_DIFFUSE, l2Diffuse);
-//    glLightfv(GL_LIGHT2,GL_AMBIENT, l2Ambient);
-//    glLightfv(GL_LIGHT2, GL_POSITION, l2Position);
-//    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
-//    glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 120.0);
-//    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l2Direction);
+    GLfloat l2Diffuse[] = { 0.5f, 0.5f, 0.5f, 0.3f };
+    GLfloat l2Ambient[] = { 0.2f, 0.2f, 0.2f, 0.2f };
+    GLfloat l2Position[] = { 0.0f, 0.0f, 140.0f, 0 };
+    GLfloat l2Direction[] = { 0.0, 0.0, -1.0 };
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, l2Diffuse);
+    glLightfv(GL_LIGHT2,GL_AMBIENT, l2Ambient);
+    glLightfv(GL_LIGHT2, GL_POSITION, l2Position);
+    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
+    glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 90.0);
+    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l2Direction);
     
 }
 
@@ -1071,7 +1071,7 @@ int main(int argc, char** argv)
             glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     //glEnable(GL_LIGHT1);
-    //glEnable(GL_LIGHT2);
+    glEnable(GL_LIGHT2);
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
     
