@@ -713,7 +713,7 @@ void replayFiringCamLogic(){
             case 1:
                 switch (gameStat.currCharacter) {
                     case 0:
-                        gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z-10);
+                        gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z-40);
                         gameCam.setEye(mainCharacter.translation->x, mainCharacter.translation->y, mainCharacter.translation->z-10);
                         break;
                     case 1:
