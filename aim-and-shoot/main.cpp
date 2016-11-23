@@ -658,7 +658,6 @@ void changeCharacterTrajectoryAimLogic(int direction) {
                 canDecreaseY = false;
             break;
     }
-    cout << mainCharacter.rotation->a;
     if(direction == 1 && canDecreaseY)
         mainCharacter.setRotation(mainCharacter.rotation->a-2, 0,1,0);
     if(direction == 2 && canIncreaseY)
@@ -943,9 +942,7 @@ int* bezier(float t, int* p0,int* p1,int* p2,int* p3)
 void characterHit() {
     gameStat.inGameControls = false;
     gameStat.isReplayMode = true;
-    for (long i=0; i<999999; i++) {
-        cout << "";
-    }
+    for (long i=0; i<999999; i++);
     if(!gameStat.replaying){
         replay();
     }
@@ -1046,16 +1043,17 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 gameStat.switchCharacter();
                 break;
             case 49:
+            case 'j':
                 changeCharacterTrajectoryAimLogic(1);
                 break;
-            case 50:
+            case 50 :
+            case 'l':
                 changeCharacterTrajectoryAimLogic(2);
                 break;
-            case 51:
+            case 'i':
                 changeCharacterTrajectoryAimLogic(3);
                 break;
-                
-            case 52:
+            case 'k':
                  changeCharacterTrajectoryAimLogic(4);
                 break;
         }
