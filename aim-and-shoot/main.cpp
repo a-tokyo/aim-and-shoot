@@ -743,7 +743,7 @@ void replayFiringCamLogic(){
 void fireBullet(character* bulletCharacter) {
     bulletCharacter->isFiring = true;
     // Rotation of bullet around its axis
-//    bulletCharacter->deepRotation->a +=2;
+    // bulletCharacter->deepRotation->a +=2;
     bulletCharacter->deepRotation->z= 1;
     // Z axis default translation
     bulletCharacter->translation->z -= 1*0.5;
@@ -768,18 +768,11 @@ void fireBullet(character* bulletCharacter) {
     }
     // hit or miss logic
     if(hitTarget(bulletCharacter) || hitWall(bulletCharacter)) {
-        if(hitTarget(bulletCharacter)){
-            gameStat.score++;
-            cout << gameStat.score;
+        if(hitTarget(bulletCharacter) && !gameStat.isReplayMode){
+            cout << "score: " << ++gameStat.score << "\n";
         }
-        bulletCharacter->isFiring = false;
+         bulletCharacter->isFiring = false;
         characterHit();
-        for (long i=0; i<999999; i++) {
-            cout << "";
-        }
-        if(!gameStat.replaying){
-            replay();
-        }
     }
 }
 
@@ -793,15 +786,14 @@ void fireGrenade(character* grenadeCharacter) {
 
 void fireGrenadeStart(character* grenadeCharacter) {
     float endX = 0;
-    if (grenadeCharacter->trajectoryYrotation != 0) {
         if(grenadeCharacter->trajectoryYrotation < 0) {
             float slope = tan ((180+grenadeCharacter->trajectoryYrotation) * toRad);
             endX-= slope*grenadeCharacter->translation->z;
-        } else {
+        }
+        if(grenadeCharacter->trajectoryYrotation > 0) {
             float slope = tan ((180-grenadeCharacter->trajectoryYrotation) * toRad);
             endX+= slope*grenadeCharacter->translation->z;
         }
-    }
     grenadeCharacter->bezierTranslationPoints [0] = vector(grenadeCharacter->translation->x,grenadeCharacter->translation->y,grenadeCharacter->translation->z);
     grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+65,grenadeCharacter->translation->z);
     grenadeCharacter->bezierTranslationPoints [2] = vector(endX,grenadeCharacter->translation->y+65,0);
@@ -824,31 +816,25 @@ void fireGrenadeLogic(character* grenadeCharacter) {
         int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
         grenadeCharacter->translation->z = p[0];
         grenadeCharacter->translation->y = p[1];
-        if (grenadeCharacter->trajectoryYrotation != 0 && grenadeCharacter->trajectoryYrotation<=90) {
-            if(grenadeCharacter->trajectoryYrotation > 0) {
-                float slope = tan ((180+grenadeCharacter->trajectoryYrotation) * toRad);
-                grenadeCharacter->translation->x+=slope*0.8;
-            } else {
-                float slope = tan ((180-grenadeCharacter->trajectoryYrotation) * toRad);
-                grenadeCharacter->translation->x-=slope*0.8;
-            }
-        }else{
+        if(grenadeCharacter->trajectoryYrotation > 0) {
+            float slope = tan ((180+grenadeCharacter->trajectoryYrotation) * toRad);
+            grenadeCharacter->translation->x+=slope*0.8;
+        }else
+        if(grenadeCharacter->trajectoryYrotation < 0)
+        {
+            float slope = tan ((180-grenadeCharacter->trajectoryYrotation) * toRad);
+            grenadeCharacter->translation->x-=slope*0.8;
+        }
+        else{
             grenadeCharacter->translation->z+=1;
         }
     }
     if (hitTarget(grenadeCharacter) || hitWall(grenadeCharacter)) {
-        if(hitTarget(grenadeCharacter)){
-            gameStat.score++;
-            cout << gameStat.score;
+        if(hitTarget(grenadeCharacter) && !gameStat.isReplayMode){
+            cout << "score: " << ++gameStat.score << "\n";
         }
         grenadeCharacter->isFiring = false;
         characterHit();
-        for (long i=0; i<999999; i++) {
-            cout << "";
-        }
-        if(!gameStat.replaying){
-            replay();
-        }
     }
 }
 
@@ -869,36 +855,23 @@ void fireShurikenLogic(character* shurikenCharacter) {
         shurikenCharacter->translation->x = p[1];
     }
     if (hitTarget(shurikenCharacter) || hitWall(shurikenCharacter)) {
-        if(hitTarget(shurikenCharacter)){
-            gameStat.score++;
-            cout << "score: " << gameStat.score << "\n";
-        }
         shurikenCharacter->isFiring = false;
+        if(hitTarget(shurikenCharacter) && !gameStat.isReplayMode){
+            cout << "score: " << ++gameStat.score << "\n";
+        }
         characterHit();
-        for (long i=0; i<999999; i++) {
-            cout << "";
-        }
-        if(!gameStat.replaying){
-            replay();
-        }
     }
 }
 
 void fireShurikenStart(character* shurikenCharacter) {
     float endX;
-    float neg = 1;
-    if (shurikenCharacter->trajectoryYrotation!=0) {
+    if (shurikenCharacter->trajectoryYrotation<0)
         endX = shurikenCharacter->translation->z*tan(shurikenCharacter->trajectoryYrotation*toRad)-30;
-    }
-    else{
-                if (shurikenCharacter->trajectoryYrotation>0) {
-                    cout << "negIf";
-                    neg = -1;
-                    endX = shurikenCharacter->translation->z*tan(shurikenCharacter->trajectoryYrotation*toRad)-60;
-                }
+    else
+        if (shurikenCharacter->trajectoryYrotation>0)
+            endX = shurikenCharacter->translation->z*tan(shurikenCharacter->trajectoryYrotation*toRad)-60;
         else
-     endX = shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)-70;
-    }
+            endX = shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)-70;
     shurikenCharacter->bezierTranslationPoints [0] = vector(shurikenCharacter->translation->x,shurikenCharacter->translation->y,shurikenCharacter->translation->z);
     shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a*toRad)+40,0,shurikenCharacter->translation->z-90);
     shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a*toRad)+40,0,shurikenCharacter->translation->z-90);
@@ -969,6 +942,12 @@ int* bezier(float t, int* p0,int* p1,int* p2,int* p3)
 void characterHit() {
     gameStat.inGameControls = false;
     gameStat.isReplayMode = true;
+    for (long i=0; i<999999; i++) {
+        cout << "";
+    }
+    if(!gameStat.replaying){
+        replay();
+    }
 }
 
 void replay(){
