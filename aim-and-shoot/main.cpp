@@ -535,7 +535,7 @@ void createWall () {
 void createRoom () {
     //face
     glPushMatrix();
-    glNormal3f(0, 0, 1);
+    glNormal3f(0.6, 0.4, 0.7);
     glColor3f(0,0.6,1);
     glTranslated(0, 0, 0);
     createWall();
@@ -703,7 +703,7 @@ void replayFiringCamLogic(){
                         gameCam.setCenter(mainCharacter.translation->x, mainCharacter.translation->y>0?mainCharacter.translation->y-12:mainCharacter.translation->y+25, mainCharacter.translation->z>0?mainCharacter.translation->z-10:mainCharacter.translation->z+10);
                         break;
                     case 2:
-                        gameCam.setCenter(mainCharacter.translation->x>0?mainCharacter.translation->x-10:mainCharacter.translation->x+10, mainCharacter.translation->y, mainCharacter.translation->z);
+                        gameCam.setCenter(mainCharacter.translation->x>0?mainCharacter.translation->x-10:mainCharacter.translation->x+10, mainCharacter.translation->y, mainCharacter.translation->z-70);
                         break;
                 }
                 break;
@@ -717,7 +717,7 @@ void replayFiringCamLogic(){
                         break;
                     case 2:
                         if(mainCharacter.translation->z>0){
-                        gameCam.setEye(0, mainCharacter.translation->y, mainCharacter.translation->z);
+                        gameCam.setEye(mainCharacter.translation->x-30, mainCharacter.translation->y, mainCharacter.translation->z);
                         }
                         gameCam.setCenter(mainCharacter.translation->x>0?mainCharacter.translation->x-10:mainCharacter.translation->x+10, mainCharacter.translation->y, mainCharacter.translation->z);
 
@@ -838,10 +838,10 @@ bool hitWall(character* character){
                 return (character->translation->z<=3 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
             break;
         case 1:
-            return (character->translation->z<=10 ||character->translation->z<=-10 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
+            return (character->translation->z<=10 || character->translation->x<-60 || character->translation->x>60 || character->translation->y<-60 || character->translation->y>60);
             break;
         case 2:
-            return (character->translation->z<=10 ||character->translation->z<=-10 || character->translation->x<-40 || character->translation->x>40 || character->translation->y<-60 || character->translation->y>60);
+            return (character->translation->z<=12 || character->translation->x<-40 || character->translation->x>40 || character->translation->y<-60 || character->translation->y>60);
             break;
     }
     return false;
@@ -1022,43 +1022,34 @@ void setupCamera() {
 }
 
 void setupLights() {
+    GLfloat ambient[] = { 0.7f, 0.7f, 0.7, 1.0f };
+    GLfloat diffuse[] = { 0.6f, 0.6f, 0.6, 1.0f };
+    GLfloat specular[] = { 1.0f, 1.0f, 1.0, 1.0f };
+    GLfloat shininess[] = { 100 };
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
     
-    GLfloat lmodel_ambient[] = { 0.1f, 0.1f, 0.1f, 1.0f };
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+    GLfloat lightIntensity[] = { 0.7f, 0.7f, 1, 1.5f };
+    GLfloat lightPosition[] = { 0.0f, 60.0f, 70.0f, 0 };
+    GLfloat l1Direction[] = { 0.0, -1.0, -1.0};
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+    glMaterialfv(GL_LIGHT0, GL_SPECULAR, specular);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightIntensity);
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, l1Direction);
+    glMaterialfv(GL_LIGHT0, GL_SHININESS, shininess);
     
-    GLfloat l0Diffuse[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-    GLfloat l0Ambient[] = { 0.1f, 0.0f, 0.0f, 1.0f };
-    GLfloat l0Position[] = { 10.0f, 0.0f, 0.0f, static_cast<GLfloat>(true) };
-    GLfloat l0Direction[] = { -1.0, 0.0, 0.0 };
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, l0Diffuse);
-    glLightfv(GL_LIGHT0,GL_AMBIENT, l0Ambient);
-    glLightfv(GL_LIGHT0, GL_POSITION, l0Position);
-    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 30.0);
-    glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 90.0);
-    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, l0Direction);
-    
-    GLfloat l1Diffuse[] = { 0.0f, 1.0f, 0.0f, 1.0f };
-    GLfloat l1Ambient[] = { 0.0f, 0.1f, 0.0f, 1.0f };
-    GLfloat l1Position[] = { 0.0f, 10.0f, 0.0f, static_cast<GLfloat>(true) };
-    GLfloat l1Direction[] = { 0.0, -1.0, 0.0 };
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, l1Diffuse);
-    glLightfv(GL_LIGHT1,GL_AMBIENT, l1Ambient);
-    glLightfv(GL_LIGHT1, GL_POSITION, l1Position);
-    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 30.0);
-    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 90.0);
-    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l1Direction);
-    
-    GLfloat l2Diffuse[] = { 0.0f, 0.0f, 1.0f, 1.0f };
-    GLfloat l2Ambient[] = { 0.0f, 0.0f, 0.1f, 1.0f };
-    GLfloat l2Position[] = { 0.0f, 0.0f, 10.0f, static_cast<GLfloat>(true) };
-    GLfloat l2Direction[] = { 0.0, 0.0, -1.0 };
-    glLightfv(GL_LIGHT2, GL_DIFFUSE, l2Diffuse);
-    glLightfv(GL_LIGHT2,GL_AMBIENT, l2Ambient);
-    glLightfv(GL_LIGHT2, GL_POSITION, l2Position);
-    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
-    glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 90.0);
-    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l2Direction);
-    
+//    GLfloat l2Diffuse[] = { 0.5f, 0.5f, 0.5f, 0.8f };
+//    GLfloat l2Ambient[] = { 1.0f, 1.0f, 1.0f, 0.8f };
+//    GLfloat l2Position[] = { 0.0f, 0.0f, 120.0f, 0 };
+//    GLfloat l2Direction[] = { 0.0, 0.0, -1.0 };
+//    glLightfv(GL_LIGHT2, GL_DIFFUSE, l2Diffuse);
+//    glLightfv(GL_LIGHT2,GL_AMBIENT, l2Ambient);
+//    glLightfv(GL_LIGHT2, GL_POSITION, l2Position);
+//    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
+//    glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 120.0);
+//    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l2Direction);
     
 }
 
@@ -1077,10 +1068,10 @@ int main(int argc, char** argv)
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     gluOrtho2D(0.0, windowWidth, 0.0, windowHeight);
     glEnable(GL_DEPTH_TEST);
-    //        glEnable(GL_LIGHTING);
+            glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
-    glEnable(GL_LIGHT2);
+    //glEnable(GL_LIGHT1);
+    //glEnable(GL_LIGHT2);
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
     
