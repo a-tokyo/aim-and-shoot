@@ -849,10 +849,24 @@ void fireShurikenLogic(character* shurikenCharacter) {
 }
 
 void fireShurikenStart(character* shurikenCharacter) {
+    float endX;
+    float neg = 1;
+    if (shurikenCharacter->trajectoryYrotation!=0) {
+        endX = shurikenCharacter->translation->z*tan(shurikenCharacter->trajectoryYrotation*toRad)-30;
+    }
+    else{
+                if (shurikenCharacter->trajectoryYrotation>0) {
+                    cout << "negIf";
+                    neg = -1;
+                    endX = shurikenCharacter->translation->z*tan(shurikenCharacter->trajectoryYrotation*toRad)-60;
+                }
+        else
+     endX = shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a)-70;
+    }
     shurikenCharacter->bezierTranslationPoints [0] = vector(shurikenCharacter->translation->x,shurikenCharacter->translation->y,shurikenCharacter->translation->z);
     shurikenCharacter->bezierTranslationPoints [1] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a*toRad)+40,0,shurikenCharacter->translation->z-90);
     shurikenCharacter->bezierTranslationPoints [2] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->rotation->a*toRad)+40,0,shurikenCharacter->translation->z-90);
-    shurikenCharacter->bezierTranslationPoints [3] = vector(shurikenCharacter->translation->z*tan(shurikenCharacter->trajectoryYrotation*toRad)-30,0,-60); // -60 in Y is floor
+    shurikenCharacter->bezierTranslationPoints [3] = vector(endX,0,-60); // -60 in Y is floor
     shurikenCharacter->isFiring = true;
     
 }
@@ -978,7 +992,6 @@ void passM(int x,int y) {
         gameCam.eyeX = mappedX*0.2;
     if(!mainCharacter.isFiring)
         mainCharacter.trajectoryYrotation =  mappedX*0.4;
-        cout << mainCharacter.rotation->toString() << "\n";
 //    float mappedY = (windowHeight-y);
 //    if(mappedY < 250) {
 //        gameCam.eyeY = mappedY*0.05;
