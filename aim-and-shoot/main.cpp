@@ -776,10 +776,20 @@ void fireGrenade(character* grenadeCharacter) {
 }
 
 void fireGrenadeStart(character* grenadeCharacter) {
+    float endX = 0;
+    if (grenadeCharacter->trajectoryYrotation != 0) {
+        if(grenadeCharacter->trajectoryYrotation < 0) {
+            float slope = tan ((180+grenadeCharacter->trajectoryYrotation) * toRad);
+            endX-= slope*grenadeCharacter->translation->z;
+        } else {
+            float slope = tan ((180-grenadeCharacter->trajectoryYrotation) * toRad);
+            endX+= slope*grenadeCharacter->translation->z;
+        }
+    }
     grenadeCharacter->bezierTranslationPoints [0] = vector(grenadeCharacter->translation->x,grenadeCharacter->translation->y,grenadeCharacter->translation->z);
     grenadeCharacter->bezierTranslationPoints [1] = vector(0,grenadeCharacter->translation->y+65,grenadeCharacter->translation->z);
-    grenadeCharacter->bezierTranslationPoints [2] = vector(0,grenadeCharacter->translation->y+65,0);
-    grenadeCharacter->bezierTranslationPoints [3] = vector(0,-45,0); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
+    grenadeCharacter->bezierTranslationPoints [2] = vector(endX,grenadeCharacter->translation->y+65,0);
+    grenadeCharacter->bezierTranslationPoints [3] = vector(endX,-45,0); // -60 in Y is floor, since floor is at -70 and radius of grenade is 10
     grenadeCharacter->isFiring = true;
     
 }
@@ -798,6 +808,17 @@ void fireGrenadeLogic(character* grenadeCharacter) {
         int* p =bezier(grenadeCharacter->bezierTranslation,p0,p1,p2,p3);
         grenadeCharacter->translation->z = p[0];
         grenadeCharacter->translation->y = p[1];
+        if (grenadeCharacter->trajectoryYrotation != 0 && grenadeCharacter->trajectoryYrotation<=90) {
+            if(grenadeCharacter->trajectoryYrotation > 0) {
+                float slope = tan ((180+grenadeCharacter->trajectoryYrotation) * toRad);
+                grenadeCharacter->translation->x+=slope*0.8;
+            } else {
+                float slope = tan ((180-grenadeCharacter->trajectoryYrotation) * toRad);
+                grenadeCharacter->translation->x-=slope*0.8;
+            }
+        }else{
+            grenadeCharacter->translation->z+=1;
+        }
     }
     if (hitTarget(grenadeCharacter) || hitWall(grenadeCharacter)) {
         grenadeCharacter->isFiring = false;
@@ -956,7 +977,7 @@ void passM(int x,int y) {
     if(mappedX>-windowWidth/4.2 && mappedX < windowWidth/4.2)
         gameCam.eyeX = mappedX*0.2;
     if(!mainCharacter.isFiring)
-        mainCharacter.trajectoryYrotation =  mappedX*0.3;
+        mainCharacter.trajectoryYrotation =  mappedX*0.4;
         cout << mainCharacter.rotation->toString() << "\n";
 //    float mappedY = (windowHeight-y);
 //    if(mappedY < 250) {
