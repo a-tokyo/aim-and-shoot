@@ -150,7 +150,7 @@ typedef struct gameStatus {
         this->gameOver = false;
         this->inGameControls = true;
         this->isReplayMode = false;
-        this->replayCam = 0;
+        this->replayCam = 1;
         this->score = 0;
         this->replaying = false;
     }
@@ -164,7 +164,7 @@ typedef struct gameStatus {
         inGameControls = true;
         gameOver = false;
         isReplayMode = false;
-        replayCam = 0;
+        replayCam = 1;
         this->replaying = false;
     }
 } gameStatus;
@@ -770,6 +770,12 @@ void fireBullet(character* bulletCharacter) {
         }
         bulletCharacter->isFiring = false;
         characterHit();
+        for (long i=0; i<999999; i++) {
+            cout << "";
+        }
+        if(!gameStat.replaying){
+            replay();
+        }
     }
 }
 
@@ -833,6 +839,12 @@ void fireGrenadeLogic(character* grenadeCharacter) {
         }
         grenadeCharacter->isFiring = false;
         characterHit();
+        for (long i=0; i<999999; i++) {
+            cout << "";
+        }
+        if(!gameStat.replaying){
+            replay();
+        }
     }
 }
 
@@ -859,6 +871,12 @@ void fireShurikenLogic(character* shurikenCharacter) {
         }
         shurikenCharacter->isFiring = false;
         characterHit();
+        for (long i=0; i<999999; i++) {
+            cout << "";
+        }
+        if(!gameStat.replaying){
+            replay();
+        }
     }
 }
 
@@ -964,6 +982,7 @@ void initGame() {
     gameCam.reset();
     gameStat.reset();
     mainCharacter.resetAttrs();
+    mainCharacter.trajectoryYrotation = 0;
     mainCharacter.translation->set(0,0,140);
     mainCharacter.rotation->set(0,0,0,0);
     mainCharacter.deepRotation->set(0,0,0,0);
@@ -1004,8 +1023,11 @@ void passM(int x,int y) {
     float mappedX = (x - (windowWidth/2));
     if(mappedX>-windowWidth/4.2 && mappedX < windowWidth/4.2)
         gameCam.eyeX = mappedX*0.2;
-    if(!mainCharacter.isFiring)
-        mainCharacter.trajectoryYrotation =  mappedX*0.4;
+    if(!mainCharacter.isFiring){
+        if (mappedX*0.4<80 && mappedX*0.4 >-80) {
+            mainCharacter.trajectoryYrotation =  mappedX*0.4;
+        }
+    }
 }
 
 
