@@ -871,7 +871,7 @@ void fireShurikenLogic(character* shurikenCharacter) {
     if (hitTarget(shurikenCharacter) || hitWall(shurikenCharacter)) {
         if(hitTarget(shurikenCharacter)){
             gameStat.score++;
-            cout << gameStat.score;
+            cout << "score: " << gameStat.score << "\n";
         }
         shurikenCharacter->isFiring = false;
         characterHit();
@@ -1044,7 +1044,7 @@ void keyUp(unsigned char k, int x,int y)//keyboard up function is called wheneve
                 target.translation->z++;
                 break;
             case 's':
-                if(target.translation->z!=1) {
+                if(target.translation->z>=2) {
                     target.translation->z--;
                 }
                 break;
@@ -1150,6 +1150,7 @@ int main(int argc, char** argv)
     glutPassiveMotionFunc(passM); // call passive motion function for mouse movements
     glutKeyboardUpFunc(keyUp);		//call the keyboard up function
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+    glutSetCursor(GLUT_CURSOR_NONE);
     
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     gluOrtho2D(0.0, windowWidth, 0.0, windowHeight);
